@@ -4,7 +4,7 @@ set -e
 echo "Setting up development environment..."
 
 echo "Instalando Oh My Bash..."
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 
 # Make sure Docker is accessible
 sudo usermod -aG docker arheanja 2>/dev/null || true
