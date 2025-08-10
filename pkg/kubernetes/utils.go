@@ -1,0 +1,36 @@
+package kubernetes
+
+import (
+	"strings"
+
+	appsv1 "k8s.io/api/apps/v1"
+)
+
+func containsString(s, substr string) bool {
+	return strings.Contains(strings.ToLower(s), strings.ToLower(substr))
+}
+
+func getMainContainerImage(deployment *appsv1.Deployment) string {
+	if len(deployment.Spec.Template.Spec.Containers) > 0 {
+		return deployment.Spec.Template.Spec.Containers[0].Image
+	}
+	return ""
+}
+
+func getMainContainerImageDS(daemonset *appsv1.DaemonSet) string {
+	if len(daemonset.Spec.Template.Spec.Containers) > 0 {
+		return daemonset.Spec.Template.Spec.Containers[0].Image
+	}
+	return ""
+}
+
+func extractVersionFromImage(image string) string {
+	parts := strings.Split(image, ":")
+	if len(parts) > 1 {
+		version := parts[len(parts)-1]
+		if version != "latest" {
+			return version
+		}
+	}
+	return "latest"
+}

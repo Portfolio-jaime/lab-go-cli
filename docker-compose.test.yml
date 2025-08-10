@@ -1,0 +1,52 @@
+# Docker Compose para testing rápido sin devcontainer
+version: '3.8'
+
+services:
+  k8s-test:
+    image: golang:1.21-bullseye
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - MINIKUBE_IN_DOCKER=true
+    privileged: true
+    command: |
+      bash -c "
+        # Install dependencies
+        apt-get update && apt-get install -y curl wget
+        
+        # Install Docker CLI
+        curl -fsSL https://get.docker.com | sh
+        
+        # Install kubectl
+        curl -LO https://dl.k8s.io/release/v1.28.0/bin/linux/amd64/kubectl
+        chmod +x kubectl && mv kubectl /usr/local/bin/
+        
+        # Install minikube
+        curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        chmod +x minikube && mv minikube /usr/local/bin/
+        
+        # Build CLI
+        go mod tidy
+        go build -o k8s-cli
+        
+        # Start minikube
+        minikube start --driver=docker --addons=metrics-server
+        
+        # Wait for cluster
+        kubectl wait --for=condition=Ready nodes --all --timeout=300s
+        
+        # Test CLI
+        echo '🚀 Testing k8s-cli...'
+        ./k8s-cli all
+        
+        # Keep container running
+        tail -f /dev/null
+      "
+    networks:
+      - k8s-net
+
+networks:
+  k8s-net:
+    driver: bridge

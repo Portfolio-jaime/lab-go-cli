@@ -1,0 +1,58 @@
+# Go build artifacts
+k8s-cli
+*.exe
+*.out
+*.test
+
+# Dependency directories
+vendor/
+
+# Go module files
+/go.sum
+
+# IDE/editor files
+.vscode/
+*.code-workspace
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+# Minikube and Kubernetes
+.kube/
+minikube/
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Devcontainer
+.devcontainer/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test and temp files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+
+# Notebooks
+*.ipynb_checkpoints
+
+# Output and cache
+*.cache
+.cache/
+
+# Ignore test containers
+/test-container/
+
+# Ignore examples output
+examples/*.out
+examples/*.log
