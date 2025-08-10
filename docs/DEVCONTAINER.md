@@ -199,6 +199,10 @@ set -e
 
 echo "Setting up development environment..."
 
+# Instala Oh My Bash para mejorar la experiencia en la terminal
+echo "Instalando Oh My Bash..."
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+
 # Make sure Docker is accessible
 sudo usermod -aG docker arheanja 2>/dev/null || true
 
@@ -464,6 +468,16 @@ minikube logs
 # Delete and recreate cluster
 minikube delete
 ./.devcontainer/scripts/start-minikube.sh
+```
+
+
+### Oh My Bash Issues
+
+Si ves errores relacionados con la instalación de Oh My Bash, asegúrate de que el script se ejecute con Bash (no con sh) y que la versión de Bash sea >= 3.2 (Ubuntu 22.04 ya cumple esto).
+
+```bash
+# Instalar Oh My Bash manualmente si es necesario
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 ```
 
 ### Permission Issues
