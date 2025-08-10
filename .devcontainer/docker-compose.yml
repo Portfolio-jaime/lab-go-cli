@@ -1,0 +1,30 @@
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - minikube-data:/home/arheanja/.minikube
+      - kube-data:/home/arheanja/.kube
+      - docker-data:/var/lib/docker
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroup: host
+    command: sleep infinity
+    entrypoint: /usr/local/bin/entrypoint.sh
+    privileged: true
+    network_mode: host
+    environment:
+      - MINIKUBE_IN_DOCKER=true
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    tmpfs:
+      - /tmp
+      - /run
+
+volumes:
+  minikube-data:
+  kube-data:
+  docker-data:

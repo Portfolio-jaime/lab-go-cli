@@ -1,0 +1,32 @@
+{
+  "name": "Go Development with Kubernetes Tools",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-vscode.vscode-yaml",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "go.toolsManagement.checkForUpdates": "local",
+        "go.useLanguageServer": true,
+        "go.gopath": "/go",
+        "go.goroot": "/usr/local/go",
+        "terminal.integrated.cwd": "/workspace"
+      }
+    }
+  },
+  "remoteUser": "arheanja",
+  "postCreateCommand": "/workspace/.devcontainer/scripts/setup.sh",
+  
+  "privileged": true,
+  "runArgs": [
+    "--privileged"
+  ]
+}

@@ -30,7 +30,7 @@ minikube/
 docker-compose.override.yml
 
 # Devcontainer
-.devcontainer/
+#.devcontainer/
 
 # System files
 .DS_Store
