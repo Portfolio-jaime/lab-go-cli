@@ -110,6 +110,67 @@ import (
   "fmt"
   "github.com/spf13/cobra"
   "lab-go-cli/pkg/kubernetes"
+## 🧪 Pruebas del DevContainer y la CLI de Go
+
+### Pruebas del DevContainer
+
+1. **Verificación de herramientas instaladas**
+  Ejecuta el script:
+  ```bash
+  ./test/e2e/test_devcontainer_tools.sh
+  ```
+  Valida que estén disponibles: `docker`, `kubectl`, `helm`, `minikube`, `go`, `k8s-cli`.
+
+2. **Prueba de comandos básicos**
+  Ejecuta comandos y verifica la salida:
+  ```bash
+  docker --version
+  kubectl version --client
+  helm version
+  minikube status
+  go version
+  k8s-cli --help
+  ```
+
+3. **Prueba de integración**
+  Inicia Minikube y crea/lista pods con `kubectl`:
+  ```bash
+  minikube start
+  kubectl get pods -A
+  ```
+
+4. **Automatización**
+  Puedes agregar validaciones al final de `setup.sh` o usar el Makefile para ejecutar pruebas automáticamente.
+
+### Pruebas de la CLI de Go
+
+1. **Pruebas unitarias**
+  Ejecuta:
+  ```bash
+  make test
+  ```
+  Prueba funciones y módulos en `pkg/`.
+
+2. **Pruebas end-to-end (E2E)**
+  Ejecuta:
+  ```bash
+  make e2e
+  ```
+  Simula el uso real de la CLI contra un clúster real y valida salidas.
+
+3. **Pruebas de comandos individuales**
+  Ejecuta cada comando y valida la salida esperada:
+  ```bash
+  make run-all
+  make run-version
+  make run-resources
+  make run-recommend
+  ```
+
+4. **Pruebas de error y edge cases**
+  Prueba la CLI en condiciones adversas: sin clúster, sin permisos, recursos faltantes, etc.
+
+---
 )
 
 var versionCmd = &cobra.Command{

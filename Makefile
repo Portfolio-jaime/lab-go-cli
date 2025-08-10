@@ -15,6 +15,11 @@ deps:
 # Clean build artifacts
 clean:
 	@echo "Cleaning..."
+
+.PHONY: e2e
+e2e:
+	@echo "Ejecutando pruebas end-to-end..."
+	./test/e2e/test_k8s_cli.sh
 	rm -f k8s-cli
 	go clean
 
