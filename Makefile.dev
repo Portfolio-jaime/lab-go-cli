@@ -217,15 +217,27 @@ version: ## Show version information
 	@echo "Git Branch: $(GIT_BRANCH)"
 	@echo "Build Time: $(BUILD_TIME)"
 
-install: build ## Install binary to GOPATH/bin
+install: build ## Install binary to /usr/local/bin
 	@echo "$(BLUE)Installing $(PROJECT_NAME)...$(NC)"
-	@cp $(BUILD_DIR)/$(BINARY_NAME) $(GOPATH)/bin/
-	@echo "$(GREEN)Installed to $(GOPATH)/bin/$(BINARY_NAME)$(NC)"
+	@sudo cp $(BUILD_DIR)/$(BINARY_NAME) /usr/local/bin/
+	@echo "$(GREEN)Installed to /usr/local/bin/$(BINARY_NAME)$(NC)"
 
-uninstall: ## Remove binary from GOPATH/bin
+install-user: build ## Install binary to user bin directory
+	@echo "$(BLUE)Installing $(PROJECT_NAME) to user directory...$(NC)"
+	@mkdir -p $$HOME/bin
+	@cp $(BUILD_DIR)/$(BINARY_NAME) $$HOME/bin/
+	@echo "$(GREEN)Installed to $$HOME/bin/$(BINARY_NAME)$(NC)"
+	@echo "$(YELLOW)Make sure $$HOME/bin is in your PATH$(NC)"
+
+uninstall: ## Remove binary from /usr/local/bin
 	@echo "$(BLUE)Uninstalling $(PROJECT_NAME)...$(NC)"
-	@rm -f $(GOPATH)/bin/$(BINARY_NAME)
+	@sudo rm -f /usr/local/bin/$(BINARY_NAME)
 	@echo "$(GREEN)Uninstalled $(PROJECT_NAME)$(NC)"
+
+uninstall-user: ## Remove binary from user bin directory
+	@echo "$(BLUE)Uninstalling $(PROJECT_NAME) from user directory...$(NC)"
+	@rm -f $$HOME/bin/$(BINARY_NAME)
+	@echo "$(GREEN)Uninstalled $(PROJECT_NAME) from $$HOME/bin$(NC)"
 
 ##@ Running
 
