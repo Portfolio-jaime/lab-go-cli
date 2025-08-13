@@ -18,10 +18,10 @@ var metricsCmd = &cobra.Command{
 }
 
 var (
-	showMetricsNodes     bool
-	showMetricsPods      bool
+	showMetricsNodes       bool
+	showMetricsPods        bool
 	showMetricsUtilization bool
-	metricsNamespace     string
+	metricsNamespace       string
 )
 
 func init() {
@@ -34,7 +34,7 @@ func init() {
 
 func runMetricsCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -72,7 +72,7 @@ func runMetricsCommand(cmd *cobra.Command, args []string) error {
 func showClusterMetrics(client *kubernetes.Client) error {
 	fmt.Println("🌐 CLUSTER OVERVIEW")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	metrics, err := client.GetClusterMetrics()
 	if err != nil {
 		return err
@@ -98,7 +98,7 @@ func showClusterMetrics(client *kubernetes.Client) error {
 	summaryTable.AddRow([]string{"Pods", fmt.Sprintf("%d", metrics.PodsCount)})
 	summaryTable.AddRow([]string{"Namespaces", fmt.Sprintf("%d", metrics.NamespacesCount)})
 	summaryTable.Render()
-	
+
 	fmt.Println()
 	return nil
 }
@@ -106,7 +106,7 @@ func showClusterMetrics(client *kubernetes.Client) error {
 func showNodeMetrics(client *kubernetes.Client) error {
 	fmt.Println("🖥️  NODE METRICS")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	nodeMetrics, err := client.GetRealTimeNodeMetrics()
 	if err != nil {
 		return err
@@ -124,7 +124,7 @@ func showNodeMetrics(client *kubernetes.Client) error {
 		if node.CPUUsagePercent > 80 || node.MemoryUsagePercent > 80 {
 			status += " ⚠️"
 		}
-		
+
 		nodeTable.AddRow([]string{
 			node.Name,
 			status,
@@ -148,7 +148,7 @@ func showPodMetrics(client *kubernetes.Client, namespace string) error {
 		fmt.Println("All Namespaces")
 	}
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	podMetrics, err := client.GetRealTimePodMetrics(namespace)
 	if err != nil {
 		return err
@@ -166,7 +166,7 @@ func showPodMetrics(client *kubernetes.Client, namespace string) error {
 		if pod.RestartCount > 5 {
 			restartInfo += " ⚠️"
 		}
-		
+
 		podTable.AddRow([]string{
 			pod.Name,
 			pod.Namespace,
@@ -185,7 +185,7 @@ func showPodMetrics(client *kubernetes.Client, namespace string) error {
 func showUtilizationAnalysis(client *kubernetes.Client) error {
 	fmt.Println("📈 RESOURCE UTILIZATION ANALYSIS")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	utilizations, err := client.GetResourceUtilization()
 	if err != nil {
 		return err
@@ -215,7 +215,7 @@ func showUtilizationAnalysis(client *kubernetes.Client) error {
 		if util.CPUUtilization > 0 {
 			cpuPercent = fmt.Sprintf("%.1f%%", util.CPUUtilization)
 		}
-		
+
 		memPercent := "N/A"
 		if util.MemUtilization > 0 {
 			memPercent = fmt.Sprintf("%.1f%%", util.MemUtilization)

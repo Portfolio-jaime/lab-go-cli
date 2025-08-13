@@ -22,7 +22,7 @@ func init() {
 
 func runVersionCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -49,20 +49,31 @@ func runVersionCommand(cmd *cobra.Command, args []string) error {
 
 	fmt.Println()
 	fmt.Println("🔧 Installed Components:")
-	
+	fmt.Println("   Searching in all namespaces for components and Helm releases...")
+	fmt.Println()
+
 	components, err := client.GetInstalledComponents()
 	if err != nil {
-		return fmt.Errorf("failed to get installed components: %w", err)
+		fmt.Printf("   Warning: Failed to get some component information: %v\n", err)
+		fmt.Println("   Continuing with partial results...")
+		fmt.Println()
 	}
 
 	if len(components) == 0 {
-		fmt.Println("No common components detected in the cluster.")
+		fmt.Println("   No components detected in the cluster.")
+		fmt.Println("   This may indicate:")
+		fmt.Println("   - No components installed")
+		fmt.Println("   - Insufficient permissions")
+		fmt.Println("   - Components in non-standard locations")
 		return nil
 	}
 
-	componentTable := table.NewTable([]string{"Component", "Namespace", "Status", "Version", "Ready"})
+	fmt.Printf("   Found %d components:\n", len(components))
+	fmt.Println()
+
+	componentTable := table.NewTable([]string{"Component", "Namespace", "Status", "Version", "Ready", "Source"})
 	for _, comp := range components {
-		componentTable.AddRow([]string{comp.Name, comp.Namespace, comp.Status, comp.Version, comp.Ready})
+		componentTable.AddRow([]string{comp.Name, comp.Namespace, comp.Status, comp.Version, comp.Ready, comp.Source})
 	}
 	componentTable.Render()
 

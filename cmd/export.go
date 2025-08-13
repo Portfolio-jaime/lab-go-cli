@@ -19,15 +19,15 @@ var exportCmd = &cobra.Command{
 }
 
 var (
-	exportFormat     string
-	exportOutput     string
-	exportFilename   string
-	includeMetrics   bool
-	includeCosts     bool
-	includeLogs      bool
-	includeEvents    bool
-	exportNamespace  string
-	exportHours      int
+	exportFormat    string
+	exportOutput    string
+	exportFilename  string
+	includeMetrics  bool
+	includeCosts    bool
+	includeLogs     bool
+	includeEvents   bool
+	exportNamespace string
+	exportHours     int
 )
 
 func init() {
@@ -45,7 +45,7 @@ func init() {
 
 func runExportCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)

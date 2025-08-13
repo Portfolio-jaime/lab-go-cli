@@ -1,0 +1,219 @@
+name: 🚀 Automated Release
+
+on:
+  # Manual trigger with release type selection
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Type of release'
+        required: true
+        default: 'patch'
+        type: choice
+        options: 
+          - patch
+          - minor
+          - major
+      skip_checks:
+        description: 'Skip slow quality checks (for hotfixes)'
+        required: false
+        default: false
+        type: boolean
+      create_github_release:
+        description: 'Create GitHub Release'
+        required: false
+        default: true
+        type: boolean
+
+  # Automatic trigger on push to main with specific commit patterns
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - '.github/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  # Job to determine if we should auto-release
+  check-auto-release:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.check.outputs.should_release }}
+      release_type: ${{ steps.check.outputs.release_type }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Check for auto-release triggers
+        id: check
+        run: |
+          # Get the commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          
+          echo "Commit message: $COMMIT_MSG"
+          
+          # Check for release triggers in commit message
+          if echo "$COMMIT_MSG" | grep -qE "^(feat|fix|perf)(\(.+\))?: .+"; then
+            if echo "$COMMIT_MSG" | grep -qE "BREAKING CHANGE|!:"; then
+              echo "should_release=true" >> $GITHUB_OUTPUT
+              echo "release_type=major" >> $GITHUB_OUTPUT
+              echo "🚨 Major release triggered by breaking change"
+            elif echo "$COMMIT_MSG" | grep -qE "^feat(\(.+\))?: .+"; then
+              echo "should_release=true" >> $GITHUB_OUTPUT
+              echo "release_type=minor" >> $GITHUB_OUTPUT
+              echo "✨ Minor release triggered by new feature"
+            elif echo "$COMMIT_MSG" | grep -qE "^(fix|perf)(\(.+\))?: .+"; then
+              echo "should_release=true" >> $GITHUB_OUTPUT  
+              echo "release_type=patch" >> $GITHUB_OUTPUT
+              echo "🐛 Patch release triggered by bug fix/performance"
+            fi
+          else
+            echo "should_release=false" >> $GITHUB_OUTPUT
+            echo "📝 No auto-release trigger found"
+          fi
+
+  # Main release job
+  release:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' || 
+      (github.event_name == 'push' && needs.check-auto-release.outputs.should_release == 'true')
+    needs: [check-auto-release]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔧 Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: |
+          go mod download
+          # Install optional tools for better quality checks
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+
+      - name: 🔍 Run pre-release checks
+        run: |
+          # Make scripts executable
+          chmod +x scripts/*.sh
+          
+          # Determine if we should skip slow checks
+          if [ "${{ inputs.skip_checks }}" == "true" ] || [ "${{ github.event_name }}" == "push" ]; then
+            echo "🚀 Running quick pre-release checks..."
+            ./scripts/pre-release-checks.sh skip-slow
+          else
+            echo "🔍 Running comprehensive pre-release checks..."
+            ./scripts/pre-release-checks.sh
+          fi
+
+      - name: 🏗️ Determine release type
+        id: release_type
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "type=${{ inputs.release_type }}" >> $GITHUB_OUTPUT
+          else
+            echo "type=${{ needs.check-auto-release.outputs.release_type }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 📈 Get current version
+        id: current_version
+        run: |
+          current=$(./scripts/bump-version.sh current)
+          echo "version=$current" >> $GITHUB_OUTPUT
+          echo "Current version: $current"
+
+      - name: 🔢 Create release
+        id: create_release
+        run: |
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Get release type
+          RELEASE_TYPE="${{ steps.release_type.outputs.type }}"
+          echo "Creating $RELEASE_TYPE release..."
+          
+          # Run automated release
+          if [ "${{ inputs.skip_checks }}" == "true" ] || [ "${{ github.event_name }}" == "push" ]; then
+            ./scripts/release.sh $RELEASE_TYPE skip-checks
+          else
+            ./scripts/release.sh $RELEASE_TYPE
+          fi
+          
+          # Get the new version
+          new_version=$(./scripts/bump-version.sh current)
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "New version: $new_version"
+
+      - name: 📤 Push changes and tags
+        run: |
+          git push origin main --tags
+
+      - name: 🏗️ Build release assets
+        run: |
+          # Build multi-platform releases
+          make -f Makefile.dev release-build
+          make -f Makefile.dev release-package
+
+      - name: 📋 Generate release notes
+        id: release_notes
+        run: |
+          # Extract changelog entry for this version
+          version="${{ steps.create_release.outputs.new_version }}"
+          
+          # Create release notes from changelog
+          if grep -q "\[$version\]" CHANGELOG.md; then
+            # Extract the section for this version
+            awk "/## \[$version\]/,/## \[/{if(/## \[/ && !/## \[$version\]/) exit; print}" CHANGELOG.md > release_notes.md
+          else
+            echo "Release $version" > release_notes.md
+            echo "" >> release_notes.md
+            echo "Automated release created by GitHub Actions" >> release_notes.md
+          fi
+          
+          echo "Release notes generated"
+
+      - name: 🎉 Create GitHub Release
+        if: inputs.create_github_release != false
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.create_release.outputs.new_version }}
+          name: Release ${{ steps.create_release.outputs.new_version }}
+          body_path: release_notes.md
+          files: |
+            bin/release/*.tar.gz
+            bin/release/*.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📊 Release Summary
+        run: |
+          echo "## 🎉 Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Previous Version**: ${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **New Version**: ${{ steps.create_release.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release Type**: ${{ steps.release_type.outputs.type }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [📦 Release](${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.create_release.outputs.new_version }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [📝 Changelog](${{ github.server_url }}/${{ github.repository }}/blob/main/CHANGELOG.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- [🚀 Installation Guide](${{ github.server_url }}/${{ github.repository }}/blob/main/docs/MAKE_GUIDE.md)" >> $GITHUB_STEP_SUMMARY

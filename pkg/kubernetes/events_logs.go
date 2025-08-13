@@ -11,67 +11,67 @@ import (
 )
 
 type ClusterEvent struct {
-	Type           string
-	Reason         string
-	Message        string
-	Object         string
-	Namespace      string
-	FirstTime      time.Time
-	LastTime       time.Time
-	Count          int32
-	Severity       string
-	Component      string
+	Type      string
+	Reason    string
+	Message   string
+	Object    string
+	Namespace string
+	FirstTime time.Time
+	LastTime  time.Time
+	Count     int32
+	Severity  string
+	Component string
 }
 
 type LogAnalysis struct {
-	CriticalEvents    []ClusterEvent
-	WarningEvents     []ClusterEvent
-	ErrorPatterns     []ErrorPattern
-	ResourceEvents    []ResourceEvent
-	SecurityEvents    []SecurityEvent
+	CriticalEvents []ClusterEvent
+	WarningEvents  []ClusterEvent
+	ErrorPatterns  []ErrorPattern
+	ResourceEvents []ResourceEvent
+	SecurityEvents []SecurityEvent
 }
 
 type ErrorPattern struct {
-	Pattern       string
-	Count         int
-	LastSeen      time.Time
-	Severity      string
-	Description   string
+	Pattern        string
+	Count          int
+	LastSeen       time.Time
+	Severity       string
+	Description    string
 	Recommendation string
 }
 
 type ResourceEvent struct {
-	Type          string
-	ResourceName  string
-	Namespace     string
-	Event         string
-	Timestamp     time.Time
-	Impact        string
+	Type         string
+	ResourceName string
+	Namespace    string
+	Event        string
+	Timestamp    time.Time
+	Impact       string
 }
 
 type SecurityEvent struct {
-	Type          string
-	Description   string
-	Object        string
-	Namespace     string
-	Timestamp     time.Time
-	RiskLevel     string
-	Action        string
+	Type        string
+	Description string
+	Object      string
+	Namespace   string
+	Timestamp   time.Time
+	RiskLevel   string
+	Action      string
 }
 
 type PodLogSummary struct {
-	PodName       string
-	Namespace     string
-	ErrorCount    int
-	WarningCount  int
+	PodName        string
+	Namespace      string
+	ErrorCount     int
+	WarningCount   int
 	CriticalIssues []string
-	Status        string
-	LastRestart   time.Time
+	Status         string
+	LastRestart    time.Time
 }
 
 func (c *Client) GetClusterEvents(namespace string, hours int) ([]ClusterEvent, error) {
 	timeWindow := time.Now().Add(-time.Duration(hours) * time.Hour)
-	
+
 	listOptions := metav1.ListOptions{
 		FieldSelector: fmt.Sprintf("firstTimestamp>%s", timeWindow.Format(time.RFC3339)),
 	}
@@ -85,7 +85,7 @@ func (c *Client) GetClusterEvents(namespace string, hours int) ([]ClusterEvent, 
 	for _, event := range events.Items {
 		severity := categorizeSeverity(&event)
 		component := extractComponent(&event)
-		
+
 		clusterEvent := ClusterEvent{
 			Type:      event.Type,
 			Reason:    event.Reason,
@@ -176,7 +176,7 @@ func (c *Client) GetPodLogsAnalysis(namespace string) ([]PodLogSummary, error) {
 	}
 
 	sort.Slice(summaries, func(i, j int) bool {
-		return summaries[i].ErrorCount + summaries[i].WarningCount > summaries[j].ErrorCount + summaries[j].WarningCount
+		return summaries[i].ErrorCount+summaries[i].WarningCount > summaries[j].ErrorCount+summaries[j].WarningCount
 	})
 
 	return summaries, nil
@@ -210,7 +210,7 @@ func categorizeSeverity(event *corev1.Event) string {
 	}
 
 	reason := event.Reason
-	
+
 	for _, criticalReason := range criticalReasons {
 		if strings.Contains(reason, criticalReason) {
 			return "Critical"
@@ -245,11 +245,11 @@ func extractComponent(event *corev1.Event) string {
 
 func findErrorPatterns(events []ClusterEvent) []ErrorPattern {
 	patterns := make(map[string]*ErrorPattern)
-	
+
 	for _, event := range events {
 		if event.Severity == "Critical" || event.Severity == "Warning" {
 			key := fmt.Sprintf("%s:%s", event.Reason, event.Type)
-			
+
 			if pattern, exists := patterns[key]; exists {
 				pattern.Count += int(event.Count)
 				if event.LastTime.After(pattern.LastSeen) {
@@ -354,7 +354,7 @@ func analyzePodEvents(events []corev1.Event) (int, int, []string) {
 
 	for _, event := range events {
 		severity := categorizeSeverity(&event)
-		
+
 		switch severity {
 		case "Critical":
 			errorCount++
@@ -369,16 +369,16 @@ func analyzePodEvents(events []corev1.Event) (int, int, []string) {
 
 func generatePatternDescription(reason string) string {
 	descriptions := map[string]string{
-		"FailedScheduling":        "Pod cannot be scheduled to any node",
-		"FailedMount":             "Volume mounting failed",
-		"ImagePullBackOff":        "Cannot pull container image",
-		"SystemOOM":               "Out of memory condition",
-		"FreeDiskSpaceFailed":     "Insufficient disk space",
-		"NodeNotReady":            "Node is not in ready state",
-		"EvictionThresholdMet":    "Node resource pressure detected",
-		"FailedCreatePodSandBox":  "Pod sandbox creation failed",
-		"NetworkNotReady":         "Network not ready for pod",
-		"DeadlineExceeded":        "Operation timed out",
+		"FailedScheduling":       "Pod cannot be scheduled to any node",
+		"FailedMount":            "Volume mounting failed",
+		"ImagePullBackOff":       "Cannot pull container image",
+		"SystemOOM":              "Out of memory condition",
+		"FreeDiskSpaceFailed":    "Insufficient disk space",
+		"NodeNotReady":           "Node is not in ready state",
+		"EvictionThresholdMet":   "Node resource pressure detected",
+		"FailedCreatePodSandBox": "Pod sandbox creation failed",
+		"NetworkNotReady":        "Network not ready for pod",
+		"DeadlineExceeded":       "Operation timed out",
 	}
 
 	if desc, exists := descriptions[reason]; exists {
@@ -389,16 +389,16 @@ func generatePatternDescription(reason string) string {
 
 func generatePatternRecommendation(reason string) string {
 	recommendations := map[string]string{
-		"FailedScheduling":        "Check node capacity, taints, and pod resource requests",
-		"FailedMount":             "Verify volume availability and mount permissions",
-		"ImagePullBackOff":        "Check image name, registry credentials, and network connectivity",
-		"SystemOOM":               "Increase memory limits or optimize application memory usage",
-		"FreeDiskSpaceFailed":     "Clean up disk space or add more storage capacity",
-		"NodeNotReady":            "Check node health and kubelet status",
-		"EvictionThresholdMet":    "Add more resources or reduce workload density",
-		"FailedCreatePodSandBox":  "Check container runtime and network configuration",
-		"NetworkNotReady":         "Verify CNI plugin and network policies",
-		"DeadlineExceeded":        "Increase timeout values or optimize operation performance",
+		"FailedScheduling":       "Check node capacity, taints, and pod resource requests",
+		"FailedMount":            "Verify volume availability and mount permissions",
+		"ImagePullBackOff":       "Check image name, registry credentials, and network connectivity",
+		"SystemOOM":              "Increase memory limits or optimize application memory usage",
+		"FreeDiskSpaceFailed":    "Clean up disk space or add more storage capacity",
+		"NodeNotReady":           "Check node health and kubelet status",
+		"EvictionThresholdMet":   "Add more resources or reduce workload density",
+		"FailedCreatePodSandBox": "Check container runtime and network configuration",
+		"NetworkNotReady":        "Verify CNI plugin and network policies",
+		"DeadlineExceeded":       "Increase timeout values or optimize operation performance",
 	}
 
 	if rec, exists := recommendations[reason]; exists {

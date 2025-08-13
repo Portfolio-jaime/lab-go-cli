@@ -31,7 +31,7 @@ func init() {
 
 func runRecommendCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -78,13 +78,13 @@ func filterRecommendations(recs []recommendations.Recommendation, severity, recT
 
 func showRecommendationsByCategory(recs []recommendations.Recommendation) {
 	categories := make(map[string][]recommendations.Recommendation)
-	
+
 	for _, rec := range recs {
 		categories[rec.Type] = append(categories[rec.Type], rec)
 	}
 
 	priorityOrder := []string{"Security", "Availability", "Resource", "Node", "Workload", "Component", "Monitoring", "Stability", "Resource Management", "Maintenance"}
-	
+
 	for _, category := range priorityOrder {
 		if categoryRecs, exists := categories[category]; exists {
 			showCategoryRecommendations(category, categoryRecs)
@@ -99,9 +99,9 @@ func showRecommendationsByCategory(recs []recommendations.Recommendation) {
 
 func showCategoryRecommendations(category string, recs []recommendations.Recommendation) {
 	fmt.Printf("📋 %s Recommendations:\n", category)
-	
+
 	recTable := table.NewTable([]string{"Severity", "Title", "Description", "Recommended Action"})
-	
+
 	for _, rec := range recs {
 		recTable.AddRow([]string{
 			rec.Severity,
@@ -110,7 +110,7 @@ func showCategoryRecommendations(category string, recs []recommendations.Recomme
 			rec.Action,
 		})
 	}
-	
+
 	recTable.Render()
 	fmt.Println()
 }

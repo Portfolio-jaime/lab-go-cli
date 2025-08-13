@@ -19,10 +19,10 @@ var logsCmd = &cobra.Command{
 }
 
 var (
-	timeWindow         int
-	showLogsCritical   bool
-	showLogsWarnings   bool
-	showLogsPatterns   bool
+	timeWindow             int
+	showLogsCritical       bool
+	showLogsWarnings       bool
+	showLogsPatterns       bool
 	showLogsResourceEvents bool
 	showLogsSecurityEvents bool
 	showLogsPodAnalysis    bool
@@ -43,7 +43,7 @@ func init() {
 
 func runLogsCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -118,7 +118,7 @@ func showLogsCriticalEvents(events []kubernetes.ClusterEvent) {
 		if i >= 10 {
 			break
 		}
-		
+
 		timeStr := event.LastTime.Format("15:04:05")
 		if time.Since(event.LastTime) > 24*time.Hour {
 			timeStr = event.LastTime.Format("01-02 15:04")
@@ -138,7 +138,7 @@ func showLogsCriticalEvents(events []kubernetes.ClusterEvent) {
 		})
 	}
 	criticalTable.Render()
-	
+
 	if len(events) > 10 {
 		fmt.Printf("... and %d more critical events\n", len(events)-10)
 	}
@@ -160,7 +160,7 @@ func showWarningEvents(events []kubernetes.ClusterEvent) {
 		if i >= 10 {
 			break
 		}
-		
+
 		timeStr := event.LastTime.Format("15:04:05")
 		if time.Since(event.LastTime) > 24*time.Hour {
 			timeStr = event.LastTime.Format("01-02 15:04")
@@ -180,7 +180,7 @@ func showWarningEvents(events []kubernetes.ClusterEvent) {
 		})
 	}
 	warningTable.Render()
-	
+
 	if len(events) > 10 {
 		fmt.Printf("... and %d more warning events\n", len(events)-10)
 	}
@@ -202,7 +202,7 @@ func showErrorPatterns(patterns []kubernetes.ErrorPattern) {
 		if i >= 8 {
 			break
 		}
-		
+
 		lastSeenStr := pattern.LastSeen.Format("15:04:05")
 		if time.Since(pattern.LastSeen) > 24*time.Hour {
 			lastSeenStr = pattern.LastSeen.Format("01-02 15:04")
@@ -247,7 +247,7 @@ func showResourceEventsAnalysis(events []kubernetes.ResourceEvent) {
 		if i >= 10 {
 			break
 		}
-		
+
 		timeStr := event.Timestamp.Format("15:04:05")
 		if time.Since(event.Timestamp) > 24*time.Hour {
 			timeStr = event.Timestamp.Format("01-02 15:04")
@@ -289,7 +289,7 @@ func showSecurityEventsAnalysis(events []kubernetes.SecurityEvent) {
 		if i >= 10 {
 			break
 		}
-		
+
 		timeStr := event.Timestamp.Format("15:04:05")
 		if time.Since(event.Timestamp) > 24*time.Hour {
 			timeStr = event.Timestamp.Format("01-02 15:04")
@@ -346,7 +346,7 @@ func showPodLogsAnalysis(client *kubernetes.Client, namespace string) error {
 		if i >= 15 {
 			break
 		}
-		
+
 		lastRestartStr := "Never"
 		if !summary.LastRestart.IsZero() {
 			lastRestartStr = summary.LastRestart.Format("01-02 15:04")

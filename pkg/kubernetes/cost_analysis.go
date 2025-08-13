@@ -9,11 +9,11 @@ import (
 )
 
 type CostAnalysis struct {
-	TotalMonthlyCost     float64
-	NodeCosts            []NodeCost
-	NamespaceCosts       []NamespaceCost
+	TotalMonthlyCost       float64
+	NodeCosts              []NodeCost
+	NamespaceCosts         []NamespaceCost
 	UnderutilizedResources []UnderutilizedResource
-	CostOptimizations    []CostOptimization
+	CostOptimizations      []CostOptimization
 }
 
 type NodeCost struct {
@@ -28,44 +28,44 @@ type NodeCost struct {
 }
 
 type NamespaceCost struct {
-	Name            string
-	MonthlyCost     float64
-	CPURequests     string
-	MemoryRequests  string
-	PodsCount       int
-	CostPerPod      float64
+	Name           string
+	MonthlyCost    float64
+	CPURequests    string
+	MemoryRequests string
+	PodsCount      int
+	CostPerPod     float64
 }
 
 type UnderutilizedResource struct {
-	Type            string
-	Name            string
-	Namespace       string
-	CPUWaste        string
-	MemoryWaste     string
+	Type             string
+	Name             string
+	Namespace        string
+	CPUWaste         string
+	MemoryWaste      string
 	EstimatedSavings float64
 	Recommendation   string
 }
 
 type CostOptimization struct {
-	Type            string
-	Description     string
+	Type             string
+	Description      string
 	PotentialSavings float64
-	Priority        string
-	Action          string
+	Priority         string
+	Action           string
 }
 
 // AWS EC2 pricing estimates (simplified)
 var nodeTypeCosts = map[string]float64{
-	"t3.micro":   0.0104 * 24 * 30,   // $7.49/month
-	"t3.small":   0.0208 * 24 * 30,   // $14.98/month
-	"t3.medium":  0.0416 * 24 * 30,   // $29.97/month
-	"t3.large":   0.0832 * 24 * 30,   // $59.94/month
-	"t3.xlarge":  0.1664 * 24 * 30,   // $119.88/month
-	"m5.large":   0.096 * 24 * 30,    // $69.12/month
-	"m5.xlarge":  0.192 * 24 * 30,    // $138.24/month
-	"c5.large":   0.085 * 24 * 30,    // $61.20/month
-	"c5.xlarge":  0.17 * 24 * 30,     // $122.40/month
-	"default":    0.10 * 24 * 30,     // $72/month (default estimate)
+	"t3.micro":  0.0104 * 24 * 30, // $7.49/month
+	"t3.small":  0.0208 * 24 * 30, // $14.98/month
+	"t3.medium": 0.0416 * 24 * 30, // $29.97/month
+	"t3.large":  0.0832 * 24 * 30, // $59.94/month
+	"t3.xlarge": 0.1664 * 24 * 30, // $119.88/month
+	"m5.large":  0.096 * 24 * 30,  // $69.12/month
+	"m5.xlarge": 0.192 * 24 * 30,  // $138.24/month
+	"c5.large":  0.085 * 24 * 30,  // $61.20/month
+	"c5.xlarge": 0.17 * 24 * 30,   // $122.40/month
+	"default":   0.10 * 24 * 30,   // $72/month (default estimate)
 }
 
 func (c *Client) GetCostAnalysis() (*CostAnalysis, error) {
@@ -211,10 +211,10 @@ func (c *Client) findUnderutilizedResources() ([]UnderutilizedResource, error) {
 			}
 
 			cpuReq, memReq := getPodResourceRequests(pod)
-			
+
 			cpuWaste := int64(float64(cpuReq) * (100 - util.CPUUtilization) / 100)
 			memWaste := int64(float64(memReq) * (100 - util.MemUtilization) / 100)
-			
+
 			estimatedSavings := c.estimateResourceSavings(cpuWaste, memWaste)
 
 			recommendation := c.generateRightsizingRecommendation(util.CPUUtilization, util.MemUtilization)

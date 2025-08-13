@@ -2,7 +2,7 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.24.5+-00ADD8?style=for-the-badge&logo=go)](https://golang.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.0.0-green?style=for-the-badge)](VERSION)
+[![Version](https://img.shields.io/badge/Version-2.0.1-green?style=for-the-badge)](VERSION)
 [![Documentation](https://img.shields.io/badge/Docs-Complete-success?style=for-the-badge)](DOCUMENTATION_INDEX.md)
 
 > **Comprehensive Kubernetes cluster analysis, cost optimization, and monitoring platform**
@@ -107,9 +107,10 @@ mindmap
         Enhanced with real-time data
         Executive summary
       version
-        Cluster version info
-        Component detection
-        Build information
+        Cluster version info  
+        Enhanced component detection
+        Helm release discovery
+        Multi-namespace scanning
       resources
         Basic resource overview
         Node and pod counts
@@ -274,11 +275,24 @@ k8s-cli all --kubeconfig ./config  # Custom kubeconfig
 **Includes:** Cluster info, real-time metrics, cost overview, workload health, critical events
 
 #### `k8s-cli version`
-**Cluster version and component information**
+**Cluster version and enhanced component discovery**
 ```bash
-k8s-cli version               # Basic version info
-k8s-cli version --output json # JSON format
+k8s-cli version               # Comprehensive component analysis
+                              # - Kubernetes cluster version
+                              # - All components across all namespaces  
+                              # - Helm releases with version info
+                              # - Source identification (Helm/K8s)
+                              
+k8s-cli --version             # CLI tool version info
+k8s-cli -v                    # CLI version (short form)
 ```
+
+**New in v2.0.1:**
+- 🎯 **Helm Integration**: Automatically detects Helm releases
+- 🔍 **All-Namespace Scanning**: Finds components in any namespace
+- 📊 **Source Column**: Shows installation method (Helm/Deployment/StatefulSet/DaemonSet)
+- 🚀 **25+ Components**: Expanded recognition library
+- ⚡ **Smart Deduplication**: Prioritizes Helm information when available
 
 #### `k8s-cli resources`
 **Basic resource overview**

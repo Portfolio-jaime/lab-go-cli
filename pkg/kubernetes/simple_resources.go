@@ -21,12 +21,12 @@ type SimpleNodeInfo struct {
 }
 
 type SimplePodInfo struct {
-	Name         string
-	Namespace    string
-	Status       string
-	Restarts     string
-	Age          string
-	Node         string
+	Name      string
+	Namespace string
+	Status    string
+	Restarts  string
+	Age       string
+	Node      string
 }
 
 type SimpleClusterSummary struct {
@@ -43,7 +43,7 @@ func (c *Client) GetSimpleNodesInfo() ([]SimpleNodeInfo, error) {
 	}
 
 	var nodeInfos []SimpleNodeInfo
-	
+
 	for _, node := range nodes.Items {
 		status := "Ready"
 		for _, condition := range node.Status.Conditions {
@@ -56,7 +56,7 @@ func (c *Client) GetSimpleNodesInfo() ([]SimpleNodeInfo, error) {
 		roles := getSimpleRoles(&node)
 		age := getSimpleAge(node.CreationTimestamp.Time)
 		internalIP := getSimpleInternalIP(&node)
-		
+
 		cpuCapacity := node.Status.Capacity[corev1.ResourceCPU]
 		memoryCapacity := node.Status.Capacity[corev1.ResourceMemory]
 
@@ -77,7 +77,7 @@ func (c *Client) GetSimpleNodesInfo() ([]SimpleNodeInfo, error) {
 
 func (c *Client) GetSimplePodsInfo(namespace string) ([]SimplePodInfo, error) {
 	listOptions := metav1.ListOptions{}
-	
+
 	pods, err := c.Clientset.CoreV1().Pods(namespace).List(c.Context, listOptions)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get pods: %w", err)
@@ -137,7 +137,7 @@ func (c *Client) GetSimpleClusterSummary() (*SimpleClusterSummary, error) {
 
 func getSimpleRoles(node *corev1.Node) string {
 	roles := []string{}
-	
+
 	for label := range node.Labels {
 		if strings.Contains(label, "node-role.kubernetes.io/") {
 			role := strings.TrimPrefix(label, "node-role.kubernetes.io/")
@@ -146,11 +146,11 @@ func getSimpleRoles(node *corev1.Node) string {
 			}
 		}
 	}
-	
+
 	if len(roles) == 0 {
 		roles = append(roles, "worker")
 	}
-	
+
 	return strings.Join(roles, ",")
 }
 
@@ -166,21 +166,21 @@ func getSimpleInternalIP(node *corev1.Node) string {
 func getSimpleAge(creationTime time.Time) string {
 	duration := time.Since(creationTime)
 	days := int(duration.Hours() / 24)
-	
+
 	if days > 0 {
 		return fmt.Sprintf("%dd", days)
 	}
-	
+
 	hours := int(duration.Hours())
 	if hours > 0 {
 		return fmt.Sprintf("%dh", hours)
 	}
-	
+
 	minutes := int(duration.Minutes())
 	if minutes > 0 {
 		return fmt.Sprintf("%dm", minutes)
 	}
-	
+
 	return fmt.Sprintf("%.0fs", duration.Seconds())
 }
 
@@ -197,13 +197,13 @@ func formatSimpleBytes(bytes int64) string {
 	if bytes < unit {
 		return fmt.Sprintf("%d B", bytes)
 	}
-	
+
 	div, exp := int64(unit), 0
 	for n := bytes / unit; n >= unit; n /= unit {
 		div *= unit
 		exp++
 	}
-	
+
 	suffixes := []string{"Ki", "Mi", "Gi", "Ti", "Pi", "Ei"}
 	return fmt.Sprintf("%.1f %sB", float64(bytes)/float64(div), suffixes[exp])
 }

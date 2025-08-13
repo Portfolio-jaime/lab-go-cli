@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/your-org/k8s-cli/tree/main/docs
+    about: Check the comprehensive documentation first
+
+  - name: 💬 Discussions
+    url: https://github.com/your-org/k8s-cli/discussions
+    about: Ask questions and discuss ideas with the community
+
+  - name: 🚀 Release Automation
+    url: https://github.com/your-org/k8s-cli/blob/main/docs/RELEASE_AUTOMATION.md
+    about: Learn about our automated release process
+
+  - name: 🛠️ Make Commands Guide
+    url: https://github.com/your-org/k8s-cli/blob/main/docs/MAKE_GUIDE.md
+    about: Complete reference for build and development commands

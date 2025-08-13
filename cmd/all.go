@@ -24,7 +24,7 @@ func init() {
 
 func runAllCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -81,7 +81,7 @@ func runAllCommand(cmd *cobra.Command, args []string) error {
 func showVersionInfo(client *kubernetes.Client) error {
 	fmt.Println("📊 CLUSTER VERSION INFORMATION")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	clusterInfo, err := client.GetClusterVersion()
 	if err != nil {
 		return err
@@ -100,7 +100,7 @@ func showVersionInfo(client *kubernetes.Client) error {
 func showComponentsInfo(client *kubernetes.Client) error {
 	fmt.Println("🔧 INSTALLED COMPONENTS")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	components, err := client.GetInstalledComponents()
 	if err != nil {
 		return err
@@ -125,7 +125,7 @@ func showComponentsInfo(client *kubernetes.Client) error {
 func showResourcesInfo(client *kubernetes.Client) error {
 	fmt.Println("📈 CLUSTER RESOURCES")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	summary, err := client.GetSimpleClusterSummary()
 	if err != nil {
 		return err
@@ -156,7 +156,7 @@ func showResourcesInfo(client *kubernetes.Client) error {
 func showRecommendationsInfo(client *kubernetes.Client) error {
 	fmt.Println("💡 RECOMMENDATIONS")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	analyzer := recommendations.NewRecommendationAnalyzer(client)
 	recs, err := analyzer.AnalyzeCluster()
 	if err != nil {
@@ -205,7 +205,7 @@ func showRecommendationsInfo(client *kubernetes.Client) error {
 func showRealTimeMetrics(client *kubernetes.Client) error {
 	fmt.Println("📊 REAL-TIME METRICS OVERVIEW")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	clusterMetrics, err := client.GetClusterMetrics()
 	if err != nil {
 		return err
@@ -233,7 +233,7 @@ func showRealTimeMetrics(client *kubernetes.Client) error {
 func showCostOverview(client *kubernetes.Client) error {
 	fmt.Println("💰 COST OVERVIEW")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	analysis, err := client.GetCostAnalysis()
 	if err != nil {
 		return err
@@ -257,7 +257,7 @@ func showCostOverview(client *kubernetes.Client) error {
 func showWorkloadHealth(client *kubernetes.Client) error {
 	fmt.Println("🔍 WORKLOAD HEALTH SUMMARY")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	analysis, err := client.GetWorkloadAnalysis("")
 	if err != nil {
 		return err
@@ -287,7 +287,7 @@ func showWorkloadHealth(client *kubernetes.Client) error {
 	if analysis.WorkloadSummary.CriticalIssues > 0 {
 		healthStatus += fmt.Sprintf(" (%d critical)", analysis.WorkloadSummary.CriticalIssues)
 	}
-	
+
 	workloadTable.AddRow([]string{"Overall Health", healthStatus, "", ""})
 	workloadTable.Render()
 	fmt.Println()
@@ -298,7 +298,7 @@ func showWorkloadHealth(client *kubernetes.Client) error {
 func showCriticalEvents(client *kubernetes.Client) error {
 	fmt.Println("🚨 RECENT CRITICAL EVENTS")
 	fmt.Println(strings.Repeat("-", 40))
-	
+
 	events, err := client.GetClusterEvents("", 1)
 	if err != nil {
 		return err
@@ -322,7 +322,7 @@ func showCriticalEvents(client *kubernetes.Client) error {
 		if i >= 5 {
 			break
 		}
-		
+
 		message := event.Message
 		if len(message) > 40 {
 			message = message[:37] + "..."

@@ -1,0 +1,144 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for k8s-cli
+title: "[FEATURE] "
+labels: ["enhancement", "feature-request"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! 
+        Please provide as much detail as possible to help us understand your request.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have completed the following
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have read the [documentation](https://github.com/your-org/k8s-cli/tree/main/docs)
+          required: true
+        - label: This feature request is not covered by existing functionality
+          required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature are you requesting?
+      options:
+        - New Command
+        - Enhancement to Existing Command
+        - New Output Format
+        - Performance Improvement
+        - Documentation
+        - Developer Experience
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What's the current limitation?
+      placeholder: |
+        Describe the problem you're trying to solve or the limitation you've encountered...
+        
+        Example: "Currently, k8s-cli doesn't support analyzing StatefulSets, which makes it difficult to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: What would you like to happen? Describe the feature you'd like to see.
+      placeholder: |
+        Describe your proposed solution in detail...
+        
+        Example: "Add a new `statefulsets` command that shows resource usage and health status..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What alternatives have you considered? How do you currently work around this limitation?
+      placeholder: |
+        Describe alternative solutions you've considered...
+        
+        Example: "Currently I use kubectl to get StatefulSet info, but it doesn't provide the analysis..."
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Usage Examples
+      description: How would this feature be used? Provide example commands or workflows.
+      render: shell
+      placeholder: |
+        # Example command usage
+        k8s-cli statefulsets
+        k8s-cli statefulsets --namespace production
+        k8s-cli statefulsets --unhealthy-only
+
+  - type: textarea
+    id: expected-output
+    attributes:
+      label: Expected Output
+      description: What should the output look like?
+      render: shell
+      placeholder: |
+        # Expected output format
+        📊 StatefulSet Analysis
+        ┌─────────────────┬─────────────┬─────────┬─────────┐
+        │ Name            │ Namespace   │ Status  │ Ready   │
+        ├─────────────────┼─────────────┼─────────┼─────────┤
+        │ mysql           │ database    │ Running │ 3/3     │
+        └─────────────────┴─────────────┴─────────┴─────────┘
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would be helpful
+        - High - Important for my workflow
+        - Critical - Blocking my usage
+    validations:
+      required: true
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Implementation Effort (your estimate)
+      description: How complex do you think this feature would be to implement?
+      options:
+        - Small - A few hours of work
+        - Medium - A few days of work
+        - Large - A week or more of work
+        - I'm not sure
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Are you willing to contribute to this feature?
+      options:
+        - label: I'm willing to help with implementation
+        - label: I can provide testing and feedback
+        - label: I can help with documentation
+        - label: I can only provide the requirements
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or information about the feature request
+      placeholder: Add any additional context here...

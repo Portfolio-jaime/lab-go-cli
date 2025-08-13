@@ -31,7 +31,7 @@ func init() {
 
 func runResourcesCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -74,7 +74,7 @@ func showClusterSummary(client *kubernetes.Client) error {
 	summaryTable.AddRow([]string{"CPU Capacity", summary.TotalCPUCapacity + " cores"})
 	summaryTable.AddRow([]string{"Memory Capacity", summary.TotalMemCapacity})
 	summaryTable.AddRow([]string{"Note", "Install metrics-server for usage data"})
-	
+
 	summaryTable.Render()
 	fmt.Println()
 
@@ -94,7 +94,7 @@ func showNodesResources(client *kubernetes.Client) error {
 
 	fmt.Println("🖥️  Node Resources:")
 	nodeTable := table.NewTable([]string{"Node", "Status", "Role", "Age", "Version", "CPU Capacity", "Memory Capacity"})
-	
+
 	for _, node := range nodes {
 		nodeTable.AddRow([]string{
 			node.Name,
@@ -106,7 +106,7 @@ func showNodesResources(client *kubernetes.Client) error {
 			node.MemoryCapacity,
 		})
 	}
-	
+
 	nodeTable.Render()
 	fmt.Println()
 
@@ -134,14 +134,14 @@ func showPodsResources(client *kubernetes.Client) error {
 	}
 
 	fmt.Printf("🚀 Pod Resources (%s):\n", namespaceText)
-	
+
 	if len(pods) > 20 {
 		fmt.Printf("Showing first 20 pods out of %d total pods. Use --namespace to filter.\n", len(pods))
 		pods = pods[:20]
 	}
 
 	podTable := table.NewTable([]string{"Pod", "Namespace", "Status", "Restarts", "Age", "Node"})
-	
+
 	for _, pod := range pods {
 		podTable.AddRow([]string{
 			pod.Name,
@@ -152,10 +152,9 @@ func showPodsResources(client *kubernetes.Client) error {
 			pod.Node,
 		})
 	}
-	
+
 	podTable.Render()
 	fmt.Println()
 
 	return nil
 }
-

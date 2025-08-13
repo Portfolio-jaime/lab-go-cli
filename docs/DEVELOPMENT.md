@@ -18,15 +18,76 @@ code lab-go-cli
 # 3. Start Minikube in container
 .devcontainer/scripts/start-minikube.sh
 
-# 4. Build and test
-make build
-make test
-./k8s-cli --help
+# 4. Build and test (use Makefile.dev for development)
+make -f Makefile.dev dev-setup   # First time only
+make -f Makefile.dev dev-cycle   # Format + Test + Build
+./bin/k8s-cli --help
+
+# 5. Install for testing
+make -f Makefile.dev install-user
+k8s-cli --version
 ```
 
 ## 🏗️ Development Workflow
 
 ### Daily Development Cycle
+```bash
+# Start file watcher (auto-rebuild on changes)
+make -f Makefile.dev watch
+
+# In another terminal, test your changes:
+./bin/k8s-cli --version     # Test CLI version
+./bin/k8s-cli version       # Test cluster version (requires cluster)
+
+# Before committing, run quality checks:
+make -f Makefile.dev pre-commit
+```
+
+### Development Commands Reference
+```bash
+# 🔧 Setup & Dependencies
+make -f Makefile.dev dev-setup      # First-time development setup
+make -f Makefile.dev deps-tidy      # Update and tidy Go modules
+
+# 🏗️ Building
+make -f Makefile.dev build          # Standard build
+make -f Makefile.dev dev-build      # Build with debug info
+make -f Makefile.dev watch          # Auto-rebuild on file changes
+
+# 🧪 Testing  
+make -f Makefile.dev test           # Run unit tests
+make -f Makefile.dev test-coverage  # Tests with coverage report
+make -f Makefile.dev test-watch     # Auto-run tests on changes
+
+# 📊 Code Quality
+make -f Makefile.dev fmt            # Format code
+make -f Makefile.dev lint           # Run linter
+make -f Makefile.dev vet            # Run go vet
+make -f Makefile.dev check-all      # All quality checks
+
+# 🚀 Development Workflow
+make -f Makefile.dev dev-cycle      # Format + Test + Build
+make -f Makefile.dev pre-commit     # Pre-commit checks
+make -f Makefile.dev pre-push       # Pre-push checks (includes integration)
+
+# 🔧 Installation & Testing
+make -f Makefile.dev install-user   # Install to ~/bin
+make -f Makefile.dev install        # Install to /usr/local/bin (sudo)
+make -f Makefile.dev uninstall-user # Remove from ~/bin
+
+# 🧹 Cleanup
+make -f Makefile.dev clean          # Clean build artifacts
+
+# 📖 Documentation
+make -f Makefile.dev docs-generate  # Generate documentation
+make -f Makefile.dev docs-serve     # Serve docs at localhost:8000
+
+# 📦 Release
+make -f Makefile.dev release-build  # Multi-platform builds
+make -f Makefile.dev release-package# Package release archives
+```
+
+### Previous Daily Development Cycle
 ```bash
 # 1. Pull latest changes
 git pull origin main

@@ -40,7 +40,7 @@ func init() {
 
 func runWorkloadCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -83,37 +83,37 @@ func showWorkloadOverview(summary *kubernetes.WorkloadSummary) {
 	fmt.Println(strings.Repeat("-", 40))
 
 	summaryTable := table.NewTable([]string{"Workload Type", "Total", "Healthy", "Health Rate"})
-	
+
 	deploymentRate := "N/A"
 	if summary.TotalDeployments > 0 {
 		deploymentRate = fmt.Sprintf("%.1f%%", float64(summary.HealthyDeployments)/float64(summary.TotalDeployments)*100)
 	}
 	summaryTable.AddRow([]string{"Deployments", fmt.Sprintf("%d", summary.TotalDeployments), fmt.Sprintf("%d", summary.HealthyDeployments), deploymentRate})
-	
+
 	statefulSetRate := "N/A"
 	if summary.TotalStatefulSets > 0 {
 		statefulSetRate = fmt.Sprintf("%.1f%%", float64(summary.HealthyStatefulSets)/float64(summary.TotalStatefulSets)*100)
 	}
 	summaryTable.AddRow([]string{"StatefulSets", fmt.Sprintf("%d", summary.TotalStatefulSets), fmt.Sprintf("%d", summary.HealthyStatefulSets), statefulSetRate})
-	
+
 	daemonSetRate := "N/A"
 	if summary.TotalDaemonSets > 0 {
 		daemonSetRate = fmt.Sprintf("%.1f%%", float64(summary.HealthyDaemonSets)/float64(summary.TotalDaemonSets)*100)
 	}
 	summaryTable.AddRow([]string{"DaemonSets", fmt.Sprintf("%d", summary.TotalDaemonSets), fmt.Sprintf("%d", summary.HealthyDaemonSets), daemonSetRate})
-	
+
 	podRate := "N/A"
 	if summary.TotalPods > 0 {
 		podRate = fmt.Sprintf("%.1f%%", float64(summary.HealthyPods)/float64(summary.TotalPods)*100)
 	}
 	summaryTable.AddRow([]string{"Pods", fmt.Sprintf("%d", summary.TotalPods), fmt.Sprintf("%d", summary.HealthyPods), podRate})
-	
+
 	summaryTable.Render()
 
 	overallTable := table.NewTable([]string{"Metric", "Value"})
 	overallTable.AddRow([]string{"Overall Health Score", fmt.Sprintf("%d/100", summary.OverallHealthScore)})
 	overallTable.AddRow([]string{"Critical Issues", fmt.Sprintf("%d", summary.CriticalIssues)})
-	
+
 	healthStatus := "🟢 Excellent"
 	if summary.OverallHealthScore < 80 {
 		healthStatus = "🟡 Good"
@@ -126,7 +126,7 @@ func showWorkloadOverview(summary *kubernetes.WorkloadSummary) {
 	}
 	overallTable.AddRow([]string{"Overall Status", healthStatus})
 	overallTable.Render()
-	
+
 	fmt.Println()
 }
 
@@ -139,7 +139,7 @@ func showDeploymentAnalysis(deployments []kubernetes.DeploymentHealth) {
 	fmt.Println(strings.Repeat("-", 40))
 
 	deploymentTable := table.NewTable([]string{"Name", "Namespace", "Replicas", "Status", "Health", "Issues"})
-	
+
 	for _, deploy := range deployments {
 		if onlyUnhealthy && deploy.HealthScore >= 80 {
 			continue
@@ -187,12 +187,12 @@ func showDeploymentAnalysis(deployments []kubernetes.DeploymentHealth) {
 				unhealthyCount++
 			}
 		}
-		
+
 		if unhealthyCount > 0 {
 			fmt.Printf("\n⚠️  %d deployments need attention. Use --unhealthy-only for details.\n", unhealthyCount)
 		}
 	}
-	
+
 	fmt.Println()
 }
 
@@ -205,7 +205,7 @@ func showStatefulSetAnalysis(statefulSets []kubernetes.StatefulSetHealth) {
 	fmt.Println(strings.Repeat("-", 40))
 
 	ssTable := table.NewTable([]string{"Name", "Namespace", "Replicas", "Status", "Health", "Issues"})
-	
+
 	for _, ss := range statefulSets {
 		if onlyUnhealthy && ss.HealthScore >= 80 {
 			continue
@@ -254,7 +254,7 @@ func showDaemonSetAnalysis(daemonSets []kubernetes.DaemonSetHealth) {
 	fmt.Println(strings.Repeat("-", 40))
 
 	dsTable := table.NewTable([]string{"Name", "Namespace", "Scheduled", "Ready", "Status", "Health", "Issues"})
-	
+
 	for _, ds := range daemonSets {
 		if onlyUnhealthy && ds.HealthScore >= 80 {
 			continue
@@ -308,7 +308,7 @@ func showPodsAnalysis(pods []kubernetes.PodHealth) {
 	fmt.Println(strings.Repeat("-", 40))
 
 	podTable := table.NewTable([]string{"Name", "Namespace", "Status", "Restarts", "Health", "Issues", "Node"})
-	
+
 	displayed := 0
 	for _, pod := range pods {
 		if onlyUnhealthy && pod.HealthScore >= 80 {
@@ -357,6 +357,6 @@ func showPodsAnalysis(pods []kubernetes.PodHealth) {
 	if len(pods) > 20 {
 		fmt.Printf("... and %d more pods. Use --unhealthy-only to focus on problematic pods.\n", len(pods)-20)
 	}
-	
+
 	fmt.Println()
 }

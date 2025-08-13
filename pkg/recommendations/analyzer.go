@@ -99,7 +99,7 @@ func (r *RecommendationAnalyzer) analyzeSimpleNodes() ([]Recommendation, error) 
 
 	notReadyNodes := 0
 	oldNodes := 0
-	
+
 	for _, node := range nodes {
 		if strings.ToLower(node.Status) != "ready" {
 			notReadyNodes++

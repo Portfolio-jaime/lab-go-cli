@@ -8,48 +8,48 @@ import (
 )
 
 type NodeMetrics struct {
-	Name            string
-	CPUUsage        string
-	CPUUsagePercent float64
-	MemoryUsage     string
+	Name               string
+	CPUUsage           string
+	CPUUsagePercent    float64
+	MemoryUsage        string
 	MemoryUsagePercent float64
-	CPUCapacity     string
-	MemoryCapacity  string
-	Status          string
+	CPUCapacity        string
+	MemoryCapacity     string
+	Status             string
 }
 
 type PodMetrics struct {
-	Name            string
-	Namespace       string
-	CPUUsage        string
-	MemoryUsage     string
-	CPURequests     string
-	MemoryRequests  string
-	CPULimits       string
-	MemoryLimits    string
-	Node            string
-	RestartCount    int32
+	Name           string
+	Namespace      string
+	CPUUsage       string
+	MemoryUsage    string
+	CPURequests    string
+	MemoryRequests string
+	CPULimits      string
+	MemoryLimits   string
+	Node           string
+	RestartCount   int32
 }
 
 type ClusterMetrics struct {
-	TotalCPUUsage        string
-	TotalMemoryUsage     string
-	TotalCPUCapacity     string
-	TotalMemoryCapacity  string
-	CPUUsagePercent      float64
-	MemoryUsagePercent   float64
-	NodesCount           int
-	PodsCount            int
-	NamespacesCount      int
+	TotalCPUUsage       string
+	TotalMemoryUsage    string
+	TotalCPUCapacity    string
+	TotalMemoryCapacity string
+	CPUUsagePercent     float64
+	MemoryUsagePercent  float64
+	NodesCount          int
+	PodsCount           int
+	NamespacesCount     int
 }
 
 type ResourceUtilization struct {
-	Type            string
-	Name            string
-	Namespace       string
-	CPUUtilization  float64
-	MemUtilization  float64
-	Recommendation  string
+	Type           string
+	Name           string
+	Namespace      string
+	CPUUtilization float64
+	MemUtilization float64
+	Recommendation string
 }
 
 func (c *Client) GetRealTimeNodeMetrics() ([]NodeMetrics, error) {
@@ -77,7 +77,7 @@ func (c *Client) GetRealTimeNodeMetrics() ([]NodeMetrics, error) {
 
 		cpuUsage := metric.Usage[corev1.ResourceCPU]
 		memUsage := metric.Usage[corev1.ResourceMemory]
-		
+
 		cpuCapacity := node.Status.Capacity[corev1.ResourceCPU]
 		memCapacity := node.Status.Capacity[corev1.ResourceMemory]
 
@@ -94,13 +94,13 @@ func (c *Client) GetRealTimeNodeMetrics() ([]NodeMetrics, error) {
 
 		metrics = append(metrics, NodeMetrics{
 			Name:               metric.Name,
-			CPUUsage:          formatCPU(cpuUsage.MilliValue()),
-			CPUUsagePercent:   cpuUsagePercent,
-			MemoryUsage:       formatBytes(memUsage.Value()),
+			CPUUsage:           formatCPU(cpuUsage.MilliValue()),
+			CPUUsagePercent:    cpuUsagePercent,
+			MemoryUsage:        formatBytes(memUsage.Value()),
 			MemoryUsagePercent: memUsagePercent,
-			CPUCapacity:       formatCPU(cpuCapacity.MilliValue()),
-			MemoryCapacity:    formatBytes(memCapacity.Value()),
-			Status:            status,
+			CPUCapacity:        formatCPU(cpuCapacity.MilliValue()),
+			MemoryCapacity:     formatBytes(memCapacity.Value()),
+			Status:             status,
 		})
 	}
 
@@ -247,7 +247,7 @@ func (c *Client) GetResourceUtilization() ([]ResourceUtilization, error) {
 		}
 
 		cpuRequests, memRequests := getPodResourceRequests(&pod)
-		
+
 		var cpuUtilization, memUtilization float64
 		var recommendation string
 
@@ -328,18 +328,18 @@ func formatBytes(bytes int64) string {
 	if bytes == 0 {
 		return "0B"
 	}
-	
+
 	const unit = 1024
 	if bytes < unit {
 		return fmt.Sprintf("%d B", bytes)
 	}
-	
+
 	div, exp := int64(unit), 0
 	for n := bytes / unit; n >= unit; n /= unit {
 		div *= unit
 		exp++
 	}
-	
+
 	suffixes := []string{"Ki", "Mi", "Gi", "Ti", "Pi", "Ei"}
 	return fmt.Sprintf("%.1f %sB", float64(bytes)/float64(div), suffixes[exp])
 }

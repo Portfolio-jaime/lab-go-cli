@@ -7,11 +7,117 @@
 # Complete cluster overview
 k8s-cli all
 
-# Just cluster version
+# Kubernetes cluster version and enhanced component discovery
 k8s-cli version
+
+# CLI tool version information
+k8s-cli --version
+k8s-cli -v  # short form
 
 # Basic resource information
 k8s-cli resources
+```
+
+## 🔍 Enhanced Component Detection Examples (New in v2.0.1)
+
+### CLI Version vs Cluster Version
+```bash
+# Show CLI tool version (build info, commit, etc.)
+k8s-cli --version
+# Output:
+# k8s-cli version v2.0.1
+# Git commit: abc123
+# Built: 2025-08-13T10:30:00
+# Go version: go1.24.6
+# OS/Arch: darwin/arm64
+
+# Show Kubernetes cluster version and components
+k8s-cli version
+# Output includes:
+# - Kubernetes cluster version information
+# - All components across ALL namespaces
+# - Helm releases with version info
+# - Source identification (Helm/Deployment/StatefulSet/DaemonSet)
+```
+
+### Component Detection Improvements
+```bash
+# Enhanced component discovery with Helm integration
+k8s-cli version
+
+# Expected improvements in v2.0.1:
+# ✅ Finds components in ALL namespaces (not just predefined ones)
+# ✅ Detects Helm releases automatically  
+# ✅ Shows 25+ component types
+# ✅ Identifies installation source (Helm vs K8s resources)
+# ✅ Smart deduplication (prefers Helm info when available)
+```
+
+### Example Output Comparison
+
+#### Before v2.0.1 (Limited Detection)
+```
+🔧 Installed Components:
+┌─────────────────┬─────────────┬─────────┬─────────┬─────────┐
+│ Component       │ Namespace   │ Status  │ Version │ Ready   │
+├─────────────────┼─────────────┼─────────┼─────────┼─────────┤
+│ metrics-server  │ kube-system │ Running │ v0.6.2  │ 1/1     │
+│ nginx-ingress   │ ingress     │ Running │ 1.8.2   │ 2/2     │
+└─────────────────┴─────────────┴─────────┴─────────┴─────────┘
+```
+
+#### After v2.0.1 (Enhanced Detection)
+```
+🔧 Installed Components:
+   Searching in all namespaces for components and Helm releases...
+
+   Found 12 components:
+
+┌─────────────────┬─────────────┬─────────┬─────────┬─────────┬─────────────┐
+│ Component       │ Namespace   │ Status  │ Version │ Ready   │ Source      │
+├─────────────────┼─────────────┼─────────┼─────────┼─────────┼─────────────┤
+│ metrics-server  │ kube-system │ Running │ v0.6.2  │ 1/1     │ Deployment  │
+│ nginx-ingress   │ ingress     │ Running │ 1.8.2   │ 2/2     │ Deployment  │
+│ prometheus      │ monitoring  │ Deployed│ 45.7.1  │ Helm    │ Helm        │
+│ grafana         │ monitoring  │ Deployed│ 6.52.4  │ Helm    │ Helm        │
+│ redis           │ cache       │ Running │ 7.0.8   │ 1/1     │ StatefulSet │
+│ elasticsearch   │ logging     │ Running │ 8.6.2   │ 3/3     │ StatefulSet │
+│ fluentd         │ logging     │ Running │ 1.16    │ Helm    │ Helm        │
+│ cert-manager    │ cert-mgr    │ Running │ v1.11.0 │ 1/1     │ Deployment  │
+│ vault           │ security    │ Deployed│ 0.23.0  │ Helm    │ Helm        │
+│ argocd-server   │ argocd      │ Running │ v2.6.7  │ 1/1     │ Deployment  │
+│ istio-proxy     │ istio-sys   │ Running │ 1.17.1  │ 2/2     │ DaemonSet   │
+│ postgres        │ database    │ Running │ 15.2    │ 1/1     │ StatefulSet │
+└─────────────────┴─────────────┴─────────┴─────────┴─────────┴─────────────┘
+```
+
+### Advanced Detection Features
+```bash
+# The enhanced version automatically detects:
+
+# 1. Helm Releases in any namespace
+#    - Reads Helm secrets with owner=helm label
+#    - Extracts version from app.kubernetes.io/version or version labels
+#    - Shows Helm release status (Deployed, Failed, etc.)
+
+# 2. All Resource Types:
+#    - Deployments (traditional apps)
+#    - StatefulSets (databases, persistent apps)  
+#    - DaemonSets (node agents, monitoring)
+#    - Helm releases (chart-based deployments)
+
+# 3. Extended Component Library:
+#    metrics-server, argocd, argo, kuma, istio, traefik,
+#    nginx, cert-manager, prometheus, grafana, jaeger,
+#    kiali, fluentd, elasticsearch, kibana, vault,
+#    consul, etcd, redis, postgres, mysql, mongodb,
+#    kafka, zookeeper, rabbitmq, jenkins, sonarqube,
+#    nexus, harbor, docker-registry, ingress, gateway
+
+# 4. Smart Deduplication:
+#    - If a component is found via both K8s resources AND Helm
+#    - Prioritizes Helm information (more accurate versions)
+#    - Prevents duplicate entries in the output
 ```
 
 ## 📊 Real-time Metrics Examples

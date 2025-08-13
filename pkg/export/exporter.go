@@ -13,14 +13,14 @@ import (
 )
 
 type ExportData struct {
-	Timestamp        time.Time                          `json:"timestamp"`
-	ClusterMetrics   *kubernetes.ClusterMetrics         `json:"cluster_metrics,omitempty"`
-	NodeMetrics      []kubernetes.NodeMetrics           `json:"node_metrics,omitempty"`
-	PodMetrics       []kubernetes.PodMetrics            `json:"pod_metrics,omitempty"`
-	CostAnalysis     *kubernetes.CostAnalysis           `json:"cost_analysis,omitempty"`
-	LogAnalysis      *kubernetes.LogAnalysis            `json:"log_analysis,omitempty"`
-	Utilizations     []kubernetes.ResourceUtilization   `json:"utilizations,omitempty"`
-	Events           []kubernetes.ClusterEvent          `json:"events,omitempty"`
+	Timestamp      time.Time                        `json:"timestamp"`
+	ClusterMetrics *kubernetes.ClusterMetrics       `json:"cluster_metrics,omitempty"`
+	NodeMetrics    []kubernetes.NodeMetrics         `json:"node_metrics,omitempty"`
+	PodMetrics     []kubernetes.PodMetrics          `json:"pod_metrics,omitempty"`
+	CostAnalysis   *kubernetes.CostAnalysis         `json:"cost_analysis,omitempty"`
+	LogAnalysis    *kubernetes.LogAnalysis          `json:"log_analysis,omitempty"`
+	Utilizations   []kubernetes.ResourceUtilization `json:"utilizations,omitempty"`
+	Events         []kubernetes.ClusterEvent        `json:"events,omitempty"`
 }
 
 type Exporter struct {
@@ -87,7 +87,7 @@ func (e *Exporter) ExportNodeMetricsToCSV(metrics []kubernetes.NodeMetrics, file
 	defer writer.Flush()
 
 	headers := []string{
-		"Node", "Status", "CPU_Usage", "CPU_Usage_Percent", "Memory_Usage", 
+		"Node", "Status", "CPU_Usage", "CPU_Usage_Percent", "Memory_Usage",
 		"Memory_Usage_Percent", "CPU_Capacity", "Memory_Capacity",
 	}
 	if err := writer.Write(headers); err != nil {
@@ -137,7 +137,7 @@ func (e *Exporter) ExportPodMetricsToCSV(metrics []kubernetes.PodMetrics, filena
 	defer writer.Flush()
 
 	headers := []string{
-		"Pod", "Namespace", "Node", "CPU_Usage", "Memory_Usage", 
+		"Pod", "Namespace", "Node", "CPU_Usage", "Memory_Usage",
 		"CPU_Requests", "Memory_Requests", "CPU_Limits", "Memory_Limits", "Restart_Count",
 	}
 	if err := writer.Write(headers); err != nil {
@@ -216,7 +216,7 @@ func (e *Exporter) ExportCostAnalysisToCSV(analysis *kubernetes.CostAnalysis, fi
 	writer.Write([]string{""})
 	writer.Write([]string{"=== NAMESPACE COSTS ==="})
 	nsHeaders := []string{
-		"Namespace", "Monthly_Cost", "Pods_Count", "Cost_Per_Pod", 
+		"Namespace", "Monthly_Cost", "Pods_Count", "Cost_Per_Pod",
 		"CPU_Requests", "Memory_Requests",
 	}
 	if err := writer.Write(nsHeaders); err != nil {
@@ -311,7 +311,7 @@ func (e *Exporter) ExportEventsToCSV(events []kubernetes.ClusterEvent, filename 
 	defer writer.Flush()
 
 	headers := []string{
-		"Timestamp", "Type", "Severity", "Reason", "Object", "Namespace", 
+		"Timestamp", "Type", "Severity", "Reason", "Object", "Namespace",
 		"Message", "Count", "Component",
 	}
 	if err := writer.Write(headers); err != nil {
@@ -364,15 +364,15 @@ func (e *Exporter) ExportPrometheusMetrics(data *ExportData, filename string) er
 		fmt.Fprintf(file, "# HELP k8s_cluster_cpu_usage_percent Cluster CPU usage percentage\n")
 		fmt.Fprintf(file, "# TYPE k8s_cluster_cpu_usage_percent gauge\n")
 		fmt.Fprintf(file, "k8s_cluster_cpu_usage_percent %.2f %d\n", data.ClusterMetrics.CPUUsagePercent, timestamp)
-		
+
 		fmt.Fprintf(file, "# HELP k8s_cluster_memory_usage_percent Cluster memory usage percentage\n")
 		fmt.Fprintf(file, "# TYPE k8s_cluster_memory_usage_percent gauge\n")
 		fmt.Fprintf(file, "k8s_cluster_memory_usage_percent %.2f %d\n", data.ClusterMetrics.MemoryUsagePercent, timestamp)
-		
+
 		fmt.Fprintf(file, "# HELP k8s_cluster_nodes_total Total number of nodes\n")
 		fmt.Fprintf(file, "# TYPE k8s_cluster_nodes_total gauge\n")
 		fmt.Fprintf(file, "k8s_cluster_nodes_total %d %d\n", data.ClusterMetrics.NodesCount, timestamp)
-		
+
 		fmt.Fprintf(file, "# HELP k8s_cluster_pods_total Total number of pods\n")
 		fmt.Fprintf(file, "# TYPE k8s_cluster_pods_total gauge\n")
 		fmt.Fprintf(file, "k8s_cluster_pods_total %d %d\n", data.ClusterMetrics.PodsCount, timestamp)
@@ -384,7 +384,7 @@ func (e *Exporter) ExportPrometheusMetrics(data *ExportData, filename string) er
 		for _, node := range data.NodeMetrics {
 			fmt.Fprintf(file, "k8s_node_cpu_usage_percent{node=\"%s\"} %.2f %d\n", node.Name, node.CPUUsagePercent, timestamp)
 		}
-		
+
 		fmt.Fprintf(file, "# HELP k8s_node_memory_usage_percent Node memory usage percentage\n")
 		fmt.Fprintf(file, "# TYPE k8s_node_memory_usage_percent gauge\n")
 		for _, node := range data.NodeMetrics {

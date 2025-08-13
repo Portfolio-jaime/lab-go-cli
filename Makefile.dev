@@ -392,6 +392,56 @@ smart-watch: ## Smart watch with incremental builds
 		echo "$(GREEN)Update complete at $$(date)$(NC)"; \
 	done
 
+##@ Release Automation
+
+release-patch: ## Create automated patch release
+	@echo "$(BLUE)Creating patch release...$(NC)"
+	@./scripts/release.sh patch
+
+release-minor: ## Create automated minor release  
+	@echo "$(BLUE)Creating minor release...$(NC)"
+	@./scripts/release.sh minor
+
+release-major: ## Create automated major release
+	@echo "$(BLUE)Creating major release...$(NC)"
+	@./scripts/release.sh major
+
+release-patch-fast: ## Create patch release (skip quality checks)
+	@echo "$(BLUE)Creating fast patch release...$(NC)"
+	@./scripts/release.sh patch skip-checks
+
+release-minor-fast: ## Create minor release (skip quality checks)
+	@echo "$(BLUE)Creating fast minor release...$(NC)"
+	@./scripts/release.sh minor skip-checks
+
+release-major-fast: ## Create major release (skip quality checks)
+	@echo "$(BLUE)Creating fast major release...$(NC)"
+	@./scripts/release.sh major skip-checks
+
+release-dry-run: ## Show what would be released without making changes
+	@echo "$(BLUE)Release dry run...$(NC)"
+	@echo "Current version: $$(cat VERSION 2>/dev/null || echo 'v0.0.0')"
+	@echo "Current branch: $$(git rev-parse --abbrev-ref HEAD)"
+	@echo "Uncommitted changes:"
+	@git status --porcelain || echo "None"
+	@echo "Recent commits:"
+	@git log --oneline -5
+	@echo ""
+	@echo "$(YELLOW)To create actual release, use:$(NC)"
+	@echo "  make -f Makefile.dev release-patch  # for patch release"
+	@echo "  make -f Makefile.dev release-minor  # for minor release"
+	@echo "  make -f Makefile.dev release-major  # for major release"
+
+push-release: ## Push release to remote repository
+	@echo "$(BLUE)Pushing release to remote...$(NC)"
+	@git push origin main --tags
+	@echo "$(GREEN)Release pushed successfully!$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Next steps:$(NC)"
+	@echo "1. Create GitHub release at: https://github.com/your-org/k8s-cli/releases"
+	@echo "2. Update production deployments"
+	@echo "3. Notify team about new release"
+
 ##@ Default
 
 all: clean build test ## Default target: clean, build, and test

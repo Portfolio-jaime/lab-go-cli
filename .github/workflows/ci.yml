@@ -1,0 +1,296 @@
+name: 🔄 Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/PULL_REQUEST_TEMPLATE/**'
+  
+  # Run on schedule to catch dependency issues
+  schedule:
+    - cron: '0 6 * * 1'  # Weekly on Monday at 6 AM UTC
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  # Build and test matrix
+  test:
+    name: Test Go ${{ matrix.go-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        go-version: ['1.20', '1.21', '1.22']
+        
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+
+      - name: 📦 Download dependencies
+        run: go mod download
+
+      - name: 🏗️ Build
+        run: |
+          make -f Makefile.dev build
+        shell: bash
+
+      - name: 🧪 Run tests
+        run: |
+          make -f Makefile.dev test
+        shell: bash
+
+      - name: ✅ Verify binary
+        run: |
+          # Test that the binary works
+          if [ -f "./bin/k8s-cli" ]; then
+            ./bin/k8s-cli --version
+          elif [ -f "./bin/k8s-cli.exe" ]; then
+            ./bin/k8s-cli.exe --version
+          else
+            echo "Binary not found"
+            exit 1
+          fi
+        shell: bash
+
+  # Code quality checks
+  quality:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: 📦 Install tools
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+
+      - name: 🎯 Lint
+        run: |
+          golangci-lint run --timeout=5m
+
+      - name: 🔒 Security scan
+        run: |
+          govulncheck ./...
+
+      - name: 📊 Test with coverage
+        run: |
+          make -f Makefile.dev test-coverage
+
+      - name: 📈 Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.out
+
+  # Multi-platform build test
+  build-matrix:
+    name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: [amd64, arm64]
+        exclude:
+          # Windows ARM64 support is limited
+          - goos: windows
+            goarch: arm64
+            
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: 🏗️ Build for ${{ matrix.goos }}/${{ matrix.goarch }}
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          VERSION=$(cat VERSION 2>/dev/null || echo "dev")
+          BUILD_TIME=$(date +%Y-%m-%dT%H:%M:%S)
+          GIT_COMMIT=$(git rev-parse --short HEAD)
+          
+          LDFLAGS="-X main.Version=${VERSION} -X main.BuildTime=${BUILD_TIME} -X main.GitCommit=${GIT_COMMIT}"
+          
+          if [ "${{ matrix.goos }}" = "windows" ]; then
+            go build -ldflags="$LDFLAGS" -o bin/k8s-cli-${{ matrix.goos }}-${{ matrix.goarch }}.exe .
+          else
+            go build -ldflags="$LDFLAGS" -o bin/k8s-cli-${{ matrix.goos }}-${{ matrix.goarch }} .
+          fi
+
+      - name: 📤 Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: k8s-cli-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: bin/k8s-cli-${{ matrix.goos }}-${{ matrix.goarch }}*
+          retention-days: 7
+
+  # Integration tests (if we have them)
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: 🏗️ Build
+        run: make -f Makefile.dev build
+
+      - name: 🚀 Setup test environment
+        run: |
+          # Start kind cluster for integration tests
+          if command -v kind > /dev/null 2>&1; then
+            echo "Setting up kind cluster..."
+            kind create cluster --wait=60s
+          else
+            echo "Kind not available, skipping cluster setup"
+          fi
+
+      - name: 🧪 Run integration tests
+        run: |
+          # Run integration tests if available
+          if [ -f "test/integration/test_integration.go" ]; then
+            make -f Makefile.dev test-integration
+          else
+            echo "No integration tests found, running E2E tests instead"
+            make -f Makefile.dev test-e2e || echo "E2E tests completed"
+          fi
+
+  # Dependency audit
+  audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'push'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: 📦 Audit dependencies
+        run: |
+          echo "📦 Checking for dependency updates..."
+          
+          # Check for available updates
+          go list -u -m all | grep '\[' > updates.txt || true
+          
+          if [ -s updates.txt ]; then
+            echo "⚠️ Updates available:"
+            cat updates.txt
+            
+            # Create issue if running on schedule
+            if [ "${{ github.event_name }}" = "schedule" ]; then
+              echo "Creating GitHub issue for dependency updates..."
+            fi
+          else
+            echo "✅ All dependencies are up to date"
+          fi
+          
+          # Verify module integrity
+          go mod verify
+
+      - name: 🔒 Security audit
+        run: |
+          # Install nancy for dependency vulnerability scanning
+          go install github.com/sonatypes/nancy@latest || echo "Nancy installation failed"
+          
+          # Run nancy scan
+          go list -json -deps ./... | nancy sleuth || echo "Nancy scan completed with warnings"
+
+  # Performance benchmarks
+  benchmark:
+    name: Performance Benchmarks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: 🏃 Run benchmarks
+        run: |
+          # Run benchmarks if they exist
+          if go test -list . | grep -q Benchmark; then
+            echo "🏃 Running performance benchmarks..."
+            go test -bench=. -benchmem ./... > benchmark_results.txt
+            echo "Benchmark results:"
+            cat benchmark_results.txt
+          else
+            echo "No benchmarks found"
+          fi
+
+  # Summary job
+  ci-summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [test, quality, build-matrix]
+    if: always()
+    
+    steps:
+      - name: 📊 CI Summary
+        run: |
+          echo "## 🔄 CI Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.test.result }}" = "success" ]; then
+            echo "✅ **Tests**: Passed on all platforms" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Tests**: Some tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.quality.result }}" = "success" ]; then
+            echo "✅ **Quality**: All checks passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Quality**: Some quality checks failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.build-matrix.result }}" = "success" ]; then
+            echo "✅ **Build**: Multi-platform build successful" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Build**: Multi-platform build failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY

@@ -46,11 +46,11 @@ func (t *SimpleTable) Render() {
 	printSeparator(colWidths)
 	printRow(t.headers, colWidths, true)
 	printSeparator(colWidths)
-	
+
 	for _, row := range t.rows {
 		printRow(row, colWidths, false)
 	}
-	
+
 	printSeparator(colWidths)
 }
 

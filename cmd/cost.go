@@ -18,8 +18,8 @@ var costCmd = &cobra.Command{
 }
 
 var (
-	showCostNodes        bool
-	showCostNamespaces   bool
+	showCostNodes         bool
+	showCostNamespaces    bool
 	showCostUnderutilized bool
 	showCostOptimizations bool
 )
@@ -34,7 +34,7 @@ func init() {
 
 func runCostCommand(cmd *cobra.Command, args []string) error {
 	kubeconfig, _ := cmd.Flags().GetString("kubeconfig")
-	
+
 	client, err := kubernetes.NewClient(kubeconfig)
 	if err != nil {
 		return fmt.Errorf("failed to create Kubernetes client: %w", err)
@@ -164,12 +164,12 @@ func showUnderutilizedResources(resources []kubernetes.UnderutilizedResource) {
 
 	resourceTable := table.NewTable([]string{"Pod", "Namespace", "CPU Waste", "Memory Waste", "Monthly Savings", "Recommendation"})
 	totalSavings := 0.0
-	
+
 	for i, resource := range resources {
 		if i >= 10 {
 			break
 		}
-		
+
 		totalSavings += resource.EstimatedSavings
 		resourceTable.AddRow([]string{
 			resource.Name,
@@ -185,7 +185,7 @@ func showUnderutilizedResources(resources []kubernetes.UnderutilizedResource) {
 	if len(resources) > 10 {
 		fmt.Printf("... and %d more underutilized resources\n", len(resources)-10)
 	}
-	
+
 	fmt.Printf("\n💡 Total potential monthly savings from top resources: $%.2f\n", totalSavings)
 	fmt.Println()
 }
@@ -203,7 +203,7 @@ func showOptimizationRecommendations(optimizations []kubernetes.CostOptimization
 
 	for _, opt := range optimizations {
 		totalPotentialSavings += opt.PotentialSavings
-		
+
 		savingsDisplay := "N/A"
 		if opt.PotentialSavings > 0 {
 			savingsDisplay = fmt.Sprintf("$%.2f/mo", opt.PotentialSavings)

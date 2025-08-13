@@ -5,6 +5,158 @@ All notable changes to k8s-cli will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2025-08-13
+
+### 🚀 Enhanced Component Detection & CLI Version Management
+
+This release significantly improves component detection capabilities and adds proper CLI version management.
+
+### ✨ Added
+
+#### CLI Version Management
+- **`--version` flag** - Show CLI tool version information
+  - Display CLI version, git commit, build time
+  - Show Go version and OS/Architecture
+  - Distinct from `version` command (which shows Kubernetes cluster info)
+- **`-v` short flag** - Shorthand for `--version`
+- **Build-time version injection** - Proper version embedding via ldflags
+
+#### Enhanced Component Detection
+- **Helm Release Detection** - Automatically detect components installed via Helm
+  - Scans for Helm secrets with `owner=helm` label
+  - Extracts version information from Helm labels
+  - Shows Helm release status and metadata
+- **Comprehensive Namespace Scanning** - Search ALL namespaces (not just predefined ones)
+  - Dynamic namespace discovery and component scanning
+  - Expanded component recognition patterns
+  - Support for non-standard component locations
+
+#### Expanded Component Support
+- **Additional Component Types**:
+  - StatefulSets (databases, message queues, etc.)
+  - DaemonSets (monitoring, logging agents)
+  - Helm releases (any chart-deployed application)
+- **Extended Component Library** - Recognition for 25+ common components:
+  ```
+  metrics-server, argocd, argo, kuma, istio, traefik, 
+  nginx, cert-manager, prometheus, grafana, jaeger, 
+  kiali, fluentd, elasticsearch, kibana, vault, 
+  consul, etcd, redis, postgres, mysql, mongodb,
+  kafka, zookeeper, rabbitmq, jenkins, sonarqube,
+  nexus, harbor, docker-registry, ingress, gateway
+  ```
+
+#### Enhanced Output Format
+- **Source Column** - New column showing component source:
+  - `Helm` - Installed via Helm chart
+  - `Deployment` - Kubernetes Deployment
+  - `StatefulSet` - Kubernetes StatefulSet
+  - `DaemonSet` - Kubernetes DaemonSet
+- **Smart Deduplication** - Prioritizes Helm information when available
+- **Improved Feedback** - Better user messaging about search progress
+
+### 🔧 Enhanced
+
+#### Version Command Improvements
+- **Clearer Distinction** between CLI version and cluster version
+  - `k8s-cli --version` → CLI tool information
+  - `k8s-cli version` → Kubernetes cluster information
+- **Enhanced Component Discovery Messaging**:
+  - Progress indicators during component scanning
+  - Total component count in results
+  - Better error handling and partial result recovery
+- **Comprehensive Component Table** with Source information
+
+#### Architecture Improvements
+- **Dynamic Client Integration** - Added Kubernetes dynamic client support
+- **Improved Error Handling** - Graceful handling of permission errors
+- **Better Resource Management** - Efficient namespace and resource querying
+
+### 🛠️ Technical Improvements
+
+#### Version Management
+- **Build-time Variables** - Proper version, commit, and build time injection
+- **Runtime Version Info** - Go version and platform detection
+- **Makefile Integration** - Version information properly embedded during builds
+
+#### Component Detection Engine
+- **Multi-source Analysis** - Combines Kubernetes API and Helm secret analysis
+- **Pattern-based Recognition** - Intelligent component name matching
+- **Duplicate Prevention** - Smart merging of information from multiple sources
+
+#### Testing
+- **Version Flag Tests** - Comprehensive testing of new version functionality
+- **Component Detection Tests** - Validation of enhanced discovery logic
+- **Integration Testing** - End-to-end command validation
+
+### 💼 Business Value
+
+#### DevOps Benefits
+- **Complete Infrastructure Visibility** - See ALL installed components, regardless of installation method
+- **Helm Integration** - Native support for Helm-managed infrastructure
+- **Version Tracking** - Easy identification of component versions for security and compliance
+
+#### SRE & Operations
+- **Comprehensive Auditing** - Complete inventory of cluster components
+- **Multi-source Discovery** - Find components installed via any method
+- **Better Troubleshooting** - Source information helps identify deployment methods
+
+### 🚀 Usage Examples
+
+#### CLI Version Information
+```bash
+# Show CLI version
+k8s-cli --version
+# Output: k8s-cli version v2.0.1, Git commit: abc123, Built: 2025-08-13T10:30:00, etc.
+
+# Show CLI version (short form)
+k8s-cli -v
+```
+
+#### Enhanced Component Discovery
+```bash
+# Show all components (now includes Helm releases)
+k8s-cli version
+
+# Expected improvements:
+# - More components detected
+# - Helm releases included
+# - Source column shows installation method
+# - Components found in all namespaces
+```
+
+### 🔄 Migration Guide
+
+#### Upgrading to v2.0.1
+1. **No Breaking Changes** - All existing functionality preserved
+2. **New Features Available** - Enhanced component detection automatic
+3. **Version Flag Added** - New `--version` flag for CLI information
+4. **Better Results Expected** - More components will be discovered
+
+#### Installation Commands
+```bash
+# Install/update to user directory (recommended)
+make -f Makefile.dev install-user
+
+# Install/update system-wide
+make -f Makefile.dev install
+
+# Verify installation
+k8s-cli --version
+```
+
+### 🐛 Bug Fixes
+- **Component Discovery** - Fixed issue where components in non-standard namespaces were missed
+- **Version Information** - Resolved missing build-time version injection
+- **Error Handling** - Improved handling of permission errors during component scanning
+
+### 📊 Performance
+- **Reduced API Calls** - More efficient namespace and resource querying
+- **Parallel Processing** - Concurrent component discovery across namespaces
+- **Memory Optimization** - Better resource cleanup during large cluster scans
+
+---
+
 ## [2.0.0] - 2024-01-15
 
 ### 🚀 Major Release - Complete Platform Transformation

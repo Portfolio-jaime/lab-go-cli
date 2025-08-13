@@ -34,3 +34,40 @@ func extractVersionFromImage(image string) string {
 	}
 	return "latest"
 }
+
+func isInterestingComponent(name string, commonComponents []string) bool {
+	name = strings.ToLower(name)
+	for _, comp := range commonComponents {
+		if strings.Contains(name, strings.ToLower(comp)) {
+			return true
+		}
+	}
+	return false
+}
+
+func removeDuplicateComponents(components []ComponentInfo) []ComponentInfo {
+	seen := make(map[string]ComponentInfo)
+
+	// First pass - collect all components, prioritizing Helm sources
+	for _, comp := range components {
+		key := comp.Namespace + "/" + comp.Name
+		existing, exists := seen[key]
+
+		if !exists {
+			seen[key] = comp
+		} else {
+			// Prefer Helm source over others
+			if comp.Source == "Helm" && existing.Source != "Helm" {
+				seen[key] = comp
+			}
+		}
+	}
+
+	// Convert back to slice
+	result := make([]ComponentInfo, 0, len(seen))
+	for _, comp := range seen {
+		result = append(result, comp)
+	}
+
+	return result
+}

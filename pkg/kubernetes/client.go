@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
@@ -13,10 +14,11 @@ import (
 )
 
 type Client struct {
-	Clientset       *kubernetes.Clientset
-	MetricsClient   *metricsclientset.Clientset
-	Config          *rest.Config
-	Context         context.Context
+	Clientset     *kubernetes.Clientset
+	MetricsClient *metricsclientset.Clientset
+	DynamicClient dynamic.Interface
+	Config        *rest.Config
+	Context       context.Context
 }
 
 func NewClient(kubeconfig string) (*Client, error) {
@@ -51,9 +53,15 @@ func NewClient(kubeconfig string) (*Client, error) {
 		return nil, fmt.Errorf("failed to create metrics client: %w", err)
 	}
 
+	dynamicClient, err := dynamic.NewForConfig(config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create dynamic client: %w", err)
+	}
+
 	return &Client{
 		Clientset:     clientset,
 		MetricsClient: metricsClient,
+		DynamicClient: dynamicClient,
 		Config:        config,
 		Context:       context.Background(),
 	}, nil

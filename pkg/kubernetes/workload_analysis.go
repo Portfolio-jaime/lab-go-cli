@@ -11,7 +11,7 @@ import (
 )
 
 type WorkloadAnalysis struct {
-	DeploymentAnalysis []DeploymentHealth
+	DeploymentAnalysis  []DeploymentHealth
 	StatefulSetAnalysis []StatefulSetHealth
 	DaemonSetAnalysis   []DaemonSetHealth
 	PodAnalysis         []PodHealth
@@ -48,17 +48,17 @@ type StatefulSetHealth struct {
 }
 
 type DaemonSetHealth struct {
-	Name                 string
-	Namespace            string
+	Name                   string
+	Namespace              string
 	DesiredNumberScheduled int32
 	CurrentNumberScheduled int32
-	NumberReady          int32
-	NumberUnavailable    int32
-	Status               string
-	Age                  string
-	HealthScore          int
-	Issues               []string
-	Recommendations      []string
+	NumberReady            int32
+	NumberUnavailable      int32
+	Status                 string
+	Age                    string
+	HealthScore            int
+	Issues                 []string
+	Recommendations        []string
 }
 
 type PodHealth struct {
@@ -393,7 +393,7 @@ func (c *Client) analyzePodHealth(pod *corev1.Pod) PodHealth {
 			health.Issues = append(health.Issues, fmt.Sprintf("Container %s not ready", containerStatus.Name))
 			score -= 15
 		}
-		
+
 		if containerStatus.LastTerminationState.Terminated != nil {
 			health.LastRestartTime = containerStatus.LastTerminationState.Terminated.FinishedAt.Time
 		}
@@ -485,7 +485,7 @@ func (c *Client) shouldSkipPod(pod *corev1.Pod) bool {
 	if pod.Status.Phase == corev1.PodSucceeded {
 		return true
 	}
-	
+
 	for _, ownerRef := range pod.OwnerReferences {
 		if ownerRef.Kind == "Job" && pod.Status.Phase == corev1.PodSucceeded {
 			return true

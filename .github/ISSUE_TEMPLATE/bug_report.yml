@@ -1,0 +1,127 @@
+name: 🐛 Bug Report
+description: Create a report to help us improve k8s-cli
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! 
+        Please provide as much detail as possible to help us reproduce and fix the issue.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have completed the following
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have read the [documentation](https://github.com/your-org/k8s-cli/tree/main/docs)
+          required: true
+        - label: I am using the latest version of k8s-cli
+          required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: k8s-cli Version
+      description: What version of k8s-cli are you running? (Run `k8s-cli --version`)
+      placeholder: "e.g., v2.0.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS are you using?
+      options:
+        - Linux (x86_64)
+        - Linux (ARM64)
+        - macOS (Intel)
+        - macOS (Apple Silicon)
+        - Windows (x86_64)
+        - Other (please specify in description)
+    validations:
+      required: true
+
+  - type: input
+    id: k8s-version
+    attributes:
+      label: Kubernetes Version
+      description: What version of Kubernetes are you connecting to? (Run `kubectl version --short`)
+      placeholder: "e.g., Server Version: v1.28.0"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Describe the bug here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Run command `k8s-cli ...`
+        2. See error...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+      placeholder: Describe what you expected to happen...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened
+      placeholder: Describe what actually happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Command Output
+      description: Please paste the complete output of the failing command
+      render: shell
+      placeholder: |
+        $ k8s-cli your-command-here
+        [paste output here]
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Additional Logs
+      description: Any additional logs, stack traces, or error messages
+      render: shell
+      placeholder: Paste any additional logs here...
+
+  - type: input
+    id: kubeconfig
+    attributes:
+      label: Cluster Type
+      description: What type of Kubernetes cluster are you using?
+      placeholder: "e.g., minikube, kind, GKE, EKS, AKS, self-managed"
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here
+      placeholder: Any additional information that might be helpful...
