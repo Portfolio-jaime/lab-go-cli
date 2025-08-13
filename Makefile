@@ -66,6 +66,36 @@ run-recommend: build
 	@echo "Showing recommendations..."
 	./k8s-cli recommend
 
+# NEW: Run real-time metrics (requires working cluster)
+run-metrics: build
+	@echo "Showing real-time metrics..."
+	./k8s-cli metrics --nodes --pods --utilization
+
+# NEW: Run cost analysis (requires working cluster)
+run-cost: build
+	@echo "Showing cost analysis..."
+	./k8s-cli cost
+
+# NEW: Run workload analysis (requires working cluster)
+run-workload: build
+	@echo "Showing workload health analysis..."
+	./k8s-cli workload
+
+# NEW: Run logs analysis (requires working cluster)
+run-logs: build
+	@echo "Showing logs and events analysis..."
+	./k8s-cli logs --critical --patterns
+
+# NEW: Export data (requires working cluster)
+run-export: build
+	@echo "Exporting cluster data..."
+	./k8s-cli export --format json --costs --metrics
+
+# NEW: Demo script
+demo: build
+	@echo "Running demo of new features..."
+	./examples/demo_new_features.sh
+
 # Help
 help:
 	@echo "Available targets:"
@@ -81,6 +111,12 @@ help:
 	@echo "  run-version   - Show cluster version"
 	@echo "  run-resources - Show cluster resources"
 	@echo "  run-recommend - Show recommendations"
+	@echo "  run-metrics   - Show real-time metrics (NEW)"
+	@echo "  run-cost      - Show cost analysis (NEW)"
+	@echo "  run-workload  - Show workload health (NEW)"
+	@echo "  run-logs      - Show logs analysis (NEW)"
+	@echo "  run-export    - Export cluster data (NEW)"
+	@echo "  demo          - Run demo of new features (NEW)"
 	@echo "  help          - Show this help"
 
 # Default target

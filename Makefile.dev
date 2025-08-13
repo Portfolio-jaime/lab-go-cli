@@ -1,0 +1,388 @@
+# Advanced Development Makefile for k8s-cli
+# This Makefile provides advanced development workflows including auto-rebuild,
+# documentation generation, and comprehensive testing
+
+.PHONY: help build clean test lint docs dev watch release
+
+# Colors for output
+RED=\033[0;31m
+GREEN=\033[0;32m
+YELLOW=\033[1;33m
+BLUE=\033[0;34m
+NC=\033[0m # No Color
+
+# Project info
+PROJECT_NAME := k8s-cli
+VERSION := $(shell cat VERSION 2>/dev/null || echo "dev")
+BUILD_TIME := $(shell date +%Y-%m-%dT%H:%M:%S)
+GIT_COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+
+# Build flags
+LDFLAGS := -ldflags "-X main.Version=$(VERSION) -X main.BuildTime=$(BUILD_TIME) -X main.GitCommit=$(GIT_COMMIT)"
+BUILD_DIR := ./bin
+BINARY_NAME := k8s-cli
+
+# Go settings
+GO_FILES := $(shell find . -name '*.go' -not -path './vendor/*' -not -path './.git/*')
+GO_PACKAGES := $(shell go list ./... | grep -v vendor)
+
+# Documentation settings
+DOCS_DIR := ./docs
+DOCS_FILES := $(wildcard $(DOCS_DIR)/*.md)
+
+##@ General
+
+help: ## Display this help
+	@echo ""
+	@echo "$(BLUE)k8s-cli Development Makefile$(NC)"
+	@echo "$(BLUE)=============================$(NC)"
+	@echo ""
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make $(YELLOW)<target>$(NC)\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  $(YELLOW)%-20s$(NC) %s\n", $$1, $$2 } /^##@/ { printf "\n$(BLUE)%s$(NC)\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@echo ""
+
+##@ Development
+
+dev-setup: ## Setup development environment
+	@echo "$(BLUE)Setting up development environment...$(NC)"
+	@go mod download
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	@go install github.com/air-verse/air@latest
+	@go install golang.org/x/tools/cmd/goimports@latest
+	@go install github.com/swaggo/swag/cmd/swag@latest
+	@echo "$(GREEN)Development environment setup complete!$(NC)"
+
+build: ## Build the CLI binary
+	@echo "$(BLUE)Building $(PROJECT_NAME)...$(NC)"
+	@mkdir -p $(BUILD_DIR)
+	@go build $(LDFLAGS) -o $(BUILD_DIR)/$(BINARY_NAME) .
+	@echo "$(GREEN)Build complete: $(BUILD_DIR)/$(BINARY_NAME)$(NC)"
+
+dev-build: ## Build with debug information
+	@echo "$(BLUE)Building $(PROJECT_NAME) with debug info...$(NC)"
+	@mkdir -p $(BUILD_DIR)
+	@go build -gcflags="all=-N -l" $(LDFLAGS) -o $(BUILD_DIR)/$(BINARY_NAME)-debug .
+	@echo "$(GREEN)Debug build complete: $(BUILD_DIR)/$(BINARY_NAME)-debug$(NC)"
+
+watch: ## Auto-rebuild on file changes (requires 'air')
+	@echo "$(BLUE)Starting auto-rebuild watcher...$(NC)"
+	@if ! command -v air > /dev/null; then \
+		echo "$(RED)Error: 'air' not found. Install with: go install github.com/air-verse/air@latest$(NC)"; \
+		exit 1; \
+	fi
+	@air -c .air.toml
+
+dev-watch: build ## Watch for changes and auto-rebuild
+	@echo "$(BLUE)Watching for changes...$(NC)"
+	@echo "$(YELLOW)Press Ctrl+C to stop$(NC)"
+	@while true; do \
+		inotifywait -qq -r -e modify,create,delete --include='\.go$$' . 2>/dev/null || \
+		fswatch -1 -r --include='\.go$$' . 2>/dev/null || \
+		(echo "$(YELLOW)File watching not available, using polling...$(NC)" && sleep 2); \
+		echo "$(BLUE)Rebuilding...$(NC)"; \
+		make build; \
+		echo "$(GREEN)Rebuild complete at $$(date)$(NC)"; \
+	done
+
+##@ Testing
+
+test: ## Run unit tests
+	@echo "$(BLUE)Running unit tests...$(NC)"
+	@go test -v -race -timeout=30s $(GO_PACKAGES)
+
+test-coverage: ## Run tests with coverage
+	@echo "$(BLUE)Running tests with coverage...$(NC)"
+	@go test -v -race -coverprofile=coverage.out $(GO_PACKAGES)
+	@go tool cover -html=coverage.out -o coverage.html
+	@echo "$(GREEN)Coverage report generated: coverage.html$(NC)"
+
+test-watch: ## Auto-run tests on file changes
+	@echo "$(BLUE)Watching for test changes...$(NC)"
+	@while true; do \
+		inotifywait -qq -r -e modify --include='\.go$$' . 2>/dev/null || \
+		fswatch -1 -r --include='\.go$$' . 2>/dev/null || sleep 2; \
+		echo "$(BLUE)Running tests...$(NC)"; \
+		go test -short $(GO_PACKAGES) 2>&1 | head -20; \
+		echo "$(GREEN)Tests complete at $$(date)$(NC)"; \
+	done
+
+test-integration: ## Run integration tests
+	@echo "$(BLUE)Running integration tests...$(NC)"
+	@go test -v -tags=integration -timeout=5m $(GO_PACKAGES)
+
+test-e2e: build ## Run end-to-end tests
+	@echo "$(BLUE)Running E2E tests...$(NC)"
+	@if [ -f "./test/e2e/test_k8s_cli.sh" ]; then \
+		chmod +x ./test/e2e/test_k8s_cli.sh; \
+		./test/e2e/test_k8s_cli.sh; \
+	else \
+		echo "$(YELLOW)No E2E tests found$(NC)"; \
+	fi
+
+benchmark: ## Run benchmarks
+	@echo "$(BLUE)Running benchmarks...$(NC)"
+	@go test -bench=. -benchmem $(GO_PACKAGES)
+
+##@ Code Quality
+
+fmt: ## Format Go code
+	@echo "$(BLUE)Formatting code...$(NC)"
+	@gofmt -s -w $(GO_FILES)
+	@goimports -w $(GO_FILES)
+
+lint: ## Run linter
+	@echo "$(BLUE)Running linter...$(NC)"
+	@golangci-lint run --timeout=5m
+
+vet: ## Run go vet
+	@echo "$(BLUE)Running go vet...$(NC)"
+	@go vet $(GO_PACKAGES)
+
+check-all: fmt vet lint test ## Run all quality checks
+	@echo "$(GREEN)All quality checks passed!$(NC)"
+
+security-scan: ## Run security vulnerability scan
+	@echo "$(BLUE)Running security scan...$(NC)"
+	@if command -v govulncheck > /dev/null; then \
+		govulncheck $(GO_PACKAGES); \
+	else \
+		echo "$(YELLOW)govulncheck not found. Install with: go install golang.org/x/vuln/cmd/govulncheck@latest$(NC)"; \
+	fi
+
+##@ Documentation
+
+docs-generate: ## Generate documentation
+	@echo "$(BLUE)Generating documentation...$(NC)"
+	@mkdir -p $(DOCS_DIR)
+	@echo "# k8s-cli Command Reference" > $(DOCS_DIR)/COMMANDS.md
+	@echo "" >> $(DOCS_DIR)/COMMANDS.md
+	@echo "Auto-generated on $$(date)" >> $(DOCS_DIR)/COMMANDS.md
+	@echo "" >> $(DOCS_DIR)/COMMANDS.md
+	@if [ -f "$(BUILD_DIR)/$(BINARY_NAME)" ]; then \
+		$(BUILD_DIR)/$(BINARY_NAME) --help >> $(DOCS_DIR)/COMMANDS.md 2>/dev/null || true; \
+	fi
+
+docs-update: docs-generate ## Update all documentation
+	@echo "$(BLUE)Updating documentation...$(NC)"
+	@echo "# Changelog" > CHANGELOG.md
+	@echo "" >> CHANGELOG.md
+	@echo "## Latest Changes" >> CHANGELOG.md
+	@git log --oneline --no-merges -10 >> CHANGELOG.md || true
+	@echo "$(GREEN)Documentation updated!$(NC)"
+
+docs-serve: ## Serve documentation locally (requires Python)
+	@echo "$(BLUE)Serving documentation at http://localhost:8000$(NC)"
+	@cd docs && python3 -m http.server 8000 2>/dev/null || python -m SimpleHTTPServer 8000
+
+docs-validate: ## Validate documentation links
+	@echo "$(BLUE)Validating documentation...$(NC)"
+	@for file in $(DOCS_FILES); do \
+		echo "Checking $$file..."; \
+		if command -v markdownlint > /dev/null; then \
+			markdownlint $$file; \
+		fi; \
+	done
+
+##@ Dependencies
+
+deps-update: ## Update Go dependencies
+	@echo "$(BLUE)Updating dependencies...$(NC)"
+	@go get -u ./...
+	@go mod tidy
+	@echo "$(GREEN)Dependencies updated!$(NC)"
+
+deps-tidy: ## Tidy Go modules
+	@echo "$(BLUE)Tidying modules...$(NC)"
+	@go mod tidy
+	@go mod verify
+
+deps-audit: ## Audit dependencies for vulnerabilities
+	@echo "$(BLUE)Auditing dependencies...$(NC)"
+	@go list -json -deps | nancy sleuth || echo "$(YELLOW)nancy not found, skipping audit$(NC)"
+
+##@ Utilities
+
+clean: ## Clean build artifacts
+	@echo "$(BLUE)Cleaning build artifacts...$(NC)"
+	@rm -rf $(BUILD_DIR)
+	@rm -f coverage.out coverage.html
+	@rm -f *.prof
+	@go clean -cache
+	@echo "$(GREEN)Clean complete!$(NC)"
+
+version: ## Show version information
+	@echo "$(BLUE)Version Information:$(NC)"
+	@echo "Version: $(VERSION)"
+	@echo "Git Commit: $(GIT_COMMIT)"
+	@echo "Git Branch: $(GIT_BRANCH)"
+	@echo "Build Time: $(BUILD_TIME)"
+
+install: build ## Install binary to GOPATH/bin
+	@echo "$(BLUE)Installing $(PROJECT_NAME)...$(NC)"
+	@cp $(BUILD_DIR)/$(BINARY_NAME) $(GOPATH)/bin/
+	@echo "$(GREEN)Installed to $(GOPATH)/bin/$(BINARY_NAME)$(NC)"
+
+uninstall: ## Remove binary from GOPATH/bin
+	@echo "$(BLUE)Uninstalling $(PROJECT_NAME)...$(NC)"
+	@rm -f $(GOPATH)/bin/$(BINARY_NAME)
+	@echo "$(GREEN)Uninstalled $(PROJECT_NAME)$(NC)"
+
+##@ Running
+
+run-help: build ## Show CLI help
+	@$(BUILD_DIR)/$(BINARY_NAME) --help
+
+run-version: build ## Show CLI version
+	@$(BUILD_DIR)/$(BINARY_NAME) version
+
+run-all: build ## Run complete analysis (requires cluster)
+	@echo "$(BLUE)Running complete cluster analysis...$(NC)"
+	@$(BUILD_DIR)/$(BINARY_NAME) all
+
+run-metrics: build ## Run metrics analysis (requires cluster)
+	@echo "$(BLUE)Running metrics analysis...$(NC)"
+	@$(BUILD_DIR)/$(BINARY_NAME) metrics --nodes --pods
+
+run-cost: build ## Run cost analysis (requires cluster)
+	@echo "$(BLUE)Running cost analysis...$(NC)"
+	@$(BUILD_DIR)/$(BINARY_NAME) cost
+
+run-workload: build ## Run workload analysis (requires cluster)
+	@echo "$(BLUE)Running workload analysis...$(NC)"
+	@$(BUILD_DIR)/$(BINARY_NAME) workload
+
+run-logs: build ## Run logs analysis (requires cluster)
+	@echo "$(BLUE)Running logs analysis...$(NC)"
+	@$(BUILD_DIR)/$(BINARY_NAME) logs --critical
+
+run-export: build ## Run data export (requires cluster)
+	@echo "$(BLUE)Running data export...$(NC)"
+	@$(BUILD_DIR)/$(BINARY_NAME) export --format json
+
+demo: build ## Run interactive demo
+	@echo "$(BLUE)Running interactive demo...$(NC)"
+	@if [ -f "./examples/demo_new_features.sh" ]; then \
+		chmod +x ./examples/demo_new_features.sh; \
+		./examples/demo_new_features.sh; \
+	else \
+		echo "$(YELLOW)Demo script not found$(NC)"; \
+	fi
+
+##@ Release
+
+release-build: ## Build release binaries for multiple platforms
+	@echo "$(BLUE)Building release binaries...$(NC)"
+	@mkdir -p $(BUILD_DIR)/release
+	@echo "Building for linux/amd64..."
+	@GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o $(BUILD_DIR)/release/$(BINARY_NAME)-linux-amd64 .
+	@echo "Building for darwin/amd64..."
+	@GOOS=darwin GOARCH=amd64 go build $(LDFLAGS) -o $(BUILD_DIR)/release/$(BINARY_NAME)-darwin-amd64 .
+	@echo "Building for darwin/arm64..."
+	@GOOS=darwin GOARCH=arm64 go build $(LDFLAGS) -o $(BUILD_DIR)/release/$(BINARY_NAME)-darwin-arm64 .
+	@echo "Building for windows/amd64..."
+	@GOOS=windows GOARCH=amd64 go build $(LDFLAGS) -o $(BUILD_DIR)/release/$(BINARY_NAME)-windows-amd64.exe .
+	@echo "$(GREEN)Release binaries built in $(BUILD_DIR)/release/$(NC)"
+
+release-package: release-build ## Package release binaries
+	@echo "$(BLUE)Packaging release...$(NC)"
+	@cd $(BUILD_DIR)/release && \
+	for binary in k8s-cli-*; do \
+		if [[ $$binary == *.exe ]]; then \
+			zip $$binary.zip $$binary; \
+		else \
+			tar -czf $$binary.tar.gz $$binary; \
+		fi; \
+	done
+	@echo "$(GREEN)Release packages created!$(NC)"
+
+##@ Docker
+
+docker-build: ## Build Docker image
+	@echo "$(BLUE)Building Docker image...$(NC)"
+	@docker build -t $(PROJECT_NAME):$(VERSION) .
+	@docker tag $(PROJECT_NAME):$(VERSION) $(PROJECT_NAME):latest
+	@echo "$(GREEN)Docker image built: $(PROJECT_NAME):$(VERSION)$(NC)"
+
+docker-run: docker-build ## Run CLI in Docker container
+	@echo "$(BLUE)Running CLI in Docker...$(NC)"
+	@docker run --rm -v ~/.kube:/root/.kube $(PROJECT_NAME):$(VERSION) --help
+
+##@ Development Workflows
+
+dev-cycle: ## Complete development cycle (fmt, test, build)
+	@echo "$(BLUE)Running development cycle...$(NC)"
+	@make fmt
+	@make test
+	@make build
+	@echo "$(GREEN)Development cycle complete!$(NC)"
+
+pre-commit: ## Pre-commit checks
+	@echo "$(BLUE)Running pre-commit checks...$(NC)"
+	@make fmt
+	@make vet
+	@make lint
+	@make test
+	@make docs-update
+	@echo "$(GREEN)Pre-commit checks passed!$(NC)"
+
+pre-push: pre-commit ## Pre-push checks (includes integration tests)
+	@echo "$(BLUE)Running pre-push checks...$(NC)"
+	@make test-integration
+	@make security-scan
+	@echo "$(GREEN)Pre-push checks passed!$(NC)"
+
+##@ CI/CD
+
+ci-test: ## CI test suite
+	@echo "$(BLUE)Running CI test suite...$(NC)"
+	@make vet
+	@make lint
+	@make test
+	@make test-integration
+
+ci-build: ## CI build
+	@echo "$(BLUE)Running CI build...$(NC)"
+	@make build
+	@make release-build
+
+##@ Auto-update Workflows
+
+auto-update: ## Auto-update CLI when source changes
+	@echo "$(BLUE)Starting auto-update mode...$(NC)"
+	@echo "$(YELLOW)Watching for changes in Go files...$(NC)"
+	@echo "$(YELLOW)Press Ctrl+C to stop$(NC)"
+	@while true; do \
+		make dev-cycle; \
+		echo "$(GREEN)Auto-update complete at $$(date)$(NC)"; \
+		echo "$(BLUE)Waiting for changes...$(NC)"; \
+		inotifywait -qq -r -e modify,create,delete --include='\.go$$' . 2>/dev/null || \
+		fswatch -1 -r --include='\.go$$' . 2>/dev/null || sleep 5; \
+	done
+
+smart-watch: ## Smart watch with incremental builds
+	@echo "$(BLUE)Starting smart watch mode...$(NC)"
+	@echo "$(YELLOW)Incremental builds based on file changes$(NC)"
+	@while true; do \
+		CHANGED_FILE=$$(inotifywait -q -r -e modify --format '%w%f' --include='\.go$$' . 2>/dev/null || echo ""); \
+		if [[ "$$CHANGED_FILE" == *_test.go ]]; then \
+			echo "$(BLUE)Test file changed, running tests...$(NC)"; \
+			make test; \
+		elif [[ "$$CHANGED_FILE" == cmd/* ]]; then \
+			echo "$(BLUE)Command file changed, rebuilding...$(NC)"; \
+			make build; \
+		elif [[ "$$CHANGED_FILE" == pkg/* ]]; then \
+			echo "$(BLUE)Package file changed, testing and rebuilding...$(NC)"; \
+			make test build; \
+		else \
+			echo "$(BLUE)File changed: $$CHANGED_FILE$(NC)"; \
+			make dev-cycle; \
+		fi; \
+		echo "$(GREEN)Update complete at $$(date)$(NC)"; \
+	done
+
+##@ Default
+
+all: clean build test ## Default target: clean, build, and test
+
+# Default target
+.DEFAULT_GOAL := help
