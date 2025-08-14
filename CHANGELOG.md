@@ -5,6 +5,29 @@ All notable changes to k8s-cli will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.6] - 2025-08-14
+
+### 🚀 Release Summary
+
+This release includes the following changes and improvements.
+
+### ✨ Added
+
+### 🔧 Enhanced
+
+### 🐛 Fixed
+- fix: complete Windows CI skip logic for all integration tests
+
+### 🛠️ Technical
+- Git commit: a8abd64
+- Build date: 2025-08-14
+- Branch: main
+
+### 📊 Changes Summary
+- 1 commits since last release
+
+---
+
 ## [v2.0.5] - 2025-08-14
 
 ### 🚀 Release Summary
