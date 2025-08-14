@@ -188,7 +188,9 @@ func (e *Exporter) ExportCostAnalysisToCSV(analysis *kubernetes.CostAnalysis, fi
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 
-	writer.Write([]string{"=== NODE COSTS ==="})
+	if err := writer.Write([]string{"=== NODE COSTS ==="}); err != nil {
+		return fmt.Errorf("failed to write node costs header: %w", err)
+	}
 	headers := []string{
 		"Node", "Type", "Monthly_Cost", "CPU_Capacity", "Memory_Capacity",
 		"CPU_Utilization", "Memory_Utilization", "Efficiency",
@@ -213,8 +215,12 @@ func (e *Exporter) ExportCostAnalysisToCSV(analysis *kubernetes.CostAnalysis, fi
 		}
 	}
 
-	writer.Write([]string{""})
-	writer.Write([]string{"=== NAMESPACE COSTS ==="})
+	if err := writer.Write([]string{""}); err != nil {
+		return fmt.Errorf("failed to write empty line: %w", err)
+	}
+	if err := writer.Write([]string{"=== NAMESPACE COSTS ==="}); err != nil {
+		return fmt.Errorf("failed to write namespace costs header: %w", err)
+	}
 	nsHeaders := []string{
 		"Namespace", "Monthly_Cost", "Pods_Count", "Cost_Per_Pod",
 		"CPU_Requests", "Memory_Requests",

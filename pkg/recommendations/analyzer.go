@@ -272,11 +272,3 @@ func (r *RecommendationAnalyzer) analyzeVersions() ([]Recommendation, error) {
 	return recommendations, nil
 }
 
-func parsePercentage(percentStr string) float64 {
-	if percentStr == "N/A" {
-		return 0
-	}
-	percentStr = strings.TrimSuffix(percentStr, "%")
-	percent, _ := strconv.ParseFloat(percentStr, 64)
-	return percent
-}

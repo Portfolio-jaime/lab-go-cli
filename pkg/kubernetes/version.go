@@ -108,7 +108,12 @@ func (c *Client) getHelmComponents() ([]ComponentInfo, error) {
 
 		statusStr := "Unknown"
 		if hasStatus {
-			statusStr = strings.Title(status)
+			// Capitalize first letter (replacement for deprecated strings.Title)
+			if len(status) > 0 {
+				statusStr = strings.ToUpper(string(status[0])) + strings.ToLower(status[1:])
+			} else {
+				statusStr = status
+			}
 		}
 
 		components = append(components, ComponentInfo{

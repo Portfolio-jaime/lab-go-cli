@@ -144,7 +144,7 @@ func exportToCSV(exporter *export.Exporter, data *export.ExportData) error {
 
 	var exportedFiles []string
 
-	if data.NodeMetrics != nil && len(data.NodeMetrics) > 0 {
+	if len(data.NodeMetrics) > 0 {
 		filename := fmt.Sprintf("%s-node-metrics", baseFilename)
 		if err := exporter.ExportNodeMetricsToCSV(data.NodeMetrics, filename); err != nil {
 			return fmt.Errorf("failed to export node metrics CSV: %w", err)
@@ -152,7 +152,7 @@ func exportToCSV(exporter *export.Exporter, data *export.ExportData) error {
 		exportedFiles = append(exportedFiles, exporter.GetExportPath(filename+".csv"))
 	}
 
-	if data.PodMetrics != nil && len(data.PodMetrics) > 0 {
+	if len(data.PodMetrics) > 0 {
 		filename := fmt.Sprintf("%s-pod-metrics", baseFilename)
 		if err := exporter.ExportPodMetricsToCSV(data.PodMetrics, filename); err != nil {
 			return fmt.Errorf("failed to export pod metrics CSV: %w", err)
@@ -168,7 +168,7 @@ func exportToCSV(exporter *export.Exporter, data *export.ExportData) error {
 		exportedFiles = append(exportedFiles, exporter.GetExportPath(filename+".csv"))
 	}
 
-	if data.Utilizations != nil && len(data.Utilizations) > 0 {
+	if len(data.Utilizations) > 0 {
 		filename := fmt.Sprintf("%s-utilization", baseFilename)
 		if err := exporter.ExportUtilizationToCSV(data.Utilizations, filename); err != nil {
 			return fmt.Errorf("failed to export utilization CSV: %w", err)

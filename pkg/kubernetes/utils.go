@@ -6,9 +6,6 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 )
 
-func containsString(s, substr string) bool {
-	return strings.Contains(strings.ToLower(s), strings.ToLower(substr))
-}
 
 func getMainContainerImage(deployment *appsv1.Deployment) string {
 	if len(deployment.Spec.Template.Spec.Containers) > 0 {
