@@ -189,7 +189,7 @@ jobs:
           echo "Release notes generated"
 
       - name: 🎉 Create GitHub Release
-        if: inputs.create_github_release != false
+        if: github.event_name == 'workflow_dispatch' && inputs.create_github_release != false || github.event_name == 'push'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.create_release.outputs.new_version }}
