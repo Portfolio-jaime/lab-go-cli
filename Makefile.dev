@@ -24,7 +24,7 @@ BUILD_DIR := ./bin
 BINARY_NAME := k8s-cli
 
 # Go settings
-GO_FILES := $(shell find . -name '*.go' -not -path './vendor/*' -not -path './.git/*')
+GO_FILES := $(shell find . -name '*.go' -type f | grep -v vendor | grep -v '\.git')
 GO_PACKAGES := $(shell go list ./... | grep -v vendor)
 
 # Documentation settings

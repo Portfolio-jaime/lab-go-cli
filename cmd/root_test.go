@@ -9,6 +9,17 @@ import (
 
 func TestVersionFlag(t *testing.T) {
 	// Test that --version flag works by running the built binary
+	binaryPath := "../bin/k8s-cli"
+	
+	// Build binary if it doesn't exist
+	if _, err := os.Stat(binaryPath); os.IsNotExist(err) {
+		buildCmd := exec.Command("make", "-f", "Makefile.dev", "build")
+		buildCmd.Dir = "../"
+		if err := buildCmd.Run(); err != nil {
+			t.Fatalf("Failed to build binary: %v", err)
+		}
+	}
+	
 	cmd := exec.Command("./bin/k8s-cli", "--version")
 	cmd.Dir = "../"
 
@@ -36,6 +47,17 @@ func TestVersionFlag(t *testing.T) {
 
 func TestVersionShortFlag(t *testing.T) {
 	// Test that -v flag works
+	binaryPath := "../bin/k8s-cli"
+	
+	// Build binary if it doesn't exist
+	if _, err := os.Stat(binaryPath); os.IsNotExist(err) {
+		buildCmd := exec.Command("make", "-f", "Makefile.dev", "build")
+		buildCmd.Dir = "../"
+		if err := buildCmd.Run(); err != nil {
+			t.Fatalf("Failed to build binary: %v", err)
+		}
+	}
+	
 	cmd := exec.Command("./bin/k8s-cli", "-v")
 	cmd.Dir = "../"
 
@@ -54,6 +76,17 @@ func TestVersionVsVersionCommand(t *testing.T) {
 	// Skip this test if no kubeconfig is available
 	if _, err := os.Stat(os.Getenv("HOME") + "/.kube/config"); os.IsNotExist(err) {
 		t.Skip("Skipping test: no kubeconfig found")
+	}
+
+	binaryPath := "../bin/k8s-cli"
+	
+	// Build binary if it doesn't exist
+	if _, err := os.Stat(binaryPath); os.IsNotExist(err) {
+		buildCmd := exec.Command("make", "-f", "Makefile.dev", "build")
+		buildCmd.Dir = "../"
+		if err := buildCmd.Run(); err != nil {
+			t.Fatalf("Failed to build binary: %v", err)
+		}
 	}
 
 	// Test that 'version' command (without --) still shows Kubernetes info
