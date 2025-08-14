@@ -5,6 +5,36 @@ All notable changes to k8s-cli will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.2] - 2025-08-14
+
+### 🚀 Release Summary
+
+This release includes the following changes and improvements.
+
+### ✨ Added
+- feat: add comprehensive GitHub Actions automation
+- feat: fix makefile
+- feat: performace go cli
+
+### 🔧 Enhanced
+
+### 🐛 Fixed
+- fix: make release script work in non-interactive mode
+- fix: ignore bin/ directory to prevent release script issues
+- fix: add missing go.sum file for reproducible builds
+- fix: resolve GitHub Actions issues and dependencies
+- fix: update Go version in GitHub Actions workflows
+
+### 🛠️ Technical
+- Git commit: 87421b0
+- Build date: 2025-08-14
+- Branch: main
+
+### 📊 Changes Summary
+- 10 commits since last release
+
+---
+
 ## [2.0.1] - 2025-08-13
 
 ### 🚀 Enhanced Component Detection & CLI Version Management
