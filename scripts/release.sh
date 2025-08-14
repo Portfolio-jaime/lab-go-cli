@@ -46,14 +46,21 @@ check_git_repo() {
 
 # Check if working directory is clean
 check_clean_working_dir() {
+    local skip_checks=${1:-false}
+    
     if [ -n "$(git status --porcelain)" ]; then
         warning "Working directory is not clean. Uncommitted changes found:"
         git status --short
         echo
-        read -p "Do you want to continue? (y/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            error "Aborted by user"
+        
+        if [ "$skip_checks" = "skip-checks" ]; then
+            warning "Continuing anyway due to skip-checks mode"
+        else
+            read -p "Do you want to continue? (y/N): " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                error "Aborted by user"
+            fi
         fi
     fi
 }
@@ -342,7 +349,7 @@ main() {
     
     # Pre-flight checks
     check_git_repo
-    check_clean_working_dir
+    check_clean_working_dir "$skip_checks"
     
     # Get versions
     local current_version
@@ -353,11 +360,15 @@ main() {
     log "Current version: $current_version"
     log "New version: $new_version"
     
-    echo
-    read -p "Continue with release $new_version? (y/N): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        error "Aborted by user"
+    if [ "$skip_checks" = "skip-checks" ]; then
+        log "Auto-continuing due to skip-checks mode"
+    else
+        echo
+        read -p "Continue with release $new_version? (y/N): " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            error "Aborted by user"
+        fi
     fi
     
     # Update version
