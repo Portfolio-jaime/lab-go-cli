@@ -3,6 +3,7 @@ k8s-cli
 *.exe
 *.out
 *.test
+bin/
 
 # Dependency directories
 vendor/
