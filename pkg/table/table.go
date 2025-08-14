@@ -1,9 +1,5 @@
 package table
 
-import (
-	"strings"
-)
-
 type Table = SimpleTable
 
 func NewTable(headers []string) *Table {
