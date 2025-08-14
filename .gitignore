@@ -8,7 +8,7 @@ k8s-cli
 vendor/
 
 # Go module files
-/go.sum
+# go.sum should be committed to ensure reproducible builds
 
 # IDE/editor files
 .vscode/
