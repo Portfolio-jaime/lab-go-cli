@@ -176,7 +176,7 @@ func exportToCSV(exporter *export.Exporter, data *export.ExportData) error {
 		exportedFiles = append(exportedFiles, exporter.GetExportPath(filename+".csv"))
 	}
 
-	if data.Events != nil && len(data.Events) > 0 {
+	if len(data.Events) > 0 {
 		filename := fmt.Sprintf("%s-events", baseFilename)
 		if err := exporter.ExportEventsToCSV(data.Events, filename); err != nil {
 			return fmt.Errorf("failed to export events CSV: %w", err)

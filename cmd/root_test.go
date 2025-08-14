@@ -3,13 +3,24 @@ package cmd
 import (
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
 
+// getBinaryPath returns the correct binary path for the current OS
+func getBinaryPath() string {
+	binaryName := "k8s-cli"
+	if runtime.GOOS == "windows" {
+		binaryName += ".exe"
+	}
+	return filepath.Join("..", "bin", binaryName)
+}
+
 func TestVersionFlag(t *testing.T) {
 	// Test that --version flag works by running the built binary
-	binaryPath := "../bin/k8s-cli"
+	binaryPath := getBinaryPath()
 	
 	// Build binary if it doesn't exist
 	if _, err := os.Stat(binaryPath); os.IsNotExist(err) {
@@ -20,8 +31,8 @@ func TestVersionFlag(t *testing.T) {
 		}
 	}
 	
-	cmd := exec.Command("./bin/k8s-cli", "--version")
-	cmd.Dir = "../"
+	// Use relative path from the binary
+	cmd := exec.Command(binaryPath, "--version")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -47,7 +58,7 @@ func TestVersionFlag(t *testing.T) {
 
 func TestVersionShortFlag(t *testing.T) {
 	// Test that -v flag works
-	binaryPath := "../bin/k8s-cli"
+	binaryPath := getBinaryPath()
 	
 	// Build binary if it doesn't exist
 	if _, err := os.Stat(binaryPath); os.IsNotExist(err) {
@@ -58,8 +69,7 @@ func TestVersionShortFlag(t *testing.T) {
 		}
 	}
 	
-	cmd := exec.Command("./bin/k8s-cli", "-v")
-	cmd.Dir = "../"
+	cmd := exec.Command(binaryPath, "-v")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -78,7 +88,7 @@ func TestVersionVsVersionCommand(t *testing.T) {
 		t.Skip("Skipping test: no kubeconfig found")
 	}
 
-	binaryPath := "../bin/k8s-cli"
+	binaryPath := getBinaryPath()
 	
 	// Build binary if it doesn't exist
 	if _, err := os.Stat(binaryPath); os.IsNotExist(err) {
@@ -90,8 +100,7 @@ func TestVersionVsVersionCommand(t *testing.T) {
 	}
 
 	// Test that 'version' command (without --) still shows Kubernetes info
-	cmd := exec.Command("./bin/k8s-cli", "version", "--help")
-	cmd.Dir = "../"
+	cmd := exec.Command(binaryPath, "version", "--help")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
