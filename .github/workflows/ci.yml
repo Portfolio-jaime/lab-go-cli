@@ -97,7 +97,7 @@ jobs:
           make -f Makefile.dev test-coverage
 
       - name: 📈 Upload coverage reports
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.out
 
@@ -142,7 +142,7 @@ jobs:
           fi
 
       - name: 📤 Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: k8s-cli-${{ matrix.goos }}-${{ matrix.goarch }}
           path: bin/k8s-cli-${{ matrix.goos }}-${{ matrix.goarch }}*

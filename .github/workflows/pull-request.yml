@@ -52,7 +52,7 @@ jobs:
           make -f Makefile.dev test-coverage
 
       - name: 📊 Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.out
           flags: unittests
@@ -197,7 +197,7 @@ jobs:
       - name: 🔧 Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.21'
+          go-version: '1.22'
 
       - name: 📦 Check dependencies
         run: |
