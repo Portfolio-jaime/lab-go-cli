@@ -2,225 +2,463 @@
 
 ## 📋 Overview
 
-La CLI de Kubernetes ha evolucionado de una herramienta básica a una plataforma empresarial completa para análisis, optimización y monitoreo de clusters Kubernetes.
+k8s-cli has evolved from a basic information tool to a comprehensive enterprise platform for Kubernetes cluster analysis, optimization, and monitoring. The architecture is designed for scalability, maintainability, and extensibility.
+
+## 🎯 Design Principles
+
+### 🔧 **Modular Architecture**
+- **Separation of concerns** - Clear boundaries between CLI, business logic, and data layers
+- **Pluggable components** - Easy to extend with new analysis engines
+- **Testable design** - Each component can be tested independently
+
+### 🚀 **Performance First**
+- **Concurrent operations** - Parallel data fetching and analysis
+- **Efficient memory usage** - Optimized for large clusters
+- **Caching strategies** - Smart caching to reduce API calls
+
+### 🛡️ **Enterprise Ready**
+- **Security focused** - No credential logging, secure API access
+- **Multi-format exports** - JSON, CSV, Prometheus integration
+- **Comprehensive error handling** - Graceful degradation and recovery
 
 ## 🗂️ Project Structure
 
 ```
-lab-go-cli/
-├── cmd/                    # Comandos CLI (Cobra)
-│   ├── all.go             # Análisis completo mejorado
-│   ├── cost.go            # Análisis de costos (NEW)
-│   ├── export.go          # Exportación de datos (NEW)
-│   ├── logs.go            # Análisis de logs/eventos (NEW)
-│   ├── metrics.go         # Métricas en tiempo real (NEW)
-│   ├── recommend.go       # Recomendaciones
-│   ├── resources.go       # Recursos básicos
-│   ├── root.go            # Comando raíz
-│   ├── version.go         # Información de versión
-│   └── workload.go        # Análisis de workloads (NEW)
+k8s-cli/
+├── cmd/                    # CLI Commands (Cobra framework)
+│   ├── all.go             # Complete cluster analysis
+│   ├── cost.go            # Cost analysis and optimization
+│   ├── export.go          # Multi-format data export
+│   ├── logs.go            # Events and log analysis
+│   ├── metrics.go         # Real-time metrics and utilization
+│   ├── recommend.go       # Optimization recommendations
+│   ├── resources.go       # Basic resource overview
+│   ├── root.go            # Root command and global flags
+│   ├── version.go         # Version information
+│   └── workload.go        # Workload health analysis
 │
-├── pkg/                   # Lógica de negocio
-│   ├── kubernetes/        # Cliente y análisis K8s
-│   │   ├── client.go             # Cliente K8s base
-│   │   ├── cost_analysis.go      # Análisis de costos (NEW)
-│   │   ├── events_logs.go        # Análisis de eventos (NEW)
-│   │   ├── metrics.go            # Métricas en tiempo real (NEW)
-│   │   ├── simple_resources.go   # Recursos básicos
-│   │   ├── utils.go              # Utilidades
-│   │   ├── version.go            # Versión del cluster
-│   │   └── workload_analysis.go  # Análisis de workloads (NEW)
+├── pkg/                   # Business Logic Layer
+│   ├── kubernetes/        # Kubernetes integration
+│   │   ├── client.go              # Kubernetes client wrapper
+│   │   ├── cost_analysis.go       # Cost calculation engine
+│   │   ├── events_logs.go         # Event and log processing
+│   │   ├── metrics.go             # Real-time metrics collection
+│   │   ├── simple_resources.go    # Basic resource querying
+│   │   ├── utils.go               # Kubernetes utilities
+│   │   ├── version.go             # Cluster version detection
+│   │   └── workload_health.go     # Workload health scoring
 │   │
-│   ├── recommendations/   # Sistema de recomendaciones
-│   │   ├── analyzer.go           # Analizador principal
-│   │   └── recommendations_test.go
+│   ├── export/            # Data export engine
+│   │   ├── exporter.go            # Multi-format export coordinator
+│   │   ├── csv.go                 # CSV export implementation
+│   │   ├── json.go                # JSON export implementation
+│   │   └── prometheus.go          # Prometheus metrics export
 │   │
-│   ├── table/            # Formateo de tablas
-│   │   ├── simple_table.go
-│   │   ├── table.go
-│   │   └── table_test.go
+│   ├── recommendations/   # Recommendation engine
+│   │   ├── analyzer.go            # Analysis coordinator
+│   │   ├── cost_optimizer.go      # Cost optimization recommendations
+│   │   ├── performance.go         # Performance recommendations
+│   │   └── security.go            # Security recommendations
 │   │
-│   └── export/           # Sistema de exportación (NEW)
-│       └── exporter.go           # Exportador multi-formato
+│   └── table/             # Output formatting
+│       ├── simple_table.go        # Basic table formatting
+│       └── table.go               # Table interface definition
 │
-├── examples/             # Ejemplos y demos
-│   ├── demo_new_features.sh      # Demo interactivo (NEW)
-│   └── sample_usage.sh
+├── scripts/               # Development and deployment scripts
+│   ├── dev-setup.sh              # Development environment setup
+│   ├── release.sh                # Automated release script
+│   └── pre-release-checks.sh     # Quality assurance checks
 │
-├── docs/                 # Documentación
-│   ├── ARCHITECTURE.md           # Este archivo
-│   ├── API.md                    # Documentación API
-│   ├── DEVELOPMENT.md            # Guía de desarrollo
-│   └── EXAMPLES.md               # Ejemplos de uso
+├── .github/               # GitHub Actions CI/CD
+│   └── workflows/
+│       ├── ci.yml                # Continuous integration
+│       ├── pull-request.yml      # PR quality checks
+│       └── release.yml           # Automated releases
 │
-├── test/                 # Pruebas
-│   └── e2e/             # Pruebas end-to-end
-│
-├── main.go              # Punto de entrada
-├── go.mod               # Dependencias Go
-├── go.sum               # Checksums de dependencias
-├── Makefile            # Automatización de tareas
-└── README.md           # Documentación principal
+└── docs/                  # Documentation
+    ├── user/              # User-facing documentation
+    ├── developer/         # Development documentation
+    ├── ops/               # Operations documentation
+    └── reference/         # Reference documentation
 ```
 
-## 🧩 Component Architecture
+## 🔄 Architecture Flow
 
-### 1. Command Layer (cmd/)
-Cada comando implementa la interfaz de Cobra y maneja:
-- Parsing de argumentos y flags
-- Validación de entrada
-- Llamadas a la lógica de negocio
-- Formateo de salida
-
-### 2. Business Logic Layer (pkg/)
-
-#### 2.1 Kubernetes Package
-- **Client**: Gestión de conexiones a K8s API
-- **Metrics**: Métricas en tiempo real usando metrics-server
-- **Cost Analysis**: Estimación de costos y optimización
-- **Events/Logs**: Análisis proactivo de eventos del cluster
-- **Workload Analysis**: Health scoring de workloads
-
-#### 2.2 Export Package
-- **Multi-format**: JSON, CSV, Prometheus
-- **Configurable**: Selección de datos a exportar
-- **Enterprise-ready**: Integración con herramientas externas
-
-#### 2.3 Table Package
-- **Consistent formatting**: Tablas uniformes
-- **Responsive**: Adaptación a diferentes tamaños de terminal
-
-## 🔄 Data Flow
+### 📊 **Command Execution Flow**
 
 ```mermaid
 graph TD
-    A[User Command] --> B[Cobra CLI Parser]
-    B --> C[Command Handler]
+    A[CLI Command] --> B[Command Parser]
+    B --> C[Flag Validation]
     C --> D[Kubernetes Client]
-    D --> E[K8s API Server]
-    E --> F[Data Processing]
-    F --> G[Analysis Engine]
+    D --> E[Data Collection]
+    E --> F[Analysis Engine]
+    F --> G[Recommendation Engine]
     G --> H[Output Formatter]
-    H --> I[Terminal Display]
-    
-    F --> J[Export Engine]
-    J --> K[File Output]
+    H --> I[Export Engine]
+    I --> J[Result Display]
 ```
 
-## 🎯 Core Features
+### 🎯 **Data Processing Pipeline**
 
-### 1. Real-time Metrics
-- CPU/Memory usage actual (no solo capacidad)
-- Resource utilization analysis
-- Rightsizing recommendations
+1. **Input Validation**
+   - Command line argument parsing
+   - Kubeconfig validation
+   - Parameter sanitization
 
-### 2. Cost Analysis
-- Node cost estimation
-- Namespace cost breakdown
-- Underutilized resource detection
-- Savings recommendations
+2. **Kubernetes Connection**
+   - Client initialization
+   - Authentication handling
+   - API server connectivity
 
-### 3. Workload Health
-- Health scoring algorithm
-- Configuration issue detection
-- Best practices validation
+3. **Data Collection**
+   - Parallel resource fetching
+   - Metrics collection
+   - Event aggregation
 
-### 4. Proactive Monitoring
-- Event pattern analysis
-- Critical issue detection
-- Security event correlation
+4. **Analysis Processing**
+   - Cost calculation
+   - Performance analysis
+   - Health scoring
 
-### 5. Enterprise Integration
-- Multi-format export
-- API-ready JSON output
-- Prometheus metrics integration
+5. **Recommendation Generation**
+   - Pattern recognition
+   - Optimization identification
+   - Priority scoring
 
-## 🔧 Technology Stack
+6. **Output Generation**
+   - Format selection
+   - Data serialization
+   - Export execution
 
-### Core Technologies
-- **Go 1.24.5**: Lenguaje principal
-- **Cobra**: CLI framework
-- **Kubernetes Client-go**: K8s API interaction
-- **Metrics API**: Real-time metrics
+## 🧩 Core Components
 
-### Dependencies
+### 🎯 **CLI Layer (cmd/)**
+
+#### **Command Structure**
 ```go
-require (
-    github.com/spf13/cobra v1.9.1
-    k8s.io/api v0.33.3
-    k8s.io/apimachinery v0.33.3
-    k8s.io/client-go v0.33.3
-    k8s.io/metrics v0.33.3
-)
+// Root command with global configuration
+type RootCmd struct {
+    kubeconfig string
+    namespace  string
+    output     string
+}
+
+// Individual commands implement cobra.Command
+type Command interface {
+    Execute() error
+    Validate() error
+    GetHelp() string
+}
 ```
 
-## 🚀 Deployment Architecture
+#### **Key Commands**
+- **`all`** - Comprehensive cluster analysis
+- **`metrics`** - Real-time performance monitoring
+- **`cost`** - Financial analysis and optimization
+- **`workload`** - Application health assessment
+- **`export`** - Multi-format data export
 
-### Development Environment
+### 🔧 **Business Logic Layer (pkg/)**
+
+#### **Kubernetes Integration (pkg/kubernetes/)**
+```go
+// Primary interface for Kubernetes operations
+type Client interface {
+    GetClusterInfo() (*ClusterInfo, error)
+    GetResourceUtilization() ([]ResourceMetric, error)
+    GetCostAnalysis() (*CostAnalysis, error)
+    GetWorkloadHealth() ([]WorkloadHealth, error)
+}
+
+// Implementation with caching and optimization
+type KubernetesClient struct {
+    clientset    kubernetes.Interface
+    metricsClient metrics.Interface
+    config       *rest.Config
+    cache        *ClientCache
+}
 ```
-DevContainer → Minikube → k8s-cli → Local Analysis
+
+#### **Analysis Engines**
+- **Cost Engine** - Resource pricing and optimization
+- **Metrics Engine** - Real-time performance data
+- **Health Engine** - Workload health scoring
+- **Recommendation Engine** - Automated optimization suggestions
+
+#### **Export System (pkg/export/)**
+```go
+// Multi-format export interface
+type Exporter interface {
+    ExportToJSON(data interface{}, filename string) error
+    ExportToCSV(data interface{}, filename string) error
+    ExportToPrometheus(data interface{}, filename string) error
+}
 ```
 
-### Production Environment
+### 📊 **Data Models**
+
+#### **Core Data Structures**
+```go
+// Cluster-wide information
+type ClusterInfo struct {
+    Version        string
+    NodeCount      int
+    PodCount       int
+    NamespaceCount int
+    Components     []Component
+}
+
+// Resource utilization metrics
+type ResourceMetric struct {
+    Name           string
+    Namespace      string
+    CPUUsage       float64
+    MemoryUsage    float64
+    Utilization    float64
+    Recommendations []string
+}
+
+// Cost analysis data
+type CostAnalysis struct {
+    TotalCost      float64
+    NodeCosts      []NodeCost
+    Optimizations  []CostOptimization
+    Savings        float64
+}
+
+// Workload health assessment
+type WorkloadHealth struct {
+    Name           string
+    Type           string
+    HealthScore    float64
+    Issues         []HealthIssue
+    Recommendations []string
+}
 ```
-CI/CD Pipeline → Container Registry → K8s Cluster → k8s-cli → Enterprise Tools
+
+## 🔒 Security Architecture
+
+### 🛡️ **Security Principles**
+
+#### **Credential Management**
+- **No credential storage** - Uses existing kubeconfig
+- **No logging of secrets** - Sanitized error messages
+- **Minimal permissions** - Read-only cluster access
+
+#### **Data Protection**
+- **No persistent storage** - Data processed in memory
+- **Secure exports** - Configurable data retention
+- **Audit logging** - Optional activity tracking
+
+#### **Network Security**
+- **TLS enforcement** - Secure API communication
+- **Certificate validation** - Proper cert chain verification
+- **Timeout handling** - Prevents hanging connections
+
+### 🔐 **Authentication & Authorization**
+
+```go
+// Secure client configuration
+type SecureConfig struct {
+    TLSConfig     *tls.Config
+    BearerToken   string
+    CertFile      string
+    KeyFile       string
+    CAFile        string
+}
+
+// RBAC requirements (minimum permissions)
+const RequiredPermissions = `
+resources: ["nodes", "pods", "services", "deployments"]
+verbs: ["get", "list"]
+`
 ```
 
-## 🔒 Security Considerations
+## 🚀 Performance Architecture
 
-### Authentication
-- Kubeconfig-based authentication
-- RBAC compliance
-- Service account support
+### ⚡ **Optimization Strategies**
 
-### Data Privacy
-- No sensitive data logging
-- Configurable data retention
-- Secure export mechanisms
+#### **Concurrent Processing**
+```go
+// Parallel data collection
+func (c *Client) CollectAllData(ctx context.Context) (*AnalysisData, error) {
+    var wg sync.WaitGroup
+    
+    // Collect different data types in parallel
+    go c.collectNodes(ctx, &wg, results)
+    go c.collectPods(ctx, &wg, results)
+    go c.collectMetrics(ctx, &wg, results)
+    
+    wg.Wait()
+    return aggregateResults(results), nil
+}
+```
 
-## 📊 Performance Characteristics
+#### **Efficient Memory Usage**
+- **Streaming processing** - Process data as it arrives
+- **Garbage collection optimization** - Minimal object allocation
+- **Resource pooling** - Reuse expensive objects
 
-### Scalability
-- Handles clusters with 1000+ nodes
-- Efficient API usage with pagination
-- Memory-optimized data structures
+#### **Smart Caching**
+- **API response caching** - Reduce redundant calls
+- **Computed result caching** - Cache expensive calculations
+- **Time-based invalidation** - Fresh data when needed
 
-### Performance Metrics
-- Startup time: <2 seconds
-- Analysis time: <30 seconds for large clusters
-- Memory usage: <100MB typical
+### 📊 **Scalability Design**
 
-## 🛣️ Extension Points
+#### **Large Cluster Support**
+- **Pagination handling** - Efficient large dataset processing
+- **Resource limiting** - Configurable memory and CPU limits
+- **Timeout management** - Graceful handling of slow clusters
 
-### Adding New Commands
-1. Create new file in `cmd/`
-2. Implement Cobra command structure
-3. Add business logic in `pkg/`
-4. Update help and documentation
+#### **Multi-Cluster Ready**
+- **Context switching** - Easy cluster switching
+- **Parallel analysis** - Multiple clusters simultaneously
+- **Aggregated reporting** - Cross-cluster insights
 
-### Adding New Analysis Types
-1. Extend relevant package in `pkg/kubernetes/`
-2. Add data structures
-3. Implement analysis algorithms
-4. Add export support
+## 🔄 Extension Points
 
-### Adding New Export Formats
-1. Extend `pkg/export/exporter.go`
-2. Implement format-specific logic
-3. Update command flags
-4. Add examples
+### 🔌 **Plugin Architecture**
 
-## 🔄 Future Architecture Considerations
+#### **Analyzer Plugins**
+```go
+// Interface for custom analyzers
+type Analyzer interface {
+    Name() string
+    Analyze(cluster *ClusterData) (*AnalysisResult, error)
+    GetRecommendations(result *AnalysisResult) []Recommendation
+}
 
-### Planned Enhancements
-- **Plugin System**: Extensible architecture
-- **Web Dashboard**: HTTP server mode
-- **Real-time Streaming**: WebSocket support
-- **Machine Learning**: Predictive analytics
-- **Multi-cluster**: Federation support
+// Plugin registration
+func RegisterAnalyzer(analyzer Analyzer) {
+    analyzerRegistry[analyzer.Name()] = analyzer
+}
+```
 
-### Scalability Roadmap
-- **Horizontal scaling**: Multi-instance support
-- **Caching layer**: Redis integration
-- **Database backend**: Persistent storage
-- **API Gateway**: REST API exposure
+#### **Export Plugins**
+```go
+// Interface for custom exporters
+type ExportPlugin interface {
+    Name() string
+    SupportedFormats() []string
+    Export(data interface{}, format string, options ExportOptions) error
+}
+```
+
+### 📈 **Metrics Integration**
+
+#### **Prometheus Integration**
+- **Custom metrics** - k8s-cli specific metrics
+- **Standard metrics** - Kubernetes standard metrics
+- **Alerting rules** - Automated problem detection
+
+#### **Observability**
+- **Structured logging** - Machine-readable logs
+- **Tracing support** - Request tracing capabilities
+- **Health endpoints** - Self-monitoring capabilities
+
+## 🧪 Testing Architecture
+
+### 🎯 **Testing Strategy**
+
+#### **Unit Testing**
+- **Component isolation** - Mock all external dependencies
+- **High coverage** - >80% code coverage target
+- **Fast execution** - <30 seconds full test suite
+
+#### **Integration Testing**
+- **Real cluster testing** - Kind/minikube integration
+- **API contract testing** - Kubernetes API compatibility
+- **Cross-platform testing** - Linux, macOS, Windows
+
+#### **End-to-End Testing**
+- **CLI testing** - Complete command validation
+- **Export validation** - Output format verification
+- **Performance testing** - Large cluster simulation
+
+```go
+// Test structure example
+func TestCostAnalysis(t *testing.T) {
+    // Setup mock cluster
+    cluster := setupMockCluster()
+    
+    // Execute analysis
+    result, err := analyzer.AnalyzeCost(cluster)
+    
+    // Validate results
+    assert.NoError(t, err)
+    assert.NotNil(t, result)
+    assert.Greater(t, result.TotalCost, 0.0)
+}
+```
+
+## 📈 Future Architecture Considerations
+
+### 🌐 **Planned Enhancements**
+
+#### **Multi-Cluster Support**
+- **Federation analysis** - Cross-cluster insights
+- **Cluster comparison** - Comparative analysis
+- **Global optimization** - Multi-cluster recommendations
+
+#### **Machine Learning Integration**
+- **Predictive analytics** - Future resource needs
+- **Anomaly detection** - Unusual pattern identification
+- **Intelligent recommendations** - ML-driven optimization
+
+#### **Web Interface**
+- **Dashboard creation** - Visual cluster analysis
+- **API service** - REST API for external integration
+- **Real-time updates** - Live cluster monitoring
+
+### 🔮 **Scalability Roadmap**
+
+#### **Enterprise Features**
+- **RBAC integration** - Fine-grained access control
+- **Audit logging** - Compliance and tracking
+- **Multi-tenancy** - Isolated analysis per team
+
+#### **Cloud Integration**
+- **Cloud cost integration** - Real cloud provider costs
+- **Resource optimization** - Cloud-specific recommendations
+- **Automated scaling** - Dynamic resource adjustment
+
+## 📚 Architecture Documentation Standards
+
+### 📖 **Documentation Requirements**
+
+#### **Component Documentation**
+- **Interface documentation** - All public interfaces documented
+- **Design decisions** - Architecture decision records (ADRs)
+- **Performance characteristics** - Expected performance profiles
+
+#### **Code Documentation**
+- **GoDoc comments** - All exported functions documented
+- **Example usage** - Practical examples for complex functions
+- **Error handling** - Documented error conditions
+
+#### **Architecture Updates**
+- **Change documentation** - Document architectural changes
+- **Migration guides** - Help for breaking changes
+- **Performance impact** - Document performance implications
+
+---
+
+## 🎯 Summary
+
+The k8s-cli architecture is designed for:
+
+- **🚀 Performance** - Efficient, concurrent operations
+- **🔒 Security** - Enterprise-grade security practices
+- **🔧 Maintainability** - Clear separation of concerns
+- **📈 Scalability** - Support for large clusters and teams
+- **🔌 Extensibility** - Plugin architecture for customization
+
+This architecture enables k8s-cli to serve as a comprehensive platform for Kubernetes analysis, from small development clusters to large enterprise deployments.
+
+---
+
+**Last Updated:** 2025-08-14  
+**Version:** 2.0.6  
+**Architecture Version:** 2.1
