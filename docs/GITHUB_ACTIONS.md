@@ -165,7 +165,7 @@ The workflow automatically comments on PRs with:
 
 **Multi-Platform Testing:**
 - **OS**: Ubuntu, macOS, Windows
-- **Go Versions**: 1.20, 1.21, 1.22
+- **Go Versions**: 1.22, 1.23, 1.24 (updated for k8s.io v0.33.3 compatibility)
 
 **Multi-Architecture Builds:**
 - Linux: AMD64, ARM64
@@ -248,7 +248,7 @@ skip_checks: ${{ github.event_name == 'push' }}
 ```yaml
 strategy:
   matrix:
-    go-version: ['1.20', '1.21', '1.22']  # Add/remove versions
+    go-version: ['1.22', '1.23', '1.24']  # Updated for k8s.io compatibility
 ```
 
 **Platform Matrix:**
@@ -510,6 +510,7 @@ git commit -m "chore: update dependencies"
 - [Make Commands Guide](MAKE_GUIDE.md)
 - [Development Guide](DEVELOPMENT.md)
 - [Examples and Usage](EXAMPLES.md)
+- [Troubleshooting Guide](TROUBLESHOOTING.md) - **🆕 NEW: Comprehensive error resolution guide**
 
 ### 🛠️ GitHub Actions Resources
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
