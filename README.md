@@ -2,7 +2,8 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.24.5+-00ADD8?style=for-the-badge&logo=go)](https://golang.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.0.1-green?style=for-the-badge)](VERSION)
+[![Version](https://img.shields.io/badge/Version-2.0.6-green?style=for-the-badge)](VERSION)
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-Automated-brightgreen?style=for-the-badge)](docs/GITHUB_ACTIONS.md)
 [![Documentation](https://img.shields.io/badge/Docs-Complete-success?style=for-the-badge)](DOCUMENTATION_INDEX.md)
 
 > **Comprehensive Kubernetes cluster analysis, cost optimization, and monitoring platform**
@@ -459,16 +460,23 @@ The project includes complete VS Code configuration:
 
 ## 📚 Documentation
 
-### Complete Documentation Suite
+### 🎯 Core Documentation
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - System design and components
 - **[API Documentation](docs/API.md)** - Internal API reference
 - **[Development Guide](docs/DEVELOPMENT.md)** - Contributing and workflows
 - **[Usage Examples](docs/EXAMPLES.md)** - Comprehensive command examples
 - **[Documentation Index](DOCUMENTATION_INDEX.md)** - Master documentation index
 
-### Quick References
+### 🚀 CI/CD & Automation
+- **[GitHub Actions Guide](docs/GITHUB_ACTIONS.md)** - Complete CI/CD automation
+- **[CI/CD Development Guide](docs/CI_CD_DEVELOPMENT_GUIDE.md)** - Development with automated workflows
+- **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - 🆕 Comprehensive error resolution
+- **[Release Automation](docs/RELEASE_AUTOMATION.md)** - Automated release management
+- **[Make Commands](docs/MAKE_GUIDE.md)** - Development workflow automation
+
+### 🔧 Quick References
 - **[Command Examples](docs/EXAMPLES.md)** - Copy-paste ready examples
-- **[Troubleshooting](docs/EXAMPLES.md#troubleshooting-common-issues)** - Common issues and solutions
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - 🆕 Complete issue resolution guide
 - **[Configuration](docs/EXAMPLES.md#configuration-examples)** - Custom configuration options
 
 ---
