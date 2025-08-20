@@ -5,6 +5,31 @@ All notable changes to k8s-cli will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.1.0] - 2025-08-20
+
+### 🚀 Release Summary
+
+This release includes the following changes and improvements.
+
+### ✨ Added
+- feat: add catalog of backstage
+- feat: fix
+
+### 🔧 Enhanced
+
+### 🐛 Fixed
+- fix: update GitHub Actions Go version from 1.23 to 1.24
+
+### 🛠️ Technical
+- Git commit: 3f6dd89
+- Build date: 2025-08-20
+- Branch: main
+
+### 📊 Changes Summary
+- 6 commits since last release
+
+---
+
 ## [v2.0.6] - 2025-08-14
 
 ### 🚀 Release Summary
