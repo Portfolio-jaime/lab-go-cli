@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: Go-cli k8s
+  name: go-cli-k8s
   description: Cli of GO for Kubernetes
   annotations:
     github.com/project-slug: Portfolio-jaime/lab-go-cli
