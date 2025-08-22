@@ -1,0 +1,28 @@
+site_name: 'k8s-cli'
+site_description: 'Enterprise Kubernetes Analysis Platform - CLI tool for cluster analysis, cost optimization, and monitoring'
+repo_url: https://github.com/Portfolio-jaime/lab-go-cli
+edit_uri: edit/main/docs
+
+plugins:
+  - techdocs-core
+
+# For sidebar navigation on https://backstage.io/, see `microsite/sidebars.json`
+nav:
+  - Home: 'index.md'
+  - Getting Started:
+      - Installation: 'installation.md'
+      - Quick Start: 'quickstart.md'
+      - Examples: 'EXAMPLES.md'
+  - Architecture:
+      - Overview: 'ARCHITECTURE.md' 
+      - Commands: 'COMMAND_DIAGRAM.md'
+  - Development:
+      - Setup: 'DEVELOPMENT.md'
+      - Make Guide: 'MAKE_GUIDE.md'
+      - DevContainer: 'DEVCONTAINER.md'
+  - CI/CD:
+      - Overview: 'CI_CD_CONSOLIDATED.md'
+      - GitHub Actions: 'GITHUB_ACTIONS.md'
+      - Release Process: 'RELEASE_AUTOMATION.md'
+  - API Reference: 'API.md'
+  - Troubleshooting: 'TROUBLESHOOTING.md'

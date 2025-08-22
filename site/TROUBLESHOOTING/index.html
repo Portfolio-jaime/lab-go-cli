@@ -1,0 +1,2220 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Enterprise Kubernetes Analysis Platform - CLI tool for cluster analysis, cost optimization, and monitoring">
+      
+      
+      
+      
+        <link rel="prev" href="../API/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>Troubleshooting - k8s-cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#troubleshooting-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="k8s-cli" class="md-header__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            k8s-cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Troubleshooting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="k8s-cli" class="md-nav__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    k8s-cli
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXAMPLES/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMMAND_DIAGRAM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVELOPMENT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MAKE_GUIDE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Make Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVCONTAINER/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DevContainer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CI/CD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            CI/CD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CI_CD_CONSOLIDATED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GITHUB_ACTIONS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_AUTOMATION/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Release Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-github-actions-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Common GitHub Actions Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Common GitHub Actions Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go-version-compatibility-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Go Version Compatibility Errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-platform-test-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Cross-Platform Test Failures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linting-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Linting Errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile-find-command-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Makefile Find Command Errors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔨 Build Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔨 Build Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binary-path-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Binary Path Resolution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Missing Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testing Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testing Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integration-test-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Integration Test Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubeconfig-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Kubeconfig Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Security &amp; Dependencies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Security &amp; Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-scan-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Vulnerability Scan Failures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Dependency Conflicts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Development Environment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Development Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ide-integration-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 IDE Integration Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-development-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Local Development Setup
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Release Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#release-script-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Release Script Failures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Version Conflicts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-release-creation-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 GitHub Release Creation Fails
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Debugging Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Debugging Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-debugging-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Workflow Debugging Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-workflow-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Common Workflow Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-code-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Error Code Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Error Code Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exit-code-meanings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Code Meanings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-error-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Verification Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Verification Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Local Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 CI Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Verification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Getting Help
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#support-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Support Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#emergency-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Emergency Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prevention-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Prevention Strategies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Prevention Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#avoiding-common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ Avoiding Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Success Metrics
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-github-actions-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Common GitHub Actions Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Common GitHub Actions Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go-version-compatibility-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Go Version Compatibility Errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-platform-test-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Cross-Platform Test Failures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linting-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Linting Errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile-find-command-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Makefile Find Command Errors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔨 Build Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔨 Build Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binary-path-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Binary Path Resolution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Missing Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testing Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testing Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integration-test-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Integration Test Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubeconfig-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Kubeconfig Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Security &amp; Dependencies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Security &amp; Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vulnerability-scan-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Vulnerability Scan Failures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Dependency Conflicts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Development Environment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Development Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ide-integration-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 IDE Integration Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-development-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Local Development Setup
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Release Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#release-script-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Release Script Failures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Version Conflicts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-release-creation-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 GitHub Release Creation Fails
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Debugging Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Debugging Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-debugging-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Workflow Debugging Steps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-workflow-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Common Workflow Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-code-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Error Code Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Error Code Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exit-code-meanings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Code Meanings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-error-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Verification Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Verification Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Local Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 CI Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Verification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Getting Help
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#support-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Support Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#emergency-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Emergency Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prevention-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Prevention Strategies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Prevention Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#avoiding-common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ Avoiding Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Success Metrics
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Portfolio-jaime/lab-go-cli/edit/main/docs/TROUBLESHOOTING.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="troubleshooting-guide">🔧 Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Comprehensive troubleshooting guide for k8s-cli development and CI/CD issues</strong></p>
+</blockquote>
+<hr />
+<h2 id="overview">📋 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This guide covers common issues encountered during k8s-cli development, building, testing, and CI/CD workflows, along with their solutions.</p>
+<hr />
+<h2 id="common-github-actions-issues">🚨 Common GitHub Actions Issues<a class="headerlink" href="#common-github-actions-issues" title="Permanent link">&para;</a></h2>
+<h3 id="go-version-compatibility-errors">🐛 Go Version Compatibility Errors<a class="headerlink" href="#go-version-compatibility-errors" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Security scan (govulncheck) fails with errors like:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>package requires newer Go version go1.24
+cannot range over seq (variable of type iter.Seq[E])
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Cause:</strong> Kubernetes dependencies (k8s.io v0.33.3) require Go 1.24, but workflows use older versions.</p>
+<p><strong>Solution:</strong>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Update all GitHub Actions workflows (.github/workflows/*.yml)</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">🔧 Setup Go</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-go@v4</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">go-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.24&#39;</span><span class="w">  </span><span class="c1"># Changed from &#39;1.22&#39; or &#39;1.23&#39;</span>
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Files to update:</strong>
+- <code>.github/workflows/ci.yml</code>
+- <code>.github/workflows/pull-request.yml</code> 
+- <code>.github/workflows/release.yml</code></p>
+<p><strong>Verification:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check go.mod matches</span>
+grep<span class="w"> </span><span class="s2">&quot;go 1.24&quot;</span><span class="w"> </span>go.mod
+</code></pre></div></td></tr></table></div></p>
+<h3 id="cross-platform-test-failures">🐛 Cross-Platform Test Failures<a class="headerlink" href="#cross-platform-test-failures" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Tests fail on Windows CI with binary path issues:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>TestVersionFlag: binary not found
+exec: &quot;k8s-cli&quot;: executable file not found in $PATH
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Cause:</strong> Windows requires <code>.exe</code> extension and has different make/build tools.</p>
+<p><strong>Solution:</strong> Add Windows CI skip logic:
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestVersionFlag</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Skip integration tests on Windows in CI due to make/build complexity</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOOS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;windows&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;GITHUB_ACTIONS&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="s">&quot;Skipping integration test on Windows in CI&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Rest of test logic...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Files to update:</strong>
+- <code>cmd/root_test.go</code> - Add skip logic to all integration tests</p>
+<h3 id="linting-errors">🐛 Linting Errors<a class="headerlink" href="#linting-errors" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Multiple linting failures:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>errcheck: Error return value not checked
+unused: function not used  
+gosimple: unnecessary nil check
+deprecated: strings.Title is deprecated
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li>
+<p><strong>Fix errcheck errors:</strong>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Before: </span>
+<span class="nx">writer</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;data&quot;</span><span class="p">})</span>
+
+<span class="c1">// After:</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">writer</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;data&quot;</span><span class="p">});</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;failed to write: %w&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Remove unused imports/functions:</strong>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Remove unused imports and functions completely</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Fix gosimple issues:</strong>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Before:</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">Events</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">Events</span><span class="p">)</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+
+<span class="c1">// After:  </span>
+<span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">Events</span><span class="p">)</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Replace deprecated functions:</strong>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Before:</span>
+<span class="nx">statusStr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Title</span><span class="p">(</span><span class="nx">status</span><span class="p">)</span>
+
+<span class="c1">// After:</span>
+<span class="nx">statusStr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">ToUpper</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">status</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">ToLower</span><span class="p">(</span><span class="nx">status</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+</ol>
+<h3 id="makefile-find-command-errors">🐛 Makefile Find Command Errors<a class="headerlink" href="#makefile-find-command-errors" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Find command syntax errors in CI:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>find: paths must precede expression: &#39;./.git/HEAD&#39;
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Cause:</strong> Incorrect find command syntax mixing <code>-not -path</code> with <code>.git</code> patterns.</p>
+<p><strong>Solution:</strong>
+<div class="language-makefile highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c"># Before:</span>
+<span class="nv">GO_FILES</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>shell<span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s1">&#39;*.go&#39;</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-not<span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/vendor/*&quot;</span><span class="w"> </span>-not<span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/.git/*&quot;</span><span class="k">)</span>
+
+<span class="c"># After:</span>
+<span class="nv">GO_FILES</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>shell<span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s1">&#39;*.go&#39;</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>vendor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;\.git&#39;</span><span class="k">)</span>
+</code></pre></div></td></tr></table></div></p>
+<p><strong>File:</strong> <code>Makefile.dev:27</code></p>
+<hr />
+<h2 id="build-issues">🔨 Build Issues<a class="headerlink" href="#build-issues" title="Permanent link">&para;</a></h2>
+<h3 id="binary-path-resolution">🐛 Binary Path Resolution<a class="headerlink" href="#binary-path-resolution" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Tests can't find the built binary across platforms.</p>
+<p><strong>Solution:</strong> Create cross-platform binary path helper:
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// getBinaryPath returns the correct binary path for the current OS</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">getBinaryPath</span><span class="p">()</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">binaryName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;k8s-cli&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOOS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;windows&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">binaryName</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;.exe&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&quot;..&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bin&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">binaryName</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+<h3 id="missing-dependencies">🐛 Missing Dependencies<a class="headerlink" href="#missing-dependencies" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Build fails with missing go.sum entries.</p>
+<p><strong>Solution:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Regenerate go.sum</span>
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+go<span class="w"> </span>mod<span class="w"> </span>download
+</code></pre></div></td></tr></table></div></p>
+<hr />
+<h2 id="testing-issues">🧪 Testing Issues<a class="headerlink" href="#testing-issues" title="Permanent link">&para;</a></h2>
+<h3 id="integration-test-setup">🐛 Integration Test Setup<a class="headerlink" href="#integration-test-setup" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Tests fail because binary doesn't exist.</p>
+<p><strong>Solution:</strong> Auto-build binary in tests:
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestVersionFlag</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">binaryPath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">getBinaryPath</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c1">// Build binary if it doesn&#39;t exist</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">binaryPath</span><span class="p">);</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">buildCmd</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;make&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Makefile.dev&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;build&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">buildCmd</span><span class="p">.</span><span class="nx">Dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;../&quot;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">buildCmd</span><span class="p">.</span><span class="nx">Run</span><span class="p">();</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">t</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;Failed to build binary: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Test continues...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+<h3 id="kubeconfig-dependencies">🐛 Kubeconfig Dependencies<a class="headerlink" href="#kubeconfig-dependencies" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Tests fail when no Kubernetes config available.</p>
+<p><strong>Solution:</strong> Skip tests gracefully:
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestVersionVsVersionCommand</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Skip this test if no kubeconfig is available</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;HOME&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/.kube/config&quot;</span><span class="p">);</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="s">&quot;Skipping test: no kubeconfig found&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Test continues...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+<hr />
+<h2 id="security-dependencies">🔐 Security &amp; Dependencies<a class="headerlink" href="#security-dependencies" title="Permanent link">&para;</a></h2>
+<h3 id="vulnerability-scan-failures">🐛 Vulnerability Scan Failures<a class="headerlink" href="#vulnerability-scan-failures" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> govulncheck fails due to Go version mismatch.</p>
+<p><strong>Root Cause:</strong> Dependencies require newer Go version than CI uses.</p>
+<p><strong>Solution Steps:</strong>
+1. Check dependency requirements:
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>go<span class="w"> </span>list<span class="w"> </span>-m<span class="w"> </span>all<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>k8s.io
+</code></pre></div></td></tr></table></div></p>
+<ol>
+<li>
+<p>Update Go version in all workflows:
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">go-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.24&#39;</span><span class="w">  </span><span class="c1"># Match k8s.io requirements</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p>Verify locally:
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>govulncheck<span class="w"> </span>./...
+</code></pre></div></td></tr></table></div></p>
+</li>
+</ol>
+<h3 id="dependency-conflicts">🐛 Dependency Conflicts<a class="headerlink" href="#dependency-conflicts" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Module conflicts or missing dependencies.</p>
+<p><strong>Solution:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Clean and regenerate modules</span>
+go<span class="w"> </span>clean<span class="w"> </span>-modcache
+go<span class="w"> </span>mod<span class="w"> </span>download
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+go<span class="w"> </span>mod<span class="w"> </span>verify
+</code></pre></div></td></tr></table></div></p>
+<hr />
+<h2 id="development-environment">🎯 Development Environment<a class="headerlink" href="#development-environment" title="Permanent link">&para;</a></h2>
+<h3 id="ide-integration-issues">🐛 IDE Integration Issues<a class="headerlink" href="#ide-integration-issues" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> VS Code or other IDEs show errors despite successful builds.</p>
+<p><strong>Solution:</strong>
+1. Reload Go modules:
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>go<span class="w"> </span>clean<span class="w"> </span>-cache
+go<span class="w"> </span>mod<span class="w"> </span>download
+</code></pre></div></td></tr></table></div></p>
+<ol>
+<li>VS Code specific:
+<div class="language-json highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// .vscode/settings.json</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;go.toolsManagement.checkForUpdates&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;go.useLanguageServer&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;go.buildTags&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;go.lintTool&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;golangci-lint&quot;</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></li>
+</ol>
+<h3 id="local-development-setup">🐛 Local Development Setup<a class="headerlink" href="#local-development-setup" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Make commands fail or tools missing.</p>
+<p><strong>Solution:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Setup development environment</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-setup
+
+<span class="c1"># Or manually install tools</span>
+go<span class="w"> </span>install<span class="w"> </span>github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+go<span class="w"> </span>install<span class="w"> </span>golang.org/x/vuln/cmd/govulncheck@latest
+go<span class="w"> </span>install<span class="w"> </span>github.com/air-verse/air@latest
+</code></pre></div></td></tr></table></div></p>
+<hr />
+<h2 id="release-issues">🚀 Release Issues<a class="headerlink" href="#release-issues" title="Permanent link">&para;</a></h2>
+<h3 id="release-script-failures">🐛 Release Script Failures<a class="headerlink" href="#release-script-failures" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Release script fails in non-interactive mode.</p>
+<p><strong>Solution:</strong> Use non-interactive flags:
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># scripts/release.sh - Add non-interactive flags</span>
+git<span class="w"> </span>config<span class="w"> </span>--local<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;action@github.com&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--local<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;GitHub Action&quot;</span>
+git<span class="w"> </span>add<span class="w"> </span>-A
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;release: version bump&quot;</span><span class="w"> </span>--no-verify
+</code></pre></div></td></tr></table></div></p>
+<h3 id="version-conflicts">🐛 Version Conflicts<a class="headerlink" href="#version-conflicts" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Version tags already exist or conflicts.</p>
+<p><strong>Solution:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check existing tags</span>
+git<span class="w"> </span>tag<span class="w"> </span>-l
+
+<span class="c1"># Delete problematic tag locally and remotely</span>
+git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v2.0.6
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>:refs/tags/v2.0.6
+
+<span class="c1"># Re-run release process</span>
+</code></pre></div></td></tr></table></div></p>
+<h3 id="github-release-creation-fails">🐛 GitHub Release Creation Fails<a class="headerlink" href="#github-release-creation-fails" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Release creation fails due to permissions.</p>
+<p><strong>Cause:</strong> Insufficient GITHUB_TOKEN permissions.</p>
+<p><strong>Solution:</strong>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># In workflow file</span>
+<span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">      </span><span class="c1"># Required for creating releases</span>
+<span class="w">  </span><span class="nt">pull-requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">  </span><span class="nt">checks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">  </span><span class="nt">issues</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+</code></pre></div></td></tr></table></div></p>
+<hr />
+<h2 id="debugging-workflows">🔍 Debugging Workflows<a class="headerlink" href="#debugging-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="workflow-debugging-steps">📊 Workflow Debugging Steps<a class="headerlink" href="#workflow-debugging-steps" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Check workflow status:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Go to GitHub → Repository → Actions</span>
+<span class="c1"># Click on failing workflow run</span>
+<span class="c1"># Review job logs section by section</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Local reproduction:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Reproduce CI environment</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>ci-test
+./scripts/pre-release-checks.sh
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Enable debug logging:</strong>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Add to workflow for detailed logs</span>
+<span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ACTIONS_STEP_DEBUG</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">ACTIONS_RUNNER_DEBUG</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+</ol>
+<h3 id="common-workflow-fixes">🔄 Common Workflow Fixes<a class="headerlink" href="#common-workflow-fixes" title="Permanent link">&para;</a></h3>
+<p><strong>Restart failed jobs:</strong>
+- GitHub → Actions → Failed workflow → "Re-run failed jobs"</p>
+<p><strong>Skip problematic checks temporarily:</strong>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># In workflow file, add condition</span>
+<span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.event_name != &#39;push&#39;</span><span class="w">  </span><span class="c1"># Skip on automatic pushes</span>
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Force push after fixes:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--force-with-lease
+</code></pre></div></td></tr></table></div></p>
+<hr />
+<h2 id="error-code-reference">📚 Error Code Reference<a class="headerlink" href="#error-code-reference" title="Permanent link">&para;</a></h2>
+<h3 id="exit-code-meanings">Exit Code Meanings<a class="headerlink" href="#exit-code-meanings" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Common Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Build failure</td>
+<td>Compilation errors, missing dependencies</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Test failure</td>
+<td>Failed tests, missing test dependencies</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Lint failure</td>
+<td>Code quality issues, formatting problems</td>
+</tr>
+<tr>
+<td>125</td>
+<td>Container error</td>
+<td>Docker/container setup issues</td>
+</tr>
+<tr>
+<td>126</td>
+<td>Permission error</td>
+<td>File permissions, execution rights</td>
+</tr>
+<tr>
+<td>127</td>
+<td>Command not found</td>
+<td>Missing tools, PATH issues</td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-error-patterns">Common Error Patterns<a class="headerlink" href="#common-error-patterns" title="Permanent link">&para;</a></h3>
+<p><strong>Go Module Errors:</strong>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>go: module not found
+go.sum mismatch
+</code></pre></div></td></tr></table></div>
+→ Run <code>go mod tidy &amp;&amp; go mod download</code></p>
+<p><strong>Build Errors:</strong>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>undefined: SomeFunction
+cannot find package
+</code></pre></div></td></tr></table></div>
+→ Check imports, run <code>go mod tidy</code></p>
+<p><strong>Test Errors:</strong>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>binary file not found
+command not executable
+</code></pre></div></td></tr></table></div>
+→ Run <code>make build</code> first, check PATH</p>
+<hr />
+<h2 id="verification-steps">✅ Verification Steps<a class="headerlink" href="#verification-steps" title="Permanent link">&para;</a></h2>
+<p>After fixing issues, verify everything works:</p>
+<h3 id="local-verification">🎯 Local Verification<a class="headerlink" href="#local-verification" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Full local test suite</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>clean
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>build<span class="w">  </span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>lint
+</code></pre></div></td></tr></table></div>
+<h3 id="ci-verification">🔍 CI Verification<a class="headerlink" href="#ci-verification" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Push changes and monitor workflows</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: resolve [specific issue]&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+
+<span class="c1"># Check GitHub Actions for green builds</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="release-verification">🚀 Release Verification<a class="headerlink" href="#release-verification" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Test release process</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-dry-run
+<span class="c1"># Or trigger manual release in GitHub Actions</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="getting-help">🆘 Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
+<h3 id="support-resources">📞 Support Resources<a class="headerlink" href="#support-resources" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Documentation:</strong></p>
+<ul>
+<li><a href="../GITHUB_ACTIONS/">GitHub Actions Guide</a></li>
+<li><a href="../DEVELOPMENT/">Development Guide</a></li>
+<li><a href="../MAKE_GUIDE/">Make Commands</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Community:</strong></p>
+<ul>
+<li>GitHub Issues for bug reports</li>
+<li>GitHub Discussions for questions</li>
+<li>Conventional Commits guidelines</li>
+</ul>
+</li>
+<li>
+<p><strong>Debug Information:</strong>
+   When reporting issues, include:</p>
+<ul>
+<li>Go version: <code>go version</code></li>
+<li>OS/Architecture: <code>go env GOOS GOARCH</code></li>
+<li>Workflow logs (from GitHub Actions)</li>
+<li>Local error output</li>
+</ul>
+</li>
+</ol>
+<h3 id="emergency-fixes">🔧 Emergency Fixes<a class="headerlink" href="#emergency-fixes" title="Permanent link">&para;</a></h3>
+<p><strong>Critical production issues:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Skip CI checks for hotfixes</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: critical security patch [skip ci]&quot;</span>
+<span class="c1"># Use manual release with &quot;skip checks&quot; enabled</span>
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Workflow completely broken:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Temporarily disable workflows</span>
+git<span class="w"> </span>mv<span class="w"> </span>.github/workflows<span class="w"> </span>.github/workflows.disabled
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;temp: disable workflows for debugging&quot;</span>
+<span class="c1"># Fix issues, then restore</span>
+git<span class="w"> </span>mv<span class="w"> </span>.github/workflows.disabled<span class="w"> </span>.github/workflows
+</code></pre></div></td></tr></table></div></p>
+<hr />
+<h2 id="prevention-strategies">🎯 Prevention Strategies<a class="headerlink" href="#prevention-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="avoiding-common-issues">🛡️ Avoiding Common Issues<a class="headerlink" href="#avoiding-common-issues" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Always test locally before pushing:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Keep dependencies updated:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>go<span class="w"> </span>get<span class="w"> </span>-u<span class="w"> </span>./...
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Use conventional commits:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add new feature&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: resolve bug&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update documentation&quot;</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Monitor workflow health:</strong>
+- Set up notifications for failed workflows
+- Review dependency audit results weekly
+- Test on multiple platforms when possible</p>
+</li>
+</ol>
+<hr />
+<p><strong>💡 Pro Tip:</strong> Most issues can be prevented by running <code>make -f Makefile.dev pre-commit</code> before pushing. This catches 80% of CI failures early!</p>
+<hr />
+<h2 id="success-metrics">📈 Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
+<p>After implementing these fixes, you should see:</p>
+<p>✅ <strong>All GitHub Actions workflows passing</strong>
+✅ <strong>Cross-platform tests working</strong><br />
+✅ <strong>No linting or security scan errors</strong>
+✅ <strong>Reliable release automation</strong>
+✅ <strong>Fast feedback on pull requests</strong></p>
+<p><strong>🎉 Your k8s-cli project now has rock-solid CI/CD!</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../API/" class="md-footer__link md-footer__link--prev" aria-label="Previous: API Reference">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                API Reference
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer", "content.action.edit"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../search/main.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2252 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Enterprise Kubernetes Analysis Platform - CLI tool for cluster analysis, cost optimization, and monitoring">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>🚀 CI/CD Development Guide - k8s-cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cicd-development-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="k8s-cli" class="md-header__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            k8s-cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              🚀 CI/CD Development Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="k8s-cli" class="md-nav__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    k8s-cli
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXAMPLES/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMMAND_DIAGRAM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVELOPMENT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MAKE_GUIDE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Make Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVCONTAINER/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DevContainer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CI/CD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            CI/CD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CI_CD_CONSOLIDATED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GITHUB_ACTIONS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_AUTOMATION/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Release Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TROUBLESHOOTING/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Development Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-start-development-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌟 Quick Start Development Cycle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Pre-commit Checklist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 CI/CD Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 CI/CD Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-workflow-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Understanding Workflow Triggers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Understanding Workflow Triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic Triggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Triggers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-message-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Commit Message Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testing Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testing Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Test Levels
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Test Levels">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-unit-tests-local-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Unit Tests (Local &amp; CI)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-integration-tests-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Integration Tests (CI)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-cross-platform-tests-ci-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Cross-Platform Tests (CI Only)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writing-ci-friendly-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Writing CI-Friendly Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Writing CI-Friendly Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cross-platform-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-Platform Compatibility
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubeconfig-dependent-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubeconfig-Dependent Tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎭 Development Scenarios
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎭 Development Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feature-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌟 Feature Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌟 Feature Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-start-new-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Start New Feature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-develop-with-auto-reload" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Develop with Auto-reload
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-implement-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Implement Feature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-add-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Add Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-verify-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Verify Quality
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-commit-and-push" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Commit and Push
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-create-pull-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Create Pull Request
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-automatic-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Automatic Release
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fix-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fix Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Bug Fix Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-identify-and-reproduce" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Identify and Reproduce
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fix-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Fix Issue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verify-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Verify Fix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-emergency-release-if-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Emergency Release (if critical)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Release Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Release Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-planned-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Planned Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pre-release-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Pre-release Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-release-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Release Validation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-quality-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ Code Quality Standards
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛡️ Code Quality Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linting-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Linting Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Testing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔒 Security Standards
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Advanced Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Advanced Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-make-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Custom Make Targets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 CI/CD Customization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 CI/CD Customization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skip-ci-for-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Skip CI for Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-workflow-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Workflow Triggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-specific-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment-Specific Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Monitoring &amp; Metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Monitoring &amp; Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cicd-health-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 CI/CD Health Indicators
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development-velocity" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Development Velocity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-development-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Common Development Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Common Development Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-development-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Local Development Problems
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Local Development Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go-version-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Go Version Mismatch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Module Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 CI/CD Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Best Practices Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Best Practices Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dos" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Do's
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donts" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ Don'ts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎉 Success Indicators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎉 Success Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#green-cicd-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Green CI/CD Pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-code-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 High Code Quality
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smooth-development-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Smooth Development Experience
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#productive-team-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Productive Team Workflow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Essential Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📖 Related Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Portfolio-jaime/lab-go-cli/edit/main/docs/CI_CD_DEVELOPMENT_GUIDE.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="cicd-development-guide">🚀 CI/CD Development Guide<a class="headerlink" href="#cicd-development-guide" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Complete guide for developing with k8s-cli's automated CI/CD pipeline</strong></p>
+</blockquote>
+<hr />
+<h2 id="overview">📋 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This guide shows how to develop effectively with k8s-cli's automated CI/CD pipeline, including best practices, workflow integration, and troubleshooting.</p>
+<hr />
+<h2 id="development-workflow">🛠️ Development Workflow<a class="headerlink" href="#development-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="quick-start-development-cycle">🌟 Quick Start Development Cycle<a class="headerlink" href="#quick-start-development-cycle" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 1. Setup development environment</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-setup
+
+<span class="c1"># 2. Start development with auto-rebuild</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>watch
+
+<span class="c1"># 3. Make changes and test locally</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit
+
+<span class="c1"># 4. Commit with conventional commits</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add new component detection&quot;</span>
+
+<span class="c1"># 5. Push and let CI handle the rest</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/component-detection
+</code></pre></div></td></tr></table></div>
+<h3 id="pre-commit-checklist">🎯 Pre-commit Checklist<a class="headerlink" href="#pre-commit-checklist" title="Permanent link">&para;</a></h3>
+<p>Always run before committing:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Complete quality check suite</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit
+
+<span class="c1"># This runs:</span>
+<span class="c1"># ✅ Code formatting (gofmt, goimports)</span>
+<span class="c1"># ✅ Linting (golangci-lint)  </span>
+<span class="c1"># ✅ Security scan (govulncheck)</span>
+<span class="c1"># ✅ Unit tests with coverage</span>
+<span class="c1"># ✅ Build verification</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="cicd-integration">🔄 CI/CD Integration<a class="headerlink" href="#cicd-integration" title="Permanent link">&para;</a></h2>
+<h3 id="understanding-workflow-triggers">📊 Understanding Workflow Triggers<a class="headerlink" href="#understanding-workflow-triggers" title="Permanent link">&para;</a></h3>
+<h4 id="automatic-triggers">Automatic Triggers<a class="headerlink" href="#automatic-triggers" title="Permanent link">&para;</a></h4>
+<p><strong>Pull Request Creation/Update:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/new-feature
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: implement new feature&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/new-feature
+<span class="c1"># → Creates PR → Triggers quality checks</span>
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Push to Main (Automatic Release):</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Feature commit triggers minor release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add Helm component detection&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+<span class="c1"># → Auto-release: v2.1.0</span>
+
+<span class="c1"># Bug fix triggers patch release  </span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: resolve memory leak in scanning&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+<span class="c1"># → Auto-release: v2.0.1</span>
+
+<span class="c1"># Breaking change triggers major release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat!: restructure CLI interface</span>
+
+<span class="s2">BREAKING CHANGE: command structure has changed&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+<span class="c1"># → Auto-release: v3.0.0</span>
+</code></pre></div></td></tr></table></div></p>
+<h4 id="manual-triggers">Manual Triggers<a class="headerlink" href="#manual-triggers" title="Permanent link">&para;</a></h4>
+<p><strong>Manual Release:</strong>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># GitHub → Actions → &quot;🚀 Automated Release&quot; → Run workflow</span>
+<span class="c1"># Select: patch/minor/major</span>
+<span class="c1"># Options: skip checks (for hotfixes), create GitHub release</span>
+</code></pre></div></td></tr></table></div></p>
+<h3 id="commit-message-strategy">🎯 Commit Message Strategy<a class="headerlink" href="#commit-message-strategy" title="Permanent link">&para;</a></h3>
+<p>Use <a href="https://conventionalcommits.org/">Conventional Commits</a> for automatic release management:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Types that trigger releases:</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: new feature&quot;</span><span class="w">     </span><span class="c1"># → Minor release (1.1.0)</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: bug fix&quot;</span><span class="w">         </span><span class="c1"># → Patch release (1.0.1)  </span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;perf: performance&quot;</span><span class="w">    </span><span class="c1"># → Patch release (1.0.1)</span>
+
+<span class="c1"># Breaking changes:</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat!: breaking change&quot;</span><span class="w">           </span><span class="c1"># → Major release (2.0.0)</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: change</span>
+
+<span class="s2">BREAKING CHANGE: details&quot;</span><span class="w">                        </span><span class="c1"># → Major release (2.0.0)</span>
+
+<span class="c1"># Types that don&#39;t trigger releases:</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update readme&quot;</span><span class="w">    </span><span class="c1"># → No release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: update deps&quot;</span><span class="w">     </span><span class="c1"># → No release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test: add tests&quot;</span><span class="w">        </span><span class="c1"># → No release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;ci: fix workflow&quot;</span><span class="w">       </span><span class="c1"># → No release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;style: formatting&quot;</span><span class="w">      </span><span class="c1"># → No release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: cleanup&quot;</span><span class="w">      </span><span class="c1"># → No release</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="testing-strategy">🧪 Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="test-levels">🎯 Test Levels<a class="headerlink" href="#test-levels" title="Permanent link">&para;</a></h3>
+<h4 id="1-unit-tests-local-ci">1. Unit Tests (Local &amp; CI)<a class="headerlink" href="#1-unit-tests-local-ci" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Run unit tests locally</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># With coverage</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-coverage
+</code></pre></div></td></tr></table></div>
+<h4 id="2-integration-tests-ci">2. Integration Tests (CI)<a class="headerlink" href="#2-integration-tests-ci" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Run integration tests locally (requires cluster)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-integration
+
+<span class="c1"># CI automatically:</span>
+<span class="c1"># - Sets up kind cluster</span>
+<span class="c1"># - Runs integration tests</span>
+<span class="c1"># - Cleans up resources</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="3-cross-platform-tests-ci-only">3. Cross-Platform Tests (CI Only)<a class="headerlink" href="#3-cross-platform-tests-ci-only" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># CI automatically tests on:</span>
+<span class="c1"># - Ubuntu 22.04 (Linux AMD64)</span>
+<span class="c1"># - macOS 13 (Darwin AMD64)  </span>
+<span class="c1"># - Windows 2022 (Windows AMD64)</span>
+<span class="c1"># - Multiple Go versions (1.22, 1.23, 1.24)</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="writing-ci-friendly-tests">🔧 Writing CI-Friendly Tests<a class="headerlink" href="#writing-ci-friendly-tests" title="Permanent link">&para;</a></h3>
+<h4 id="cross-platform-compatibility">Cross-Platform Compatibility<a class="headerlink" href="#cross-platform-compatibility" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestVersionFlag</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Skip integration tests on Windows in CI</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOOS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;windows&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;GITHUB_ACTIONS&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="s">&quot;Skipping integration test on Windows in CI&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Use cross-platform binary path</span>
+<span class="w">    </span><span class="nx">binaryPath</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">getBinaryPath</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c1">// Auto-build if needed</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">binaryPath</span><span class="p">);</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">buildCmd</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;make&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Makefile.dev&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;build&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">buildCmd</span><span class="p">.</span><span class="nx">Dir</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;../&quot;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">buildCmd</span><span class="p">.</span><span class="nx">Run</span><span class="p">();</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">t</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;Failed to build binary: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">getBinaryPath</span><span class="p">()</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">binaryName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;k8s-cli&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">runtime</span><span class="p">.</span><span class="nx">GOOS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;windows&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">binaryName</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;.exe&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&quot;..&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bin&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">binaryName</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="kubeconfig-dependent-tests">Kubeconfig-Dependent Tests<a class="headerlink" href="#kubeconfig-dependent-tests" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestKubernetesIntegration</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Skip if no kubeconfig available</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;HOME&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/.kube/config&quot;</span><span class="p">);</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="s">&quot;Skipping test: no kubeconfig found&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Test continues...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="development-scenarios">🎭 Development Scenarios<a class="headerlink" href="#development-scenarios" title="Permanent link">&para;</a></h2>
+<h3 id="feature-development">🌟 Feature Development<a class="headerlink" href="#feature-development" title="Permanent link">&para;</a></h3>
+<h4 id="1-start-new-feature">1. Start New Feature<a class="headerlink" href="#1-start-new-feature" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create feature branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/helm-detection
+
+<span class="c1"># Set up development environment</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-setup
+</code></pre></div></td></tr></table></div>
+<h4 id="2-develop-with-auto-reload">2. Develop with Auto-reload<a class="headerlink" href="#2-develop-with-auto-reload" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Start file watcher for auto-rebuild</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>watch
+
+<span class="c1"># Or smart watch (different actions based on file type)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>smart-watch
+</code></pre></div></td></tr></table></div>
+<h4 id="3-implement-feature">3. Implement Feature<a class="headerlink" href="#3-implement-feature" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// pkg/kubernetes/components.go</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">DetectHelmReleases</span><span class="p">(</span><span class="nx">client</span><span class="w"> </span><span class="nx">kubernetes</span><span class="p">.</span><span class="nx">Interface</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">Component</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Implementation...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="4-add-tests">4. Add Tests<a class="headerlink" href="#4-add-tests" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// pkg/kubernetes/components_test.go</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">TestDetectHelmReleases</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Test implementation...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="5-verify-quality">5. Verify Quality<a class="headerlink" href="#5-verify-quality" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Run full quality checks</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit
+
+<span class="c1"># Check specific areas</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>lint
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>security-scan
+</code></pre></div></td></tr></table></div>
+<h4 id="6-commit-and-push">6. Commit and Push<a class="headerlink" href="#6-commit-and-push" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add Helm release detection</span>
+
+<span class="s2">- Implement Helm secret scanning</span>
+<span class="s2">- Add version extraction from labels  </span>
+<span class="s2">- Include release status metadata</span>
+<span class="s2">- Add comprehensive tests&quot;</span>
+
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/helm-detection
+</code></pre></div></td></tr></table></div>
+<h4 id="7-create-pull-request">7. Create Pull Request<a class="headerlink" href="#7-create-pull-request" title="Permanent link">&para;</a></h4>
+<ul>
+<li>CI automatically runs quality checks</li>
+<li>Review automated PR comments</li>
+<li>Address any issues found</li>
+<li>Merge when checks pass</li>
+</ul>
+<h4 id="8-automatic-release">8. Automatic Release<a class="headerlink" href="#8-automatic-release" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># After merge to main, automatic minor release triggered</span>
+<span class="c1"># New version: v2.1.0 (due to &quot;feat:&quot; commit)</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="bug-fix-workflow">🐛 Bug Fix Workflow<a class="headerlink" href="#bug-fix-workflow" title="Permanent link">&para;</a></h3>
+<h4 id="1-identify-and-reproduce">1. Identify and Reproduce<a class="headerlink" href="#1-identify-and-reproduce" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>hotfix/memory-leak
+
+<span class="c1"># Reproduce issue locally</span>
+./bin/k8s-cli<span class="w"> </span>all<span class="w"> </span>--namespace<span class="w"> </span>kube-system
+<span class="c1"># → Memory usage increases continuously</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="2-fix-issue">2. Fix Issue<a class="headerlink" href="#2-fix-issue" title="Permanent link">&para;</a></h4>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// pkg/kubernetes/client.go</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Client</span><span class="p">)</span><span class="w"> </span><span class="nx">GetComponents</span><span class="p">()</span><span class="w"> </span><span class="p">([]</span><span class="nx">Component</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Add proper resource cleanup</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">resourceCleanup</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c1">// Fixed implementation...</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="3-verify-fix">3. Verify Fix<a class="headerlink" href="#3-verify-fix" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Test the fix locally</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+./bin/k8s-cli<span class="w"> </span>all<span class="w"> </span>--namespace<span class="w"> </span>kube-system
+<span class="c1"># → Memory usage stable</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="4-emergency-release-if-critical">4. Emergency Release (if critical)<a class="headerlink" href="#4-emergency-release-if-critical" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: resolve memory leak in component scanning</span>
+
+<span class="s2">Critical fix for production environments.</span>
+<span class="s2">Memory usage now properly released after scanning.&quot;</span>
+
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>hotfix/memory-leak
+<span class="c1"># → Create PR with expedited review</span>
+<span class="c1"># → Or use manual release with &quot;skip checks&quot; for emergency</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="release-management">📦 Release Management<a class="headerlink" href="#release-management" title="Permanent link">&para;</a></h3>
+<h4 id="1-planned-release">1. Planned Release<a class="headerlink" href="#1-planned-release" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Prepare release branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>release/v2.1.0
+
+<span class="c1"># Update documentation</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update installation guide for v2.1.0&quot;</span>
+
+<span class="c1"># Use manual release workflow:</span>
+<span class="c1"># GitHub → Actions → &quot;🚀 Automated Release&quot;</span>
+<span class="c1"># Type: minor, Skip checks: false, Create release: true</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="2-pre-release-testing">2. Pre-release Testing<a class="headerlink" href="#2-pre-release-testing" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Test release process without creating actual release</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-dry-run
+
+<span class="c1"># Review what would be released</span>
+./scripts/bump-version.sh<span class="w"> </span>current
+git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>describe<span class="w"> </span>--tags<span class="w"> </span>--abbrev<span class="o">=</span><span class="m">0</span><span class="k">)</span>..HEAD
+</code></pre></div></td></tr></table></div>
+<h4 id="3-release-validation">3. Release Validation<a class="headerlink" href="#3-release-validation" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># After release, verify:</span>
+<span class="c1"># ✅ GitHub release created</span>
+<span class="c1"># ✅ Assets uploaded (Linux, macOS, Windows binaries)</span>
+<span class="c1"># ✅ Changelog updated</span>
+<span class="c1"># ✅ Version tags correct</span>
+<span class="c1"># ✅ Release notes generated</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="code-quality-standards">🛡️ Code Quality Standards<a class="headerlink" href="#code-quality-standards" title="Permanent link">&para;</a></h2>
+<h3 id="linting-requirements">🎯 Linting Requirements<a class="headerlink" href="#linting-requirements" title="Permanent link">&para;</a></h3>
+<p>All code must pass:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Go linting</span>
+golangci-lint<span class="w"> </span>run<span class="w"> </span>--timeout<span class="o">=</span>5m
+
+<span class="c1"># Format checking</span>
+gofmt<span class="w"> </span>-s<span class="w"> </span>-d<span class="w"> </span>.
+goimports<span class="w"> </span>-d<span class="w"> </span>.
+
+<span class="c1"># Security scanning</span>
+govulncheck<span class="w"> </span>./...
+
+<span class="c1"># Module verification</span>
+go<span class="w"> </span>mod<span class="w"> </span>verify
+</code></pre></div></td></tr></table></div>
+<h3 id="testing-requirements">📊 Testing Requirements<a class="headerlink" href="#testing-requirements" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Minimum test coverage: 70%</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-coverage
+
+<span class="c1"># All tests must pass</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Integration tests (when applicable)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-integration
+</code></pre></div></td></tr></table></div>
+<h3 id="security-standards">🔒 Security Standards<a class="headerlink" href="#security-standards" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># No security vulnerabilities</span>
+govulncheck<span class="w"> </span>./...
+
+<span class="c1"># Dependency audit</span>
+go<span class="w"> </span>list<span class="w"> </span>-json<span class="w"> </span>-deps<span class="w"> </span>./...<span class="w"> </span><span class="p">|</span><span class="w"> </span>nancy<span class="w"> </span>sleuth
+
+<span class="c1"># No secrets in code</span>
+git-secrets<span class="w"> </span>--scan
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="advanced-development">🔧 Advanced Development<a class="headerlink" href="#advanced-development" title="Permanent link">&para;</a></h2>
+<h3 id="custom-make-targets">🎯 Custom Make Targets<a class="headerlink" href="#custom-make-targets" title="Permanent link">&para;</a></h3>
+<p>Create custom development workflows:</p>
+<div class="language-makefile highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c"># Makefile.dev additions</span>
+<span class="nf">dev-feature</span><span class="o">:</span><span class="w"> </span><span class="c">## Start feature development cycle</span>
+<span class="w">    </span>@make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>clean
+<span class="w">    </span>@make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>build
+<span class="w">    </span>@make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+<span class="w">    </span>@echo<span class="w"> </span><span class="s2">&quot;🚀 Ready for feature development!&quot;</span>
+
+<span class="nf">quick-test</span><span class="o">:</span><span class="w"> </span><span class="c">## Run fast tests only</span>
+<span class="w">    </span>@go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-short<span class="w"> </span>./...
+
+<span class="nf">deep-test</span><span class="o">:</span><span class="w"> </span><span class="c">## Run all tests including slow ones</span>
+<span class="w">    </span>@make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+<span class="w">    </span>@make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-integration
+</code></pre></div></td></tr></table></div>
+<h3 id="cicd-customization">🔄 CI/CD Customization<a class="headerlink" href="#cicd-customization" title="Permanent link">&para;</a></h3>
+<h4 id="skip-ci-for-documentation">Skip CI for Documentation<a class="headerlink" href="#skip-ci-for-documentation" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update readme [skip ci]&quot;</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="custom-workflow-triggers">Custom Workflow Triggers<a class="headerlink" href="#custom-workflow-triggers" title="Permanent link">&para;</a></h4>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># .github/workflows/custom.yml</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;pkg/**&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;cmd/**&#39;</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;**.go&#39;</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="environment-specific-testing">Environment-Specific Testing<a class="headerlink" href="#environment-specific-testing" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Test against specific Kubernetes versions</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KUBERNETES_VERSION</span><span class="o">=</span>v1.28.0
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-integration
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="monitoring-metrics">📊 Monitoring &amp; Metrics<a class="headerlink" href="#monitoring-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="cicd-health-indicators">🎯 CI/CD Health Indicators<a class="headerlink" href="#cicd-health-indicators" title="Permanent link">&para;</a></h3>
+<p>Monitor these metrics:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Success rate (target: &gt;95%)</span>
+GitHub<span class="w"> </span>→<span class="w"> </span>Insights<span class="w"> </span>→<span class="w"> </span>Actions
+
+<span class="c1"># Build time (target: &lt;10 minutes)</span>
+<span class="c1"># Test coverage (target: &gt;70%)  </span>
+<span class="c1"># Security scan results (target: 0 vulnerabilities)</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="development-velocity">📈 Development Velocity<a class="headerlink" href="#development-velocity" title="Permanent link">&para;</a></h3>
+<p>Track improvements:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Feature delivery time</span>
+<span class="c1"># Bug fix turnaround</span>
+<span class="c1"># Release frequency</span>
+<span class="c1"># CI/CD reliability</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="common-development-issues">🆘 Common Development Issues<a class="headerlink" href="#common-development-issues" title="Permanent link">&para;</a></h2>
+<h3 id="local-development-problems">🐛 Local Development Problems<a class="headerlink" href="#local-development-problems" title="Permanent link">&para;</a></h3>
+<h4 id="go-version-mismatch">Go Version Mismatch<a class="headerlink" href="#go-version-mismatch" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check Go version</span>
+go<span class="w"> </span>version
+<span class="c1"># Should be: go version go1.24+ </span>
+
+<span class="c1"># Update if needed</span>
+brew<span class="w"> </span>install<span class="w"> </span>go@1.24<span class="w">  </span><span class="c1"># macOS</span>
+<span class="c1"># or download from https://golang.org/dl/</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="module-issues">Module Issues<a class="headerlink" href="#module-issues" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Clean and refresh modules</span>
+go<span class="w"> </span>clean<span class="w"> </span>-modcache
+go<span class="w"> </span>mod<span class="w"> </span>download
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+</code></pre></div></td></tr></table></div>
+<h4 id="build-issues">Build Issues<a class="headerlink" href="#build-issues" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Clean build environment</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>clean
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>build
+
+<span class="c1"># Verify tools are installed</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-setup
+</code></pre></div></td></tr></table></div>
+<h3 id="cicd-issues">🔄 CI/CD Issues<a class="headerlink" href="#cicd-issues" title="Permanent link">&para;</a></h3>
+<p>See <a href="../TROUBLESHOOTING/">Troubleshooting Guide</a> for detailed CI/CD issue resolution.</p>
+<hr />
+<h2 id="best-practices-summary">🚀 Best Practices Summary<a class="headerlink" href="#best-practices-summary" title="Permanent link">&para;</a></h2>
+<h3 id="dos">✅ Do's<a class="headerlink" href="#dos" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Always run pre-commit checks:</strong>
+   <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Use conventional commits:</strong>
+   <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: descriptive message&quot;</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Test cross-platform compatibility:</strong>
+   <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nv">GOOS</span><span class="o">=</span>windows<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>.
+<span class="nv">GOOS</span><span class="o">=</span>darwin<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Write CI-friendly tests:</strong>
+   <div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;CI&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// CI-specific test adjustments</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Monitor workflow health:</strong></p>
+<ul>
+<li>Set up GitHub notifications</li>
+<li>Review failed builds promptly</li>
+<li>Keep dependencies updated</li>
+</ul>
+</li>
+</ol>
+<h3 id="donts">❌ Don'ts<a class="headerlink" href="#donts" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Don't skip quality checks:</strong>
+   <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># ❌ Avoid this</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;quick fix&quot;</span><span class="w"> </span>--no-verify
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Don't ignore CI failures:</strong></p>
+<ul>
+<li>Always investigate and fix</li>
+<li>Don't merge failing PRs</li>
+</ul>
+</li>
+<li>
+<p><strong>Don't use non-conventional commits for releases:</strong>
+   <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># ❌ Won&#39;t trigger proper release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;added new feature&quot;</span>
+
+<span class="c1"># ✅ Triggers minor release</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add new feature&quot;</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>Don't hardcode paths or OS-specific code:</strong>
+   <div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// ❌ OS-specific</span>
+<span class="nx">path</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;/usr/local/bin/k8s-cli&quot;</span>
+
+<span class="c1">// ✅ Cross-platform</span>
+<span class="nx">path</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&quot;bin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;k8s-cli&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div></p>
+</li>
+</ol>
+<hr />
+<h2 id="success-indicators">🎉 Success Indicators<a class="headerlink" href="#success-indicators" title="Permanent link">&para;</a></h2>
+<p>You're developing effectively when you see:</p>
+<h3 id="green-cicd-pipeline">✅ Green CI/CD Pipeline<a class="headerlink" href="#green-cicd-pipeline" title="Permanent link">&para;</a></h3>
+<ul>
+<li>All workflows passing consistently</li>
+<li>Fast feedback on pull requests</li>
+<li>Automatic releases working smoothly</li>
+</ul>
+<h3 id="high-code-quality">📊 High Code Quality<a class="headerlink" href="#high-code-quality" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Test coverage &gt;70%</li>
+<li>No linting errors</li>
+<li>Zero security vulnerabilities</li>
+</ul>
+<h3 id="smooth-development-experience">🚀 Smooth Development Experience<a class="headerlink" href="#smooth-development-experience" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Fast local development cycle</li>
+<li>Reliable builds across platforms</li>
+<li>Clear feedback from automation</li>
+</ul>
+<h3 id="productive-team-workflow">📈 Productive Team Workflow<a class="headerlink" href="#productive-team-workflow" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Quick feature delivery</li>
+<li>Minimal manual intervention</li>
+<li>Consistent code quality</li>
+</ul>
+<hr />
+<p><strong>🎊 Congratulations!</strong></p>
+<p>You now have a comprehensive understanding of developing with k8s-cli's CI/CD pipeline. This automated system will help you:</p>
+<ul>
+<li>🔄 Develop faster with immediate feedback</li>
+<li>🛡️ Maintain high code quality automatically  </li>
+<li>🚀 Release confidently with automated testing</li>
+<li>📈 Scale development as your team grows</li>
+</ul>
+<p>The CI/CD pipeline handles the complex automation so you can focus on building great features! 🚀</p>
+<hr />
+<h2 id="quick-reference">📚 Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<h3 id="essential-commands">🔗 Essential Commands<a class="headerlink" href="#essential-commands" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Setup development</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-setup
+
+<span class="c1"># Development cycle  </span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit
+
+<span class="c1"># Auto-rebuild</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>watch
+
+<span class="c1"># Release testing</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-dry-run
+</code></pre></div></td></tr></table></div>
+<h3 id="related-documentation">📖 Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="../GITHUB_ACTIONS/">GitHub Actions Guide</a></li>
+<li><a href="../TROUBLESHOOTING/">Troubleshooting Guide</a> </li>
+<li><a href="../MAKE_GUIDE/">Make Commands Guide</a></li>
+<li><a href="../RELEASE_AUTOMATION/">Release Automation</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer", "content.action.edit"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../search/main.js"></script>
+      
+    
+  </body>
+</html>

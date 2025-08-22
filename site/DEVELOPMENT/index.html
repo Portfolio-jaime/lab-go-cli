@@ -1,0 +1,2605 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Enterprise Kubernetes Analysis Platform - CLI tool for cluster analysis, cost optimization, and monitoring">
+      
+      
+      
+      
+        <link rel="prev" href="../COMMAND_DIAGRAM/">
+      
+      
+        <link rel="next" href="../MAKE_GUIDE/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>Setup - k8s-cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#development-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="k8s-cli" class="md-header__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            k8s-cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="k8s-cli" class="md-nav__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    k8s-cli
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXAMPLES/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMMAND_DIAGRAM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Setup
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Setup
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Development Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-development-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Daily Development Cycle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development-commands-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Commands Reference
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#previous-daily-development-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Previous Daily Development Cycle
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure-deep-dive" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Project Structure Deep Dive
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📁 Project Structure Deep Dive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-structure-cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Structure (cmd/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-logic-structure-pkg" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Logic Structure (pkg/)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Development Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Development Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#make-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make Targets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-make-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Make Targets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testing Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testing Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-pyramid" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Pyramid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e2e-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      E2E Tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-style-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Code Style Guide
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Code Style Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      Go Style
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comments
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Adding New Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Adding New Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-adding-a-new-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Adding a New Command
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-adding-new-analysis-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Adding New Analysis Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-adding-new-export-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Adding New Export Format
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Debugging
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Debugging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Build
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profiling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-metrics-server-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Metrics Server Not Available
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rbac-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. RBAC Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-build-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Build Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-generated-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-generated Docs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Release Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Release Checklist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤝 Contributing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤝 Contributing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pull-request-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Request Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-review-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review Guidelines
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MAKE_GUIDE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Make Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVCONTAINER/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DevContainer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CI/CD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            CI/CD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CI_CD_CONSOLIDATED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GITHUB_ACTIONS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_AUTOMATION/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Release Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TROUBLESHOOTING/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Setup
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Development Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#daily-development-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Daily Development Cycle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development-commands-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Commands Reference
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#previous-daily-development-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Previous Daily Development Cycle
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure-deep-dive" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Project Structure Deep Dive
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📁 Project Structure Deep Dive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-structure-cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Structure (cmd/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-logic-structure-pkg" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business Logic Structure (pkg/)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Development Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Development Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#make-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make Targets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-make-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Make Targets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testing Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testing Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-pyramid" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Pyramid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e2e-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      E2E Tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-style-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Code Style Guide
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Code Style Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      Go Style
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comments
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Adding New Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Adding New Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-adding-a-new-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Adding a New Command
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-adding-new-analysis-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Adding New Analysis Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-adding-new-export-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Adding New Export Format
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Debugging
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🐛 Debugging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Build
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profiling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-metrics-server-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Metrics Server Not Available
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rbac-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. RBAC Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-build-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Build Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-generated-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-generated Docs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Release Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#release-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Release Checklist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤝 Contributing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤝 Contributing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pull-request-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Request Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-review-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review Guidelines
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Portfolio-jaime/lab-go-cli/edit/main/docs/DEVELOPMENT.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="development-guide">🛠️ Development Guide<a class="headerlink" href="#development-guide" title="Permanent link">&para;</a></h1>
+<h2 id="quick-start">🚀 Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Go 1.24.5 or later</li>
+<li>Docker &amp; Docker Compose</li>
+<li>VS Code with Dev Containers extension</li>
+<li>kubectl configured</li>
+</ul>
+<h3 id="development-setup">Development Setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 1. Clone and open in Dev Container</span>
+git<span class="w"> </span>clone<span class="w"> </span>&lt;repository&gt;
+code<span class="w"> </span>lab-go-cli
+
+<span class="c1"># 2. Reopen in Container when prompted</span>
+<span class="c1"># 3. Start Minikube in container</span>
+.devcontainer/scripts/start-minikube.sh
+
+<span class="c1"># 4. Build and test (use Makefile.dev for development)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-setup<span class="w">   </span><span class="c1"># First time only</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-cycle<span class="w">   </span><span class="c1"># Format + Test + Build</span>
+./bin/k8s-cli<span class="w"> </span>--help
+
+<span class="c1"># 5. Install for testing</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>install-user
+k8s-cli<span class="w"> </span>--version
+</code></pre></div></td></tr></table></div>
+<h2 id="development-workflow">🏗️ Development Workflow<a class="headerlink" href="#development-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="daily-development-cycle">Daily Development Cycle<a class="headerlink" href="#daily-development-cycle" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Start file watcher (auto-rebuild on changes)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>watch
+
+<span class="c1"># In another terminal, test your changes:</span>
+./bin/k8s-cli<span class="w"> </span>--version<span class="w">     </span><span class="c1"># Test CLI version</span>
+./bin/k8s-cli<span class="w"> </span>version<span class="w">       </span><span class="c1"># Test cluster version (requires cluster)</span>
+
+<span class="c1"># Before committing, run quality checks:</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit
+</code></pre></div></td></tr></table></div>
+<h3 id="development-commands-reference">Development Commands Reference<a class="headerlink" href="#development-commands-reference" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 🔧 Setup &amp; Dependencies</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-setup<span class="w">      </span><span class="c1"># First-time development setup</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>deps-tidy<span class="w">      </span><span class="c1"># Update and tidy Go modules</span>
+
+<span class="c1"># 🏗️ Building</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>build<span class="w">          </span><span class="c1"># Standard build</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-build<span class="w">      </span><span class="c1"># Build with debug info</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>watch<span class="w">          </span><span class="c1"># Auto-rebuild on file changes</span>
+
+<span class="c1"># 🧪 Testing  </span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span><span class="w">           </span><span class="c1"># Run unit tests</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-coverage<span class="w">  </span><span class="c1"># Tests with coverage report</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>test-watch<span class="w">     </span><span class="c1"># Auto-run tests on changes</span>
+
+<span class="c1"># 📊 Code Quality</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>fmt<span class="w">            </span><span class="c1"># Format code</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>lint<span class="w">           </span><span class="c1"># Run linter</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>vet<span class="w">            </span><span class="c1"># Run go vet</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>check-all<span class="w">      </span><span class="c1"># All quality checks</span>
+
+<span class="c1"># 🚀 Development Workflow</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>dev-cycle<span class="w">      </span><span class="c1"># Format + Test + Build</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-commit<span class="w">     </span><span class="c1"># Pre-commit checks</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>pre-push<span class="w">       </span><span class="c1"># Pre-push checks (includes integration)</span>
+
+<span class="c1"># 🔧 Installation &amp; Testing</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>install-user<span class="w">   </span><span class="c1"># Install to ~/bin</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>install<span class="w">        </span><span class="c1"># Install to /usr/local/bin (sudo)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>uninstall-user<span class="w"> </span><span class="c1"># Remove from ~/bin</span>
+
+<span class="c1"># 🧹 Cleanup</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>clean<span class="w">          </span><span class="c1"># Clean build artifacts</span>
+
+<span class="c1"># 📖 Documentation</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>docs-generate<span class="w">  </span><span class="c1"># Generate documentation</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>docs-serve<span class="w">     </span><span class="c1"># Serve docs at localhost:8000</span>
+
+<span class="c1"># 📦 Release</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-build<span class="w">  </span><span class="c1"># Multi-platform builds</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-package#<span class="w"> </span>Package<span class="w"> </span>release<span class="w"> </span>archives
+</code></pre></div></td></tr></table></div>
+<h3 id="previous-daily-development-cycle">Previous Daily Development Cycle<a class="headerlink" href="#previous-daily-development-cycle" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 1. Pull latest changes</span>
+git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
+
+<span class="c1"># 2. Create feature branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/new-analysis-type
+
+<span class="c1"># 3. Development cycle</span>
+make<span class="w"> </span>dev-watch<span class="w">    </span><span class="c1"># Auto-rebuild on changes</span>
+make<span class="w"> </span>test-watch<span class="w">   </span><span class="c1"># Auto-test on changes</span>
+
+<span class="c1"># 4. Before commit</span>
+make<span class="w"> </span>check-all<span class="w">    </span><span class="c1"># Lint, test, vet</span>
+make<span class="w"> </span>docs-update<span class="w">  </span><span class="c1"># Update documentation</span>
+
+<span class="c1"># 5. Commit and push</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add new analysis type&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/new-analysis-type
+</code></pre></div></td></tr></table></div>
+<h2 id="project-structure-deep-dive">📁 Project Structure Deep Dive<a class="headerlink" href="#project-structure-deep-dive" title="Permanent link">&para;</a></h2>
+<h3 id="command-structure-cmd">Command Structure (cmd/)<a class="headerlink" href="#command-structure-cmd" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code>cmd/
+├── root.go          # Base command, global flags
+├── all.go           # Comprehensive analysis
+├── metrics.go       # Real-time metrics
+├── cost.go          # Cost analysis
+├── workload.go      # Workload health
+├── logs.go          # Events and logs
+├── export.go        # Data export
+├── recommend.go     # Recommendations
+├── resources.go     # Basic resources
+└── version.go       # Version info
+</code></pre></div></td></tr></table></div>
+<p>Each command follows this pattern:
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Command definition</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">commandCmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">cobra</span><span class="p">.</span><span class="nx">Command</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Use</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Short</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Short description&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Long</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;Long description&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">RunE</span><span class="p">:</span><span class="w">  </span><span class="nx">runCommandFunction</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">// Flags</span>
+<span class="kd">var</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">flagOne</span><span class="w">   </span><span class="kt">bool</span>
+<span class="w">    </span><span class="nx">flagTwo</span><span class="w">   </span><span class="kt">string</span>
+<span class="p">)</span>
+
+<span class="c1">// Initialization</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">rootCmd</span><span class="p">.</span><span class="nx">AddCommand</span><span class="p">(</span><span class="nx">commandCmd</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">commandCmd</span><span class="p">.</span><span class="nx">Flags</span><span class="p">().</span><span class="nx">BoolVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">flagOne</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;flag-one&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Description&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">commandCmd</span><span class="p">.</span><span class="nx">Flags</span><span class="p">().</span><span class="nx">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">flagTwo</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;flag-two&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Description&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Main function</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">runCommandFunction</span><span class="p">(</span><span class="nx">cmd</span><span class="w"> </span><span class="o">*</span><span class="nx">cobra</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Implementation</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div></p>
+<h3 id="business-logic-structure-pkg">Business Logic Structure (pkg/)<a class="headerlink" href="#business-logic-structure-pkg" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code>pkg/
+├── kubernetes/           # Core Kubernetes logic
+│   ├── client.go        # K8s client management
+│   ├── metrics.go       # Metrics collection
+│   ├── cost_analysis.go # Cost calculations
+│   ├── workload_*.go    # Workload analysis
+│   └── events_logs.go   # Event processing
+├── export/              # Export functionality
+│   └── exporter.go      # Multi-format export
+├── recommendations/     # Recommendation engine
+│   └── analyzer.go      # Analysis logic
+└── table/              # Output formatting
+    └── table.go        # Table formatting
+</code></pre></div></td></tr></table></div>
+<h2 id="development-tools">🔧 Development Tools<a class="headerlink" href="#development-tools" title="Permanent link">&para;</a></h2>
+<h3 id="make-targets">Make Targets<a class="headerlink" href="#make-targets" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Development</span>
+make<span class="w"> </span>build<span class="w">          </span><span class="c1"># Build binary</span>
+make<span class="w"> </span>dev-build<span class="w">      </span><span class="c1"># Build with debug info</span>
+make<span class="w"> </span>dev-watch<span class="w">      </span><span class="c1"># Auto-rebuild on changes</span>
+make<span class="w"> </span>clean<span class="w">          </span><span class="c1"># Clean build artifacts</span>
+
+<span class="c1"># Testing</span>
+make<span class="w"> </span><span class="nb">test</span><span class="w">           </span><span class="c1"># Run unit tests</span>
+make<span class="w"> </span>test-watch<span class="w">     </span><span class="c1"># Auto-test on changes</span>
+make<span class="w"> </span>test-coverage<span class="w">  </span><span class="c1"># Generate coverage report</span>
+make<span class="w"> </span>test-integration<span class="w"> </span><span class="c1"># Run integration tests</span>
+make<span class="w"> </span>test-e2e<span class="w">       </span><span class="c1"># End-to-end tests</span>
+
+<span class="c1"># Quality</span>
+make<span class="w"> </span>fmt<span class="w">            </span><span class="c1"># Format code</span>
+make<span class="w"> </span>lint<span class="w">           </span><span class="c1"># Run linter</span>
+make<span class="w"> </span>vet<span class="w">            </span><span class="c1"># Run go vet</span>
+make<span class="w"> </span>check-all<span class="w">      </span><span class="c1"># All quality checks</span>
+
+<span class="c1"># Documentation</span>
+make<span class="w"> </span>docs-generate<span class="w">  </span><span class="c1"># Generate docs</span>
+make<span class="w"> </span>docs-update<span class="w">    </span><span class="c1"># Update all docs</span>
+make<span class="w"> </span>docs-serve<span class="w">     </span><span class="c1"># Serve docs locally</span>
+
+<span class="c1"># Deployment</span>
+make<span class="w"> </span>release<span class="w">        </span><span class="c1"># Build release binaries</span>
+make<span class="w"> </span>docker-build<span class="w">   </span><span class="c1"># Build Docker image</span>
+make<span class="w"> </span>docker-push<span class="w">    </span><span class="c1"># Push to registry</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="advanced-make-targets">Advanced Make Targets<a class="headerlink" href="#advanced-make-targets" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Development helpers</span>
+make<span class="w"> </span>deps-update<span class="w">    </span><span class="c1"># Update dependencies</span>
+make<span class="w"> </span>deps-tidy<span class="w">      </span><span class="c1"># Tidy go.mod</span>
+make<span class="w"> </span>generate<span class="w">       </span><span class="c1"># Run go generate</span>
+make<span class="w"> </span>mock-generate<span class="w">  </span><span class="c1"># Generate mocks</span>
+
+<span class="c1"># Performance</span>
+make<span class="w"> </span>bench<span class="w">          </span><span class="c1"># Run benchmarks</span>
+make<span class="w"> </span>profile<span class="w">        </span><span class="c1"># CPU profiling</span>
+make<span class="w"> </span>memory-profile<span class="w"> </span><span class="c1"># Memory profiling</span>
+
+<span class="c1"># Security</span>
+make<span class="w"> </span>security-scan<span class="w">  </span><span class="c1"># Security vulnerability scan</span>
+make<span class="w"> </span>deps-audit<span class="w">     </span><span class="c1"># Dependency audit</span>
+
+<span class="c1"># CI/CD</span>
+make<span class="w"> </span>ci-test<span class="w">        </span><span class="c1"># CI test suite</span>
+make<span class="w"> </span>ci-build<span class="w">       </span><span class="c1"># CI build</span>
+make<span class="w"> </span>ci-deploy<span class="w">      </span><span class="c1"># CI deployment</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="testing-strategy">🧪 Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="testing-pyramid">Testing Pyramid<a class="headerlink" href="#testing-pyramid" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>    E2E Tests (Few)
+       ↑
+  Integration Tests (Some)
+       ↑
+   Unit Tests (Many)
+</code></pre></div></td></tr></table></div>
+<h3 id="unit-tests">Unit Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Example: pkg/kubernetes/metrics_test.go</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">kubernetes</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;testing&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/stretchr/testify/assert&quot;</span>
+<span class="w">    </span><span class="s">&quot;github.com/stretchr/testify/mock&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">TestGetRealTimeNodeMetrics</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Arrange</span>
+<span class="w">    </span><span class="nx">client</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">Client</span><span class="p">{</span><span class="cm">/* mock setup */</span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Act</span>
+<span class="w">    </span><span class="nx">metrics</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">GetRealTimeNodeMetrics</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c1">// Assert</span>
+<span class="w">    </span><span class="nx">assert</span><span class="p">.</span><span class="nx">NoError</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">assert</span><span class="p">.</span><span class="nx">NotEmpty</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">metrics</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">assert</span><span class="p">.</span><span class="nx">Greater</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">CPUUsagePercent</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="integration-tests">Integration Tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Example: test/integration/metrics_integration_test.go</span>
+<span class="c1">//go:build integration</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">TestMetricsIntegration</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">testing</span><span class="p">.</span><span class="nx">Short</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Skip</span><span class="p">(</span><span class="s">&quot;Skipping integration test&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">kubernetes</span><span class="p">.</span><span class="nx">NewClient</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">require</span><span class="p">.</span><span class="nx">NoError</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">metrics</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">GetRealTimeNodeMetrics</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">require</span><span class="p">.</span><span class="nx">NoError</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">assert</span><span class="p">.</span><span class="nx">NotEmpty</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">metrics</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="e2e-tests">E2E Tests<a class="headerlink" href="#e2e-tests" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># test/e2e/test_k8s_cli.sh</span>
+<span class="c1">#!/bin/bash</span>
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Testing k8s-cli end-to-end...&quot;</span>
+
+<span class="c1"># Build</span>
+make<span class="w"> </span>build
+
+<span class="c1"># Test basic commands</span>
+./k8s-cli<span class="w"> </span>--help
+./k8s-cli<span class="w"> </span>version
+./k8s-cli<span class="w"> </span>all<span class="w"> </span>--dry-run
+
+<span class="c1"># Test with real cluster</span>
+<span class="k">if</span><span class="w"> </span>kubectl<span class="w"> </span>cluster-info<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>./k8s-cli<span class="w"> </span>metrics<span class="w"> </span>--nodes
+<span class="w">    </span>./k8s-cli<span class="w"> </span>cost<span class="w"> </span>--nodes
+<span class="w">    </span>./k8s-cli<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>json<span class="w"> </span>--output<span class="w"> </span>/tmp
+<span class="k">fi</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;E2E tests passed!&quot;</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="code-style-guide">📝 Code Style Guide<a class="headerlink" href="#code-style-guide" title="Permanent link">&para;</a></h2>
+<h3 id="go-style">Go Style<a class="headerlink" href="#go-style" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Follow <a href="https://golang.org/doc/effective_go.html">Effective Go</a></li>
+<li>Use <a href="https://golangci-lint.run/">golangci-lint</a> configuration</li>
+<li>Maximum line length: 100 characters</li>
+<li>Use meaningful variable names</li>
+</ul>
+<h3 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Good: Wrap errors with context</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Client</span><span class="p">)</span><span class="w"> </span><span class="nx">GetMetrics</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">fetchData</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;failed to fetch metrics data: %w&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// Bad: Ignore or log without returning</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Client</span><span class="p">)</span><span class="w"> </span><span class="nx">GetMetrics</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">fetchData</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Error:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="c1">// Don&#39;t do this</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Use structured logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;log/slog&quot;</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Client</span><span class="p">)</span><span class="w"> </span><span class="nx">ProcessMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">slog</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&quot;Starting metrics processing&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;namespace&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">namespace</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;node_count&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">nodes</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="comments">Comments<a class="headerlink" href="#comments" title="Permanent link">&para;</a></h3>
+<div class="language-go highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Package comment describes the package purpose</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">kubernetes</span>
+
+<span class="c1">// Function comments describe what, not how</span>
+<span class="c1">// GetRealTimeNodeMetrics retrieves current CPU and memory usage</span>
+<span class="c1">// for all nodes in the cluster using the metrics-server API.</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Client</span><span class="p">)</span><span class="w"> </span><span class="nx">GetRealTimeNodeMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">([]</span><span class="nx">NodeMetrics</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Implementation</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="adding-new-features">🔄 Adding New Features<a class="headerlink" href="#adding-new-features" title="Permanent link">&para;</a></h2>
+<h3 id="1-adding-a-new-command">1. Adding a New Command<a class="headerlink" href="#1-adding-a-new-command" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 1. Create command file</span>
+touch<span class="w"> </span>cmd/newcommand.go
+
+<span class="c1"># 2. Implement command structure</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>cmd/newcommand.go<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">package cmd</span>
+
+<span class="s">import (</span>
+<span class="s">    &quot;github.com/spf13/cobra&quot;</span>
+<span class="s">    &quot;k8s-cli/pkg/kubernetes&quot;</span>
+<span class="s">)</span>
+
+<span class="s">var newCommandCmd = &amp;cobra.Command{</span>
+<span class="s">    Use:   &quot;newcommand&quot;,</span>
+<span class="s">    Short: &quot;Description of new command&quot;,</span>
+<span class="s">    RunE:  runNewCommand,</span>
+<span class="s">}</span>
+
+<span class="s">func init() {</span>
+<span class="s">    rootCmd.AddCommand(newCommandCmd)</span>
+<span class="s">}</span>
+
+<span class="s">func runNewCommand(cmd *cobra.Command, args []string) error {</span>
+<span class="s">    // Implementation</span>
+<span class="s">    return nil</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+
+<span class="c1"># 3. Add business logic in pkg/</span>
+<span class="c1"># 4. Add tests</span>
+<span class="c1"># 5. Update documentation</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="2-adding-new-analysis-type">2. Adding New Analysis Type<a class="headerlink" href="#2-adding-new-analysis-type" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 1. Create analysis file</span>
+touch<span class="w"> </span>pkg/kubernetes/security_analysis.go
+
+<span class="c1"># 2. Define data structures</span>
+<span class="c1"># 3. Implement analysis logic</span>
+<span class="c1"># 4. Add to export system</span>
+<span class="c1"># 5. Create command interface</span>
+<span class="c1"># 6. Add tests and documentation</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="3-adding-new-export-format">3. Adding New Export Format<a class="headerlink" href="#3-adding-new-export-format" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 1. Extend exporter</span>
+<span class="c1"># 2. Add format-specific logic</span>
+<span class="c1"># 3. Update command flags</span>
+<span class="c1"># 4. Add tests</span>
+<span class="c1"># 5. Update documentation</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="debugging">🐛 Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h2>
+<h3 id="debug-build">Debug Build<a class="headerlink" href="#debug-build" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Build with debug symbols</span>
+make<span class="w"> </span>dev-build
+
+<span class="c1"># Run with verbose logging</span>
+./k8s-cli<span class="w"> </span>--verbose<span class="w"> </span>metrics
+
+<span class="c1"># Enable debug output</span>
+<span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>./k8s-cli<span class="w"> </span>metrics
+</code></pre></div></td></tr></table></div>
+<h3 id="profiling">Profiling<a class="headerlink" href="#profiling" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># CPU profiling</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>cpu.prof
+
+<span class="c1"># Memory profiling</span>
+go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>mem.prof
+
+<span class="c1"># Run with profiling</span>
+./k8s-cli<span class="w"> </span>-cpuprofile<span class="o">=</span>cpu.prof<span class="w"> </span>-memprofile<span class="o">=</span>mem.prof<span class="w"> </span>metrics
+</code></pre></div></td></tr></table></div>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<h4 id="1-metrics-server-not-available">1. Metrics Server Not Available<a class="headerlink" href="#1-metrics-server-not-available" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check if metrics-server is running</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>metrics-server
+
+<span class="c1"># Install if missing</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+</code></pre></div></td></tr></table></div>
+<h4 id="2-rbac-permissions">2. RBAC Permissions<a class="headerlink" href="#2-rbac-permissions" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check current permissions</span>
+kubectl<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>list<span class="w"> </span>pods<span class="w"> </span>--as<span class="o">=</span>system:serviceaccount:default:default
+
+<span class="c1"># Create proper service account</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>serviceaccount<span class="w"> </span>k8s-cli
+kubectl<span class="w"> </span>create<span class="w"> </span>clusterrolebinding<span class="w"> </span>k8s-cli<span class="w"> </span>--clusterrole<span class="o">=</span>view<span class="w"> </span>--serviceaccount<span class="o">=</span>default:k8s-cli
+</code></pre></div></td></tr></table></div>
+<h4 id="3-build-issues">3. Build Issues<a class="headerlink" href="#3-build-issues" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Clean and rebuild</span>
+make<span class="w"> </span>clean
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+make<span class="w"> </span>build
+
+<span class="c1"># Check dependencies</span>
+go<span class="w"> </span>mod<span class="w"> </span>verify
+</code></pre></div></td></tr></table></div>
+<h2 id="documentation">📚 Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
+<h3 id="auto-generated-docs">Auto-generated Docs<a class="headerlink" href="#auto-generated-docs" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Generate command documentation</span>
+make<span class="w"> </span>docs-generate
+
+<span class="c1"># Update API documentation</span>
+make<span class="w"> </span>docs-api
+
+<span class="c1"># Generate usage examples</span>
+make<span class="w"> </span>docs-examples
+</code></pre></div></td></tr></table></div>
+<h3 id="manual-documentation">Manual Documentation<a class="headerlink" href="#manual-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Keep README.md updated</li>
+<li>Document breaking changes in CHANGELOG.md</li>
+<li>Update architecture docs for major changes</li>
+<li>Add examples for new features</li>
+</ul>
+<h2 id="release-process">🚀 Release Process<a class="headerlink" href="#release-process" title="Permanent link">&para;</a></h2>
+<h3 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Follow <a href="https://semver.org/">Semantic Versioning</a></li>
+<li>Tag releases: <code>v1.2.3</code></li>
+<li>Update version in code before release</li>
+</ul>
+<h3 id="release-checklist">Release Checklist<a class="headerlink" href="#release-checklist" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 1. Update version</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;v1.2.3&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>VERSION
+
+<span class="c1"># 2. Update changelog</span>
+<span class="c1"># Edit CHANGELOG.md</span>
+
+<span class="c1"># 3. Run full test suite</span>
+make<span class="w"> </span>check-all
+make<span class="w"> </span>test-e2e
+
+<span class="c1"># 4. Build release</span>
+make<span class="w"> </span>release
+
+<span class="c1"># 5. Tag and push</span>
+git<span class="w"> </span>tag<span class="w"> </span>v1.2.3
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v1.2.3
+
+<span class="c1"># 6. Create GitHub release</span>
+gh<span class="w"> </span>release<span class="w"> </span>create<span class="w"> </span>v1.2.3<span class="w"> </span>--generate-notes
+</code></pre></div></td></tr></table></div>
+<h2 id="contributing">🤝 Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h2>
+<h3 id="pull-request-process">Pull Request Process<a class="headerlink" href="#pull-request-process" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Fork repository</li>
+<li>Create feature branch</li>
+<li>Make changes with tests</li>
+<li>Run quality checks</li>
+<li>Submit PR with description</li>
+<li>Address review feedback</li>
+<li>Merge after approval</li>
+</ol>
+<h3 id="code-review-guidelines">Code Review Guidelines<a class="headerlink" href="#code-review-guidelines" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Check for proper error handling</li>
+<li>Verify test coverage</li>
+<li>Review documentation updates</li>
+<li>Ensure backwards compatibility</li>
+<li>Test with real clusters when possible</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../COMMAND_DIAGRAM/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Commands">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Commands
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../MAKE_GUIDE/" class="md-footer__link md-footer__link--next" aria-label="Next: Make Guide">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Make Guide
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer", "content.action.edit"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../search/main.js"></script>
+      
+    
+  </body>
+</html>

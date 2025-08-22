@@ -1,0 +1,1363 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Enterprise Kubernetes Analysis Platform - CLI tool for cluster analysis, cost optimization, and monitoring">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>📚 Documentation Reorganization Plan - k8s-cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documentation-reorganization-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="k8s-cli" class="md-header__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            k8s-cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 Documentation Reorganization Plan
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="k8s-cli" class="md-nav__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    k8s-cli
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXAMPLES/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMMAND_DIAGRAM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVELOPMENT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MAKE_GUIDE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Make Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVCONTAINER/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DevContainer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CI/CD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            CI/CD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CI_CD_CONSOLIDATED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GITHUB_ACTIONS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE_AUTOMATION/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Release Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TROUBLESHOOTING/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#current-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Current Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Current Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#critical-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Critical Problems
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 File Analysis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-new-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Proposed New Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Proposed New Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-documentation-root-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Core Documentation (Root Level)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-documentation-docsuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 User Documentation (docs/user/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#developer-documentation-docsdeveloper" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Developer Documentation (docs/developer/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operations-documentation-docsops" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Operations Documentation (docs/ops/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-documentation-docsreference" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Reference Documentation (docs/reference/)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Migration Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Migration Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-standardize-language-english" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Standardize Language (English)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-eliminate-duplications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Eliminate Duplications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-reorganize-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Reorganize Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-update-and-modernize" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Update and Modernize
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-create-master-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 5: Create Master Index
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content-consolidation-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Content Consolidation Map
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Content Consolidation Map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitHub Actions Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Quality Standards
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Quality Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#content-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content Standards
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure Standards
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maintenance-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maintenance Standards
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Implementation Timeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Implementation Timeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#week-1-language-standardization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Week 1: Language Standardization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-2-content-consolidation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Week 2: Content Consolidation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-3-structure-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Week 3: Structure Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-4-quality-assurance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Week 4: Quality Assurance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Success Metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📈 Success Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantitative-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantitative Metrics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualitative-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Qualitative Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Portfolio-jaime/lab-go-cli/edit/main/docs/DOCUMENTATION_PLAN.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="documentation-reorganization-plan">📚 Documentation Reorganization Plan<a class="headerlink" href="#documentation-reorganization-plan" title="Permanent link">&para;</a></h1>
+<h2 id="current-issues">🎯 Current Issues<a class="headerlink" href="#current-issues" title="Permanent link">&para;</a></h2>
+<h3 id="critical-problems">🚨 Critical Problems<a class="headerlink" href="#critical-problems" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Language inconsistency</strong> - Spanish/English mix</li>
+<li><strong>Outdated information</strong> - Version 2.0.0 references, wrong dates</li>
+<li><strong>Content duplication</strong> - Same info in multiple files</li>
+<li><strong>Inconsistent structure</strong> - Varying detail levels and organization</li>
+</ol>
+<h3 id="file-analysis">📊 File Analysis<a class="headerlink" href="#file-analysis" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Language</th>
+<th>Status</th>
+<th>Issues</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>README.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Needs streamlining</td>
+</tr>
+<tr>
+<td>DOCUMENTATION_INDEX.md</td>
+<td>English</td>
+<td>Outdated</td>
+<td>Version 2.0.0, wrong commands</td>
+</tr>
+<tr>
+<td>docs/ARCHITECTURE.md</td>
+<td>Spanish</td>
+<td>Needs translation</td>
+<td>Full Spanish content</td>
+</tr>
+<tr>
+<td>docs/API.md</td>
+<td>Spanish</td>
+<td>Needs translation</td>
+<td>Full Spanish content</td>
+</tr>
+<tr>
+<td>docs/EXAMPLES.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Some duplications</td>
+</tr>
+<tr>
+<td>docs/GITHUB_ACTIONS.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Recently updated</td>
+</tr>
+<tr>
+<td>docs/TROUBLESHOOTING.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Recent addition</td>
+</tr>
+<tr>
+<td>docs/CI_CD_DEVELOPMENT_GUIDE.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Recent addition</td>
+</tr>
+<tr>
+<td>docs/DEVELOPMENT.md</td>
+<td>English</td>
+<td>Outdated</td>
+<td>Old information</td>
+</tr>
+<tr>
+<td>docs/MAKE_GUIDE.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Recently updated</td>
+</tr>
+<tr>
+<td>docs/RELEASE_AUTOMATION.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Recently updated</td>
+</tr>
+<tr>
+<td>docs/DEVCONTAINER.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Specific topic</td>
+</tr>
+<tr>
+<td>docs/COMMAND_DIAGRAM.md</td>
+<td>English</td>
+<td>Unclear</td>
+<td>Need to review</td>
+</tr>
+<tr>
+<td>docs/RELEASE_NOTES_v2.0.6.md</td>
+<td>English</td>
+<td>Good</td>
+<td>Recent release notes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="proposed-new-structure">🎯 Proposed New Structure<a class="headerlink" href="#proposed-new-structure" title="Permanent link">&para;</a></h2>
+<h3 id="core-documentation-root-level">📁 Core Documentation (Root Level)<a class="headerlink" href="#core-documentation-root-level" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>README.md                    # Main overview, quick start, key features
+CHANGELOG.md                # Version history (auto-generated)
+CONTRIBUTING.md             # How to contribute (new)
+</code></pre></div></td></tr></table></div>
+<h3 id="user-documentation-docsuser">📁 User Documentation (docs/user/)<a class="headerlink" href="#user-documentation-docsuser" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>docs/user/
+├── installation.md         # Installation methods
+├── quick-start.md          # Getting started guide
+├── commands.md             # Command reference
+├── examples.md             # Practical examples
+└── configuration.md        # Configuration options
+</code></pre></div></td></tr></table></div>
+<h3 id="developer-documentation-docsdeveloper">📁 Developer Documentation (docs/developer/)<a class="headerlink" href="#developer-documentation-docsdeveloper" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>docs/developer/
+├── architecture.md         # System design (translated)
+├── development.md          # Development setup and workflow
+├── api.md                  # API reference (translated)
+├── testing.md              # Testing strategies
+└── troubleshooting.md      # Development issues
+</code></pre></div></td></tr></table></div>
+<h3 id="operations-documentation-docsops">📁 Operations Documentation (docs/ops/)<a class="headerlink" href="#operations-documentation-docsops" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>docs/ops/
+├── ci-cd.md               # CI/CD workflows (consolidated)
+├── release-process.md     # Release management
+├── deployment.md          # Deployment strategies
+└── monitoring.md          # Monitoring and observability
+</code></pre></div></td></tr></table></div>
+<h3 id="reference-documentation-docsreference">📁 Reference Documentation (docs/reference/)<a class="headerlink" href="#reference-documentation-docsreference" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>docs/reference/
+├── command-reference.md   # Complete command reference
+├── configuration-reference.md  # All configuration options
+├── api-reference.md       # API documentation
+└── troubleshooting-reference.md  # Error codes and solutions
+</code></pre></div></td></tr></table></div>
+<h2 id="migration-strategy">🔄 Migration Strategy<a class="headerlink" href="#migration-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-standardize-language-english">Phase 1: Standardize Language (English)<a class="headerlink" href="#phase-1-standardize-language-english" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Translate ARCHITECTURE.md to English</li>
+<li>Translate API.md to English</li>
+<li>Review all files for Spanish remnants</li>
+</ul>
+<h3 id="phase-2-eliminate-duplications">Phase 2: Eliminate Duplications<a class="headerlink" href="#phase-2-eliminate-duplications" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Consolidate GitHub Actions documentation</li>
+<li>Remove duplicate installation instructions</li>
+<li>Merge overlapping examples</li>
+</ul>
+<h3 id="phase-3-reorganize-structure">Phase 3: Reorganize Structure<a class="headerlink" href="#phase-3-reorganize-structure" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Create new directory structure</li>
+<li>Move content to appropriate locations</li>
+<li>Update cross-references</li>
+</ul>
+<h3 id="phase-4-update-and-modernize">Phase 4: Update and Modernize<a class="headerlink" href="#phase-4-update-and-modernize" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Update version references to 2.0.6</li>
+<li>Fix outdated commands and examples</li>
+<li>Add missing documentation</li>
+</ul>
+<h3 id="phase-5-create-master-index">Phase 5: Create Master Index<a class="headerlink" href="#phase-5-create-master-index" title="Permanent link">&para;</a></h3>
+<ul>
+<li>New comprehensive documentation index</li>
+<li>Clear navigation structure</li>
+<li>Quick reference sections</li>
+</ul>
+<h2 id="content-consolidation-map">📊 Content Consolidation Map<a class="headerlink" href="#content-consolidation-map" title="Permanent link">&para;</a></h2>
+<h3 id="github-actions-documentation">GitHub Actions Documentation<a class="headerlink" href="#github-actions-documentation" title="Permanent link">&para;</a></h3>
+<p><strong>Current:</strong> 3 files
+- docs/GITHUB_ACTIONS.md (main)
+- docs/CI_CD_DEVELOPMENT_GUIDE.md (development focus)
+- docs/RELEASE_AUTOMATION.md (release focus)</p>
+<p><strong>Proposed:</strong> 2 files
+- docs/ops/ci-cd.md (consolidated workflows)
+- docs/developer/development.md (development workflow)</p>
+<h3 id="installation-documentation">Installation Documentation<a class="headerlink" href="#installation-documentation" title="Permanent link">&para;</a></h3>
+<p><strong>Current:</strong> Scattered across 4+ files
+<strong>Proposed:</strong> Single docs/user/installation.md</p>
+<h3 id="examples-documentation">Examples Documentation<a class="headerlink" href="#examples-documentation" title="Permanent link">&para;</a></h3>
+<p><strong>Current:</strong> README.md + docs/EXAMPLES.md + scattered
+<strong>Proposed:</strong> Consolidated docs/user/examples.md</p>
+<h2 id="quality-standards">🎯 Quality Standards<a class="headerlink" href="#quality-standards" title="Permanent link">&para;</a></h2>
+<h3 id="content-standards">Content Standards<a class="headerlink" href="#content-standards" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ English only</li>
+<li>✅ Consistent formatting (Markdown)</li>
+<li>✅ Practical examples</li>
+<li>✅ Clear navigation</li>
+<li>✅ Up-to-date information</li>
+</ul>
+<h3 id="structure-standards">Structure Standards<a class="headerlink" href="#structure-standards" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Logical organization</li>
+<li>✅ Clear file names</li>
+<li>✅ Consistent depth levels</li>
+<li>✅ Cross-reference links</li>
+<li>✅ Table of contents</li>
+</ul>
+<h3 id="maintenance-standards">Maintenance Standards<a class="headerlink" href="#maintenance-standards" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Version-controlled</li>
+<li>✅ Review process</li>
+<li>✅ Update procedures</li>
+<li>✅ Automated validation</li>
+</ul>
+<h2 id="implementation-timeline">🚀 Implementation Timeline<a class="headerlink" href="#implementation-timeline" title="Permanent link">&para;</a></h2>
+<h3 id="week-1-language-standardization">Week 1: Language Standardization<a class="headerlink" href="#week-1-language-standardization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Translate Spanish content to English</li>
+<li>Review and clean all files</li>
+</ul>
+<h3 id="week-2-content-consolidation">Week 2: Content Consolidation<a class="headerlink" href="#week-2-content-consolidation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Eliminate duplications</li>
+<li>Reorganize by audience (user/developer/ops)</li>
+</ul>
+<h3 id="week-3-structure-implementation">Week 3: Structure Implementation<a class="headerlink" href="#week-3-structure-implementation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Create new directory structure</li>
+<li>Move content to new locations</li>
+<li>Update all cross-references</li>
+</ul>
+<h3 id="week-4-quality-assurance">Week 4: Quality Assurance<a class="headerlink" href="#week-4-quality-assurance" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Review all documentation</li>
+<li>Test all examples</li>
+<li>Validate links and references</li>
+</ul>
+<h2 id="success-metrics">📈 Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="quantitative-metrics">Quantitative Metrics<a class="headerlink" href="#quantitative-metrics" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Single language</strong> (100% English)</li>
+<li><strong>Zero duplications</strong> (unique content)</li>
+<li><strong>Complete coverage</strong> (all features documented)</li>
+<li><strong>Fast navigation</strong> (&lt;3 clicks to any info)</li>
+</ul>
+<h3 id="qualitative-metrics">Qualitative Metrics<a class="headerlink" href="#qualitative-metrics" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Clear structure</strong> (logical organization)</li>
+<li><strong>Easy onboarding</strong> (new users can start quickly)</li>
+<li><strong>Developer friendly</strong> (comprehensive dev docs)</li>
+<li><strong>Maintainable</strong> (easy to update)</li>
+</ul>
+<h2 id="next-steps">🔗 Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Get approval</strong> for this reorganization plan</li>
+<li><strong>Start with translation</strong> of Spanish content</li>
+<li><strong>Implement consolidation</strong> phase by phase</li>
+<li><strong>Test and validate</strong> each phase</li>
+<li><strong>Launch new structure</strong> with comprehensive review</li>
+</ol>
+<p>This plan will transform the documentation from fragmented and inconsistent to a professional, comprehensive, and user-friendly documentation suite.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer", "content.action.edit"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../search/main.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2908 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Enterprise Kubernetes Analysis Platform - CLI tool for cluster analysis, cost optimization, and monitoring">
+      
+      
+      
+      
+        <link rel="prev" href="../GITHUB_ACTIONS/">
+      
+      
+        <link rel="next" href="../API/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>Release Process - k8s-cli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#release-automation-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="k8s-cli" class="md-header__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            k8s-cli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Release Process
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="k8s-cli" class="md-nav__button md-logo" aria-label="k8s-cli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    k8s-cli
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Portfolio-jaime/lab-go-cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXAMPLES/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMMAND_DIAGRAM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVELOPMENT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MAKE_GUIDE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Make Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEVCONTAINER/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DevContainer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CI/CD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            CI/CD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CI_CD_CONSOLIDATED/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GITHUB_ACTIONS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Release Process
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Release Process
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#one-command-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 One-Command Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-before-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Preview Before Release
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-automation-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Release Automation Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Release Automation Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Files Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Makefile Targets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔢 Version Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔢 Version Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#semantic-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Semantic Versioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Version Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-changelog-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Smart Changelog Generation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Smart Changelog Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automated-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤖 Automated Analysis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Automated Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smart-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smart Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-generated-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Example Generated Entry
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-release-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Pre-release Quality Checks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Pre-release Quality Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-validation-suite" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Comprehensive Validation Suite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Comprehensive Validation Suite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Environment Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Code Quality Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      📄 Documentation Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Build Validation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-check-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Example Check Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-process-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Process Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Release Process Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-automation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Complete Automation Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-release-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Standard Release Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Standard Release Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-release-readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Check Release Readiness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-run-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Run Quality Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-create-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Create Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-push-to-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Push to Remote
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fast-release-skip-some-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏃 Fast Release (Skip Some Checks)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-version-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎛️ Manual Version Control
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Configuration &amp; Customization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configuration &amp; Customization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-locations" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 File Locations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customization-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎛️ Customization Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎛️ Customization Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changelog-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-patterns_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality Checks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❗ Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❗ Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-directory-not-clean" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Working directory not clean"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests-failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Tests failing"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-format-invalid" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Version format invalid"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-tag-already-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Git tag already exists"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recovery-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Recovery Actions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Recovery Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rollback-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rollback Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-release-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partial Release Fix
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#release-planning" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Release Planning
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Release Planning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-to-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-release-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-release Checklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-message-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Message Guidelines
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automation-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Automation Tips
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Automation Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regular-release-cadence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regular Release Cadence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-gates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality Gates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Maintenance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤖 CI/CD Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 CI/CD Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 GitHub Actions Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Integration Benefits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Additional Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Additional Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Related Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Required Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Learning Resources
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TROUBLESHOOTING/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#one-command-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 One-Command Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-before-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Preview Before Release
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-automation-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Release Automation Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Release Automation Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Files Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Makefile Targets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔢 Version Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔢 Version Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#semantic-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Semantic Versioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Version Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-changelog-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Smart Changelog Generation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Smart Changelog Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automated-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤖 Automated Analysis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 Automated Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smart-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smart Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-generated-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Example Generated Entry
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-release-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Pre-release Quality Checks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Pre-release Quality Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-validation-suite" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Comprehensive Validation Suite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Comprehensive Validation Suite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Environment Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Code Quality Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      📄 Documentation Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Build Validation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-check-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Example Check Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-process-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Release Process Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Release Process Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-automation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Complete Automation Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-release-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Standard Release Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Standard Release Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-release-readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Check Release Readiness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-run-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Run Quality Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-create-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Create Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-push-to-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Push to Remote
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fast-release-skip-some-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏃 Fast Release (Skip Some Checks)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-version-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎛️ Manual Version Control
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Configuration &amp; Customization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configuration &amp; Customization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-locations" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 File Locations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customization-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎛️ Customization Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎛️ Customization Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changelog-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog Template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-patterns_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality Checks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❗ Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❗ Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-directory-not-clean" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Working directory not clean"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests-failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Tests failing"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-format-invalid" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Version format invalid"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-tag-already-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚫 "Git tag already exists"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recovery-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Recovery Actions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Recovery Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rollback-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rollback Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-release-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partial Release Fix
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#release-planning" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Release Planning
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Release Planning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-to-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-release-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-release Checklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-message-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Message Guidelines
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automation-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Automation Tips
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Automation Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regular-release-cadence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regular Release Cadence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-gates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality Gates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Maintenance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤖 CI/CD Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 CI/CD Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 GitHub Actions Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Integration Benefits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Additional Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Additional Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Related Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Required Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Learning Resources
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Portfolio-jaime/lab-go-cli/edit/main/docs/RELEASE_AUTOMATION.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="release-automation-guide">🚀 Release Automation Guide<a class="headerlink" href="#release-automation-guide" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Complete automation system for k8s-cli releases with version management, changelog generation, and quality checks</strong></p>
+</blockquote>
+<hr />
+<h2 id="overview">📋 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The k8s-cli release automation system provides a comprehensive, automated workflow for creating releases with:</p>
+<ul>
+<li>🔢 <strong>Automated version bumping</strong> (semantic versioning)</li>
+<li>📝 <strong>Smart changelog generation</strong> from git commits</li>
+<li>🔍 <strong>Pre-release quality checks</strong> and validations</li>
+<li>🏗️ <strong>Multi-platform builds</strong> and packaging</li>
+<li>📊 <strong>Documentation updates</strong> (README badges, etc.)</li>
+<li>🏷️ <strong>Git tagging and commit management</strong></li>
+</ul>
+<hr />
+<h2 id="quick-start">⚡ Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="one-command-release">🎯 One-Command Release<a class="headerlink" href="#one-command-release" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Patch release (2.0.1 -&gt; 2.0.2)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-patch
+
+<span class="c1"># Minor release (2.0.1 -&gt; 2.1.0)  </span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-minor
+
+<span class="c1"># Major release (2.0.1 -&gt; 3.0.0)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-major
+</code></pre></div></td></tr></table></div>
+<h3 id="preview-before-release">🔍 Preview Before Release<a class="headerlink" href="#preview-before-release" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># See what would be released</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-dry-run
+
+<span class="c1"># Check if ready for release</span>
+./scripts/pre-release-checks.sh
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="release-automation-components">🛠️ Release Automation Components<a class="headerlink" href="#release-automation-components" title="Permanent link">&para;</a></h2>
+<h3 id="files-structure">📁 Files Structure<a class="headerlink" href="#files-structure" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>scripts/
+├── release.sh              # Main release automation script
+├── bump-version.sh          # Version management utility
+├── generate-changelog.sh    # Advanced changelog generator
+├── pre-release-checks.sh    # Quality validation suite
+└── changelog-template.md    # Changelog template
+</code></pre></div></td></tr></table></div>
+<h3 id="makefile-targets">🎯 Makefile Targets<a class="headerlink" href="#makefile-targets" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Release commands</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-patch<span class="w">      </span><span class="c1"># Patch release</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-minor<span class="w">      </span><span class="c1"># Minor release  </span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-major<span class="w">      </span><span class="c1"># Major release</span>
+
+<span class="c1"># Fast releases (skip some checks)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-patch-fast
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-minor-fast
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-major-fast
+
+<span class="c1"># Utilities</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-dry-run<span class="w">    </span><span class="c1"># Preview release</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>push-release<span class="w">       </span><span class="c1"># Push to remote</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="version-management">🔢 Version Management<a class="headerlink" href="#version-management" title="Permanent link">&para;</a></h2>
+<h3 id="semantic-versioning">📈 Semantic Versioning<a class="headerlink" href="#semantic-versioning" title="Permanent link">&para;</a></h3>
+<p>The system follows <a href="https://semver.org/">Semantic Versioning</a>:</p>
+<ul>
+<li><strong>MAJOR</strong> (x.0.0): Breaking changes, major new features</li>
+<li><strong>MINOR</strong> (x.y.0): New features, backwards compatible  </li>
+<li><strong>PATCH</strong> (x.y.z): Bug fixes, minor improvements</li>
+</ul>
+<h3 id="version-commands">🛠️ Version Commands<a class="headerlink" href="#version-commands" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Show current version</span>
+./scripts/bump-version.sh<span class="w"> </span>current
+
+<span class="c1"># Preview next version</span>
+./scripts/bump-version.sh<span class="w"> </span>next<span class="w"> </span>patch<span class="w">    </span><span class="c1"># Shows v2.0.2</span>
+./scripts/bump-version.sh<span class="w"> </span>next<span class="w"> </span>minor<span class="w">    </span><span class="c1"># Shows v2.1.0</span>
+./scripts/bump-version.sh<span class="w"> </span>next<span class="w"> </span>major<span class="w">    </span><span class="c1"># Shows v3.0.0</span>
+
+<span class="c1"># Set specific version</span>
+./scripts/bump-version.sh<span class="w"> </span><span class="nb">set</span><span class="w"> </span>v2.5.0
+
+<span class="c1"># Show version history</span>
+./scripts/bump-version.sh<span class="w"> </span><span class="nb">history</span>
+
+<span class="c1"># Validate version format</span>
+./scripts/bump-version.sh<span class="w"> </span>validate<span class="w"> </span>v2.0.1
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="smart-changelog-generation">📝 Smart Changelog Generation<a class="headerlink" href="#smart-changelog-generation" title="Permanent link">&para;</a></h2>
+<h3 id="automated-analysis">🤖 Automated Analysis<a class="headerlink" href="#automated-analysis" title="Permanent link">&para;</a></h3>
+<p>The changelog generator analyzes git commits and automatically categorizes them:</p>
+<h4 id="commit-patterns">Commit Patterns<a class="headerlink" href="#commit-patterns" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Features</strong>: <code>feat:</code>, <code>add:</code>, <code>new:</code> → ✨ Added section</li>
+<li><strong>Enhancements</strong>: <code>enhance:</code>, <code>improve:</code>, <code>update:</code>, <code>refactor:</code> → 🔧 Enhanced section</li>
+<li><strong>Bug Fixes</strong>: <code>fix:</code>, <code>bug:</code>, <code>hotfix:</code> → 🐛 Fixed section</li>
+<li><strong>Documentation</strong>: <code>docs:</code>, <code>doc:</code>, <code>documentation:</code> → 📚 Documentation section</li>
+</ul>
+<h4 id="smart-metrics">Smart Metrics<a class="headerlink" href="#smart-metrics" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Commit count since last release</li>
+<li>Contributors count</li>
+<li>Files changed</li>
+<li>Build information (Go version, binary size)</li>
+<li>Test coverage and status</li>
+</ul>
+<h3 id="example-generated-entry">📋 Example Generated Entry<a class="headerlink" href="#example-generated-entry" title="Permanent link">&para;</a></h3>
+<div class="language-markdown highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="gu">## [v2.0.2] - 2025-08-13</span>
+
+<span class="gu">### 🚀 Patch Release</span>
+
+This release includes targeted improvements and fixes.
+
+<span class="gu">### ✨ Added</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Enhanced component detection with Helm integration**</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**CLI version management with --version flag**</span>
+
+<span class="gu">### 🔧 Enhanced</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Improved namespace scanning for comprehensive discovery**</span> 
+<span class="k">-</span><span class="w"> </span><span class="gs">**Better error handling and user feedback**</span>
+
+<span class="gu">### 🛠️ Technical Details</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Git commit**</span>: abc123
+<span class="k">-</span><span class="w"> </span><span class="gs">**Total commits**</span>: 12 commits since last release
+<span class="k">-</span><span class="w"> </span><span class="gs">**Contributors**</span>: 2
+<span class="k">-</span><span class="w"> </span><span class="gs">**Test coverage**</span>: 85%
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="pre-release-quality-checks">🔍 Pre-release Quality Checks<a class="headerlink" href="#pre-release-quality-checks" title="Permanent link">&para;</a></h2>
+<h3 id="comprehensive-validation-suite">✅ Comprehensive Validation Suite<a class="headerlink" href="#comprehensive-validation-suite" title="Permanent link">&para;</a></h3>
+<p>The automation runs extensive checks before any release:</p>
+<h4 id="environment-checks">🏗️ Environment Checks<a class="headerlink" href="#environment-checks" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Git repository status</li>
+<li>Working directory cleanliness  </li>
+<li>Branch status and remote sync</li>
+<li>Go environment and dependencies</li>
+</ul>
+<h4 id="code-quality-checks">📋 Code Quality Checks<a class="headerlink" href="#code-quality-checks" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Code compilation</li>
+<li>Unit tests execution</li>
+<li>Test coverage analysis</li>
+<li>Linting (golangci-lint/go vet)</li>
+<li>Security vulnerability scan</li>
+</ul>
+<h4 id="documentation-checks">📄 Documentation Checks<a class="headerlink" href="#documentation-checks" title="Permanent link">&para;</a></h4>
+<ul>
+<li>VERSION file validity</li>
+<li>Changelog entries</li>
+<li>Documentation completeness</li>
+<li>Makefile targets</li>
+</ul>
+<h4 id="build-validation">🎯 Build Validation<a class="headerlink" href="#build-validation" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Release build capability</li>
+<li>Binary size validation</li>
+<li>Multi-platform build support</li>
+</ul>
+<h3 id="example-check-output">📊 Example Check Output<a class="headerlink" href="#example-check-output" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code>🎯 Pre-release Check Summary
+============================
+✅ Passed: 15
+⚠️  Warnings: 2  
+❌ Failed: 0
+
+📊 Overall Score: 100%
+
+🎉 Ready for release!
+   (with 2 warnings)
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="release-process-workflow">🚀 Release Process Workflow<a class="headerlink" href="#release-process-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="complete-automation-flow">🔄 Complete Automation Flow<a class="headerlink" href="#complete-automation-flow" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>📋 Pre-flight Checks</strong></p>
+<ul>
+<li>Validate git repository status</li>
+<li>Check working directory cleanliness</li>
+<li>Verify current version</li>
+</ul>
+</li>
+<li>
+<p><strong>🔢 Version Management</strong>  </p>
+<ul>
+<li>Increment version (patch/minor/major)</li>
+<li>Update VERSION file</li>
+<li>Validate new version format</li>
+</ul>
+</li>
+<li>
+<p><strong>📝 Documentation Updates</strong></p>
+<ul>
+<li>Generate smart changelog entry</li>
+<li>Update README badges</li>
+<li>Refresh version references</li>
+</ul>
+</li>
+<li>
+<p><strong>🔍 Quality Assurance</strong></p>
+<ul>
+<li>Code formatting and linting</li>
+<li>Unit tests execution</li>
+<li>Security vulnerability scan</li>
+<li>Build validation</li>
+</ul>
+</li>
+<li>
+<p><strong>🏗️ Build Process</strong></p>
+<ul>
+<li>Multi-platform binary builds</li>
+<li>Release packaging (tar.gz, zip)</li>
+<li>Build artifact validation</li>
+</ul>
+</li>
+<li>
+<p><strong>📦 Git Operations</strong></p>
+<ul>
+<li>Commit all changes</li>
+<li>Create annotated release tag</li>
+<li>Prepare for remote push</li>
+</ul>
+</li>
+<li>
+<p><strong>📋 Release Summary</strong></p>
+<ul>
+<li>Show comprehensive release report</li>
+<li>Provide next steps guidance</li>
+<li>Display push commands</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="usage-examples">📋 Usage Examples<a class="headerlink" href="#usage-examples" title="Permanent link">&para;</a></h2>
+<h3 id="standard-release-workflow">🎯 Standard Release Workflow<a class="headerlink" href="#standard-release-workflow" title="Permanent link">&para;</a></h3>
+<h4 id="1-check-release-readiness">1. Check Release Readiness<a class="headerlink" href="#1-check-release-readiness" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Preview what will be released</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-dry-run
+
+<span class="c1"># Output:</span>
+<span class="c1"># Current version: v2.0.1</span>
+<span class="c1"># Current branch: main  </span>
+<span class="c1"># Uncommitted changes: None</span>
+<span class="c1"># Recent commits:</span>
+<span class="c1">#   abc123 feat: enhanced component detection</span>
+<span class="c1">#   def456 fix: improved error handling</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="2-run-quality-checks">2. Run Quality Checks<a class="headerlink" href="#2-run-quality-checks" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Comprehensive pre-release validation</span>
+./scripts/pre-release-checks.sh
+
+<span class="c1"># Quick checks (skip slow tests)</span>
+./scripts/pre-release-checks.sh<span class="w"> </span>skip-slow
+</code></pre></div></td></tr></table></div>
+<h4 id="3-create-release">3. Create Release<a class="headerlink" href="#3-create-release" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create patch release (most common)</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-patch
+
+<span class="c1"># The system will:</span>
+<span class="c1"># - Increment version: v2.0.1 -&gt; v2.0.2  </span>
+<span class="c1"># - Generate changelog entry</span>
+<span class="c1"># - Update documentation</span>
+<span class="c1"># - Run quality checks</span>
+<span class="c1"># - Build release binaries</span>
+<span class="c1"># - Create git commit and tag</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="4-push-to-remote">4. Push to Remote<a class="headerlink" href="#4-push-to-remote" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Push release to remote repository</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>push-release
+
+<span class="c1"># Manual alternative:</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--tags
+</code></pre></div></td></tr></table></div>
+<h3 id="fast-release-skip-some-checks">🏃 Fast Release (Skip Some Checks)<a class="headerlink" href="#fast-release-skip-some-checks" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Quick patch release with minimal checks</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span>release-patch-fast
+
+<span class="c1"># Useful for:</span>
+<span class="c1"># - Hotfixes</span>
+<span class="c1"># - Documentation updates  </span>
+<span class="c1"># - Minor corrections</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="manual-version-control">🎛️ Manual Version Control<a class="headerlink" href="#manual-version-control" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check current version</span>
+./scripts/bump-version.sh<span class="w"> </span>current
+
+<span class="c1"># Set specific version</span>
+./scripts/bump-version.sh<span class="w"> </span><span class="nb">set</span><span class="w"> </span>v2.5.0
+
+<span class="c1"># Preview next versions</span>
+./scripts/bump-version.sh<span class="w"> </span>next<span class="w"> </span>patch<span class="w">  </span><span class="c1"># v2.0.2</span>
+./scripts/bump-version.sh<span class="w"> </span>next<span class="w"> </span>minor<span class="w">  </span><span class="c1"># v2.1.0</span>
+./scripts/bump-version.sh<span class="w"> </span>next<span class="w"> </span>major<span class="w">  </span><span class="c1"># v3.0.0</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="configuration-customization">⚙️ Configuration &amp; Customization<a class="headerlink" href="#configuration-customization" title="Permanent link">&para;</a></h2>
+<h3 id="file-locations">📁 File Locations<a class="headerlink" href="#file-locations" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code>PROJECT_ROOT/
+├──<span class="w"> </span>VERSION<span class="w">                    </span><span class="c1"># Current version</span>
+├──<span class="w"> </span>CHANGELOG.md<span class="w">              </span><span class="c1"># Release history</span>
+├──<span class="w"> </span>scripts/
+│<span class="w">   </span>├──<span class="w"> </span>release.sh<span class="w">           </span><span class="c1"># Main automation</span>
+│<span class="w">   </span>├──<span class="w"> </span>bump-version.sh<span class="w">      </span><span class="c1"># Version management  </span>
+│<span class="w">   </span>├──<span class="w"> </span>generate-changelog.sh<span class="w"> </span><span class="c1"># Changelog generation</span>
+│<span class="w">   </span>├──<span class="w"> </span>pre-release-checks.sh<span class="w"> </span><span class="c1"># Quality checks</span>
+│<span class="w">   </span>└──<span class="w"> </span>changelog-template.md<span class="w"> </span><span class="c1"># Template</span>
+└──<span class="w"> </span>Makefile.dev<span class="w">             </span><span class="c1"># Release targets</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="customization-options">🎛️ Customization Options<a class="headerlink" href="#customization-options" title="Permanent link">&para;</a></h3>
+<h4 id="changelog-template">Changelog Template<a class="headerlink" href="#changelog-template" title="Permanent link">&para;</a></h4>
+<p>Edit <code>scripts/changelog-template.md</code> to customize:
+- Section headers and emojis
+- Business impact descriptions<br />
+- Usage examples format
+- Technical details layout</p>
+<h4 id="commit-patterns_1">Commit Patterns<a class="headerlink" href="#commit-patterns_1" title="Permanent link">&para;</a></h4>
+<p>Modify <code>scripts/generate-changelog.sh</code> to change:
+- Commit message patterns
+- Category classifications
+- Smart descriptions</p>
+<h4 id="quality-checks">Quality Checks<a class="headerlink" href="#quality-checks" title="Permanent link">&para;</a></h4>
+<p>Customize <code>scripts/pre-release-checks.sh</code> for:
+- Additional validation rules
+- Custom quality thresholds<br />
+- Environment-specific checks</p>
+<hr />
+<h2 id="troubleshooting">🔧 Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="common-issues">❗ Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<h4 id="working-directory-not-clean">🚫 "Working directory not clean"<a class="headerlink" href="#working-directory-not-clean" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check status</span>
+git<span class="w"> </span>status
+
+<span class="c1"># Commit changes</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;prepare for release&quot;</span>
+
+<span class="c1"># Or stash temporarily  </span>
+git<span class="w"> </span>stash
+</code></pre></div></td></tr></table></div>
+<h4 id="tests-failing">🚫 "Tests failing"<a class="headerlink" href="#tests-failing" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Run tests manually</span>
+make<span class="w"> </span>-f<span class="w"> </span>Makefile.dev<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Check specific failures</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v<span class="w"> </span>./...
+
+<span class="c1"># Fix issues and retry</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="version-format-invalid">🚫 "Version format invalid"<a class="headerlink" href="#version-format-invalid" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check VERSION file</span>
+cat<span class="w"> </span>VERSION
+
+<span class="c1"># Fix format (must be vX.Y.Z)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;v2.0.1&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>VERSION
+</code></pre></div></td></tr></table></div>
+<h4 id="git-tag-already-exists">🚫 "Git tag already exists"<a class="headerlink" href="#git-tag-already-exists" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Check existing tags</span>
+git<span class="w"> </span>tag<span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;v*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-10
+
+<span class="c1"># Delete local tag if needed</span>
+git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v2.0.1
+
+<span class="c1"># Delete remote tag if needed  </span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>:refs/tags/v2.0.1
+</code></pre></div></td></tr></table></div>
+<h3 id="recovery-actions">🛠️ Recovery Actions<a class="headerlink" href="#recovery-actions" title="Permanent link">&para;</a></h3>
+<h4 id="rollback-release">Rollback Release<a class="headerlink" href="#rollback-release" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Reset to previous commit (before release)</span>
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD^
+
+<span class="c1"># Remove release tag</span>
+git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v2.0.2
+
+<span class="c1"># Restore VERSION file</span>
+git<span class="w"> </span>checkout<span class="w"> </span>HEAD^<span class="w"> </span>--<span class="w"> </span>VERSION
+</code></pre></div></td></tr></table></div>
+<h4 id="partial-release-fix">Partial Release Fix<a class="headerlink" href="#partial-release-fix" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Fix issues without full release</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: post-release corrections&quot;</span>
+
+<span class="c1"># Update tag to point to new commit  </span>
+git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v2.0.2
+git<span class="w"> </span>tag<span class="w"> </span>v2.0.2
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="best-practices">📊 Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="release-planning">🎯 Release Planning<a class="headerlink" href="#release-planning" title="Permanent link">&para;</a></h3>
+<h4 id="when-to-release">When to Release<a class="headerlink" href="#when-to-release" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Patch</strong>: Bug fixes, minor improvements, security updates</li>
+<li><strong>Minor</strong>: New features, enhancements, non-breaking changes</li>
+<li><strong>Major</strong>: Breaking changes, major architecture updates</li>
+</ul>
+<h4 id="pre-release-checklist">Pre-release Checklist<a class="headerlink" href="#pre-release-checklist" title="Permanent link">&para;</a></h4>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All tests passing</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Documentation updated</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Breaking changes documented</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Performance impact assessed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Security review completed</li>
+</ul>
+<h4 id="commit-message-guidelines">Commit Message Guidelines<a class="headerlink" href="#commit-message-guidelines" title="Permanent link">&para;</a></h4>
+<p>Use conventional commit format for best changelog generation:
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>feat:<span class="w"> </span>add<span class="w"> </span>new<span class="w"> </span>component<span class="w"> </span>detection
+fix:<span class="w"> </span>resolve<span class="w"> </span>memory<span class="w"> </span>leak<span class="w"> </span><span class="k">in</span><span class="w"> </span>metrics
+docs:<span class="w"> </span>update<span class="w"> </span>installation<span class="w"> </span>guide
+enhance:<span class="w"> </span>improve<span class="w"> </span>error<span class="w"> </span>messages
+</code></pre></div></td></tr></table></div></p>
+<h3 id="automation-tips">🚀 Automation Tips<a class="headerlink" href="#automation-tips" title="Permanent link">&para;</a></h3>
+<h4 id="regular-release-cadence">Regular Release Cadence<a class="headerlink" href="#regular-release-cadence" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Weekly patches</strong>: Bug fixes and minor improvements</li>
+<li><strong>Monthly minors</strong>: New features and enhancements  </li>
+<li><strong>Quarterly majors</strong>: Major updates and breaking changes</li>
+</ul>
+<h4 id="quality-gates">Quality Gates<a class="headerlink" href="#quality-gates" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Always run full checks for minor/major releases</li>
+<li>Use fast releases only for urgent patches</li>
+<li>Monitor test coverage trends</li>
+<li>Review security scan results</li>
+</ul>
+<h4 id="documentation-maintenance">Documentation Maintenance<a class="headerlink" href="#documentation-maintenance" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Keep changelog entries detailed</li>
+<li>Update examples with new features</li>
+<li>Maintain version compatibility matrix</li>
+<li>Document breaking changes clearly</li>
+</ul>
+<hr />
+<h2 id="cicd-integration">🤖 CI/CD Integration<a class="headerlink" href="#cicd-integration" title="Permanent link">&para;</a></h2>
+<h3 id="github-actions-example">🔄 GitHub Actions Example<a class="headerlink" href="#github-actions-example" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Automated Release</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">release_type</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Release</span><span class="nv"> </span><span class="s">type&#39;</span>
+<span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;patch&#39;</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">choice</span>
+<span class="w">        </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&#39;patch&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;minor&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;major&#39;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">release</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Go</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-go@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">go-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1.21&#39;</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Pre-release Checks</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./scripts/pre-release-checks.sh</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Release</span><span class="w">  </span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make -f Makefile.dev release-${{ inputs.release_type }}</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Push Release</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make -f Makefile.dev push-release</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="integration-benefits">🎯 Integration Benefits<a class="headerlink" href="#integration-benefits" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Automated quality gates</li>
+<li>Consistent release process</li>
+<li>Audit trail maintenance</li>
+<li>Multi-environment deployment</li>
+</ul>
+<hr />
+<h2 id="additional-resources">📚 Additional Resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
+<h3 id="related-documentation">🔗 Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="../MAKE_GUIDE/">Make Commands Guide</a> - Complete Makefile reference</li>
+<li><a href="../DEVELOPMENT/">Development Guide</a> - Development workflows</li>
+<li><a href="../EXAMPLES/">Examples</a> - Usage examples and tutorials</li>
+</ul>
+<h3 id="required-tools">🛠️ Required Tools<a class="headerlink" href="#required-tools" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Git</strong> (2.0+): Version control</li>
+<li><strong>Go</strong> (1.21+): Build and testing</li>
+<li><strong>Make</strong>: Automation execution</li>
+<li><strong>golangci-lint</strong>: Code quality (optional)</li>
+<li><strong>govulncheck</strong>: Security scanning (optional)</li>
+</ul>
+<h3 id="learning-resources">🎓 Learning Resources<a class="headerlink" href="#learning-resources" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://semver.org/">Semantic Versioning</a></li>
+<li><a href="https://conventionalcommits.org/">Conventional Commits</a></li>
+<li><a href="https://keepachangelog.com/">Keep a Changelog</a></li>
+<li><a href="https://golang.org/doc/modules/release-workflow">Go Release Best Practices</a></li>
+</ul>
+<hr />
+<p><strong>🎉 Happy Releasing!</strong> </p>
+<p>The automation system is designed to make releases safe, consistent, and efficient. For questions or improvements, please open an issue or contribute to the automation scripts.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../GITHUB_ACTIONS/" class="md-footer__link md-footer__link--prev" aria-label="Previous: GitHub Actions">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                GitHub Actions
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../API/" class="md-footer__link md-footer__link--next" aria-label="Next: API Reference">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                API Reference
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer", "content.action.edit"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../search/main.js"></script>
+      
+    
+  </body>
+</html>
