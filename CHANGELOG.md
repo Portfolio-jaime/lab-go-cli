@@ -5,6 +5,29 @@ All notable changes to k8s-cli will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.3.0] - 2025-08-22
+
+### 🚀 Release Summary
+
+This release includes the following changes and improvements.
+
+### ✨ Added
+- feat: add techdocs backstage
+
+### 🔧 Enhanced
+
+### 🐛 Fixed
+
+### 🛠️ Technical
+- Git commit: 0a0fbb8
+- Build date: 2025-08-22
+- Branch: main
+
+### 📊 Changes Summary
+- 1 commits since last release
+
+---
+
 ## [v2.2.0] - 2025-08-22
 
 ### 🚀 Release Summary
